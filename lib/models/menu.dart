@@ -1,9 +1,10 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:SistemaExpo/screens/home/home_screen.dart';
+
+import '../screens/home/dashboard.dart';
 
 class Menu2 {
-   late Widget Pantlla = HomeScreen();
+   late Widget Pantlla = InicioEstudianteScreen();
    late bool  input = false;
 
      Widget WingetsRw(Widget Pantlla) {

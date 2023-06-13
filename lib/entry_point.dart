@@ -6,7 +6,6 @@ import 'package:rive/rive.dart';
 import 'package:SistemaExpo/constants.dart';
 import 'package:SistemaExpo/screens/onboding/components/menu.dart';
 import 'package:SistemaExpo/utils/rive_utils.dart';
-import 'components/animated_bar.dart';
 import 'components/menu.dart';
 import 'models/rive_asset.dart';
 
@@ -82,7 +81,7 @@ class _EntryPointState extends State<EntryPoint> with SingleTickerProviderStateM
                 child: Transform.scale(
                   scale: ScaleAnimation.value,
                   child:  ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(24)),
+                    borderRadius: BorderRadius.all(Radius.circular( IsSideMenuClose?0: 24)),
                     child:selectedMenu.Pantlla))),
           ),
           AnimatedPositioned(
@@ -113,68 +112,6 @@ class _EntryPointState extends State<EntryPoint> with SingleTickerProviderStateM
             ),
           )
         ],
-      ),
-      bottomNavigationBar: Transform.translate(
-          offset: Offset(0, 100* animation.value),
-        child: SafeArea(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            margin: const EdgeInsets.symmetric(horizontal: 24),
-            decoration: BoxDecoration(
-              color: backgroundColor2.withOpacity(0.8),
-              borderRadius: const BorderRadius.all(Radius.circular(24)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ...List.generate(
-                  bottomNavs.length,
-                  (index) => GestureDetector(
-                    onTap: () {
-                      bottomNavs[index].input!.change(true);
-                      if (bottomNavs[index] != selectedBottomNav) {
-                        setState(() {
-                          selectedBottomNav = bottomNavs[index];
-                        });
-                      }
-                      Future.delayed(const Duration(seconds: 1), () {
-                        bottomNavs[index].input!.change(false);
-                      });
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        AnimatedBar(
-                            isActive: bottomNavs[index] == selectedBottomNav),
-                        SizedBox(
-                          height: 36,
-                          width: 36,
-                          child: Opacity(
-                            opacity:
-                                bottomNavs[index] == selectedBottomNav ? 1 : 0.5,
-                            child: RiveAnimation.asset(
-                              bottomNavs.first.src,
-                              artboard: bottomNavs[index].artboard,
-                              onInit: (artboard) {
-                                StateMachineController controller =
-                                    RiveUtils.getRiveController(artboard,
-                                        stateMachineName:
-                                            bottomNavs[index].stateMachineName);
-      
-                                bottomNavs[index].input =
-                                    controller.findSMI("active") as SMIBool;
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
