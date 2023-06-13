@@ -58,7 +58,7 @@ Future<Object?> customSigninDialog(BuildContext context,
                    SignInForm(),
                 ],
               ),
-               Positioned(
+               const Positioned(
                 left: 0,
                 right: 0,
                 bottom: -48,
