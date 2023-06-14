@@ -1,6 +1,5 @@
 
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:SistemaExpo/constants.dart';
@@ -8,6 +7,7 @@ import 'package:SistemaExpo/screens/onboding/components/menu.dart';
 import 'package:SistemaExpo/utils/rive_utils.dart';
 import 'components/menu.dart';
 import 'models/rive_asset.dart';
+
 
 
 class EntryPoint extends StatefulWidget {
@@ -40,6 +40,7 @@ class _EntryPointState extends State<EntryPoint> with SingleTickerProviderStateM
   void initState() {
     _animationController = AnimationController(vsync: this, duration: const Duration(microseconds:200 ),
     )..addListener(() {
+  
       setState(() {
         
       });
