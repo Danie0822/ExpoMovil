@@ -27,7 +27,7 @@ class _InicioEstudianteScreenState extends State<InicioEstudianteScreen> {
   ]; 
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.white,
         body:  Colum(Cards: Cards, CardList: CardList),
         
       

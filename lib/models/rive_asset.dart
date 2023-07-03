@@ -4,6 +4,7 @@ import 'package:SistemaExpo/screens/home/components/prueba.dart';
 import 'package:SistemaExpo/screens/home/home_screen.dart';
 
 import '../screens/home/dashboard.dart';
+import '../screens/pantallas/Codigos.dart';
 
 class RiveAsset {
   final String artboard, stateMachineName, title, src;
@@ -46,7 +47,7 @@ List<RiveAsset> bottomNavs = [
 
 List<RiveAsset> sideMenus = [
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'HOME', stateMachineName: 'HOME_interactivity', title: 'Home', Pantlla: InicioEstudianteScreen()), 
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'SEARCH', stateMachineName: 'SEARCH_Interactivity', title: 'Search', Pantlla: MiClase()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'SEARCH', stateMachineName: 'SEARCH_Interactivity', title: 'Codigos', Pantlla: DisciplinaApp()),
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'LIKE/STAR', stateMachineName: 'STAR_Interactivity', title: 'Favorites', Pantlla: MiClase()),
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'CHAT', stateMachineName: 'CHAT_Interactivity', title: 'CHAT', Pantlla: HomeScreen()),
 ];

@@ -18,7 +18,7 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   bool isSignInDialogShown = false;
   late RiveAnimationController _btnAnimationColtroller;
-   List images = ['assets/Backgrounds/fondo.png', 'assets/Backgrounds/fondo.png'];
+   List images = ['assets/Backgrounds/Da.png', 'assets/Backgrounds/dona.png'];
   @override
   void initState() {
     _btnAnimationColtroller = OneShotAnimation(

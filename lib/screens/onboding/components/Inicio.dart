@@ -1,10 +1,11 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-
+import '../../../ModelsDB/Observaciones.dart';
 import '../../../models/Cardview.dart';
-import '../../../models/NotificacionCard.dart';
+import '../../../models/Observaciones.dart';
 
-
-class Colum extends StatelessWidget {
+class Colum extends StatefulWidget {
   const Colum({
     super.key,
     required this.Cards,
@@ -15,11 +16,52 @@ class Colum extends StatelessWidget {
   final List CardList;
 
   @override
+  State<Colum> createState() => _ColumState();
+}
+
+class _ColumState extends State<Colum> {
+  GlobalKey<RefreshIndicatorState> refreshKey =
+      GlobalKey<RefreshIndicatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    getObservaciones();
+  }
+
+  List<Observaciones> observaciones = [];
+
+  Future<void> getObservaciones() async {
+    try {
+      var url = Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Funciones/Observaciones');
+      var response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        var observacionesData = json.decode(response.body);
+        print('Observaciones Data: $observacionesData');
+
+        setState(() {
+          observaciones = List<Observaciones>.from(
+              observacionesData.map((item) => Observaciones.fromJson(item)));
+        });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error: $error');
+    }
+  }
+
+  Future<void> _refreshObservaciones() async {
+    await getObservaciones();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 93),
+        const SizedBox(height: 93),
         const Padding(
           padding: EdgeInsets.only(left: 21.0),
           child: Text(
@@ -31,14 +73,14 @@ class Colum extends StatelessWidget {
         Container(
           height: 160,
           child: ListView.builder(
-              itemCount: Cards.length,
+              itemCount: widget.Cards.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return CardviewScreen(
-                  companyName: Cards[index][0],
-                  JobTItle: Cards[index][1],
-                  Logo: Cards[index][2],
-                  hour: Cards[index][3],
+                  companyName: widget.Cards[index][0],
+                  JobTItle: widget.Cards[index][1],
+                  Logo: widget.Cards[index][2],
+                  hour: widget.Cards[index][3],
                 );
               }),
         ),
@@ -51,20 +93,28 @@ class Colum extends StatelessWidget {
           ),
         ),
         Expanded(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: ListView.builder(
-              itemCount: CardList.length,
-              itemBuilder: (context, index) {
-                return NotificacionScreen(
-                  companyName: CardList[index][0],
-                  JobTItle: CardList[index][1],
-                  Logo: CardList[index][2],
-                  hour: CardList[index][3],
-                  color: CardList[index][4],
-                );
-              }),
-        )),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: RefreshIndicator(
+              key: refreshKey,
+              onRefresh: _refreshObservaciones,
+              child: ListView.builder(
+                itemCount: observaciones.length,
+                itemBuilder: (context, index) {
+                  final observacion = observaciones[index];
+                  final fechaCompleta = observacion.fecha.toString();
+                  final fecha = fechaCompleta.substring(0, 10);
+
+                  return ObservacionesScreen(
+                    detalle: observacion.detalle,
+                    docente: observacion.docente,
+                    Fecha: fecha,
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

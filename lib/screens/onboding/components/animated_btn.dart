@@ -35,7 +35,7 @@ class AnimatedBtn extends StatelessWidget {
                   Icon(CupertinoIcons.arrow_right),
                   SizedBox(width: 8),
                   Text(
-                    "Conmenzar",
+                    "Comenzar",
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                 ],

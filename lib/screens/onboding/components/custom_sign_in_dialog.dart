@@ -46,9 +46,9 @@ Future<Object?> customSigninDialog(BuildContext context,
                       borderRadius:  BorderRadius.all(Radius.circular(20)),
                        ), child: Image.asset("assets/icons/ricaldone.png")),
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 1),
                     child: Text(
-                      "Intituto Tecnico Ricaldone \n Buen Cristiano y Honrado Ciudadano",
+                      '"Buenos Cristianos y Honrados Ciudadanos"',
                       textAlign: TextAlign.center,
                     ),
                   ),

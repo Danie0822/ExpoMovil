@@ -46,10 +46,10 @@ class NotificacionScreen extends StatelessWidget {
        ), 
       ]),
        ClipRRect(
-         borderRadius: BorderRadius.circular(4),
+         borderRadius: BorderRadius.circular(8),
          child: Container(
           padding: const EdgeInsets.all(5),
-          color: color,
+          color: Colors.blue,
           child: Text(hour, style: const TextStyle(color: Colors.white),)),
        )
         ],

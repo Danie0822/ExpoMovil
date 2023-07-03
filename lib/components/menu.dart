@@ -16,7 +16,7 @@ class MenuBtnScreen extends StatelessWidget {
               height: 40,
               width: 40,
               decoration:const  BoxDecoration(color: Colors.white, shape: BoxShape.circle, 
-              boxShadow: [BoxShadow(color: Colors.black12, offset: Offset(0, 3), blurRadius: 8)],
+             // boxShadow: [BoxShadow(color: Colors.black12, offset: Offset(0,0), blurRadius: 8)],
               ),
               child: RiveAnimation.asset('assets/RiveAssets/menu_button.riv', onInit: riveOnInit,),
                
