@@ -1,15 +1,16 @@
 
+import 'dart:convert';
+import 'dart:math';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'components/animated_btn.dart';
 import 'components/custom_sign_in_dialog.dart';
 
-// Let's get started
-// first we need to check is text field is empty or not
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+   OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -18,15 +19,38 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   bool isSignInDialogShown = false;
   late RiveAnimationController _btnAnimationColtroller;
-   List images = ['assets/Backgrounds/Da.png', 'assets/Backgrounds/dona.png'];
+  List images = ['assets/Backgrounds/Da.png', 'assets/Backgrounds/dona.png'];
+  List<String> messages = [];
+ String? randomMessage;
   @override
   void initState() {
     _btnAnimationColtroller = OneShotAnimation(
       "active",
+      
       autoplay: false,
+   
+      
     );
+    fetchMessages();
     super.initState();
+    
   }
+  Future<void> fetchMessages() async {
+  final response = await http.get(Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Funciones/Mensajes'));
+
+  if (response.statusCode == 200) {
+    final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes)); 
+    final messageList = List<Map<String, dynamic>>.from(jsonResponse);
+    final messages = messageList.map((map) => map['messages'] as String).toList();
+    
+    setState(() {
+      this.messages = messages;
+      randomMessage = messages.isNotEmpty ? messages[Random().nextInt(messages.length)] : '';
+    });
+  } else {
+    print('Error al obtener los mensajes: ${response.statusCode}');
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +94,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               const SizedBox(
                 height: 50,
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(
+               Padding(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 25,
                 ),
                 child: Text(
-                  "El camino hacia el éxito puede ser desafiante, pero recuerda que los desafíos te ayudan a crecer y a superarte.",
-                  style: TextStyle(
+                 randomMessage ?? '',
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
                   ),

@@ -1,9 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:SistemaExpo/utils/rive_utils.dart';
-
+import 'package:http/http.dart' as http;
+import '../../../ModelsDB/Personas.dart';
+import '../../../ModelsDB/Providers/Personas.dart';
+import '../../../ModelsDB/Providers/ProviderPerson.dart';
 import '../../../entry_point.dart';
+import '../../pantallas/Codigos.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
@@ -25,7 +32,8 @@ class _SignInFormState extends State<SignInForm> {
   late SMITrigger reset;
 
   late SMITrigger confetti;
-
+  String correo = "";
+  String claveCredenciales = "";
   void signIn(BuildContext context) {
     setState(() {
       isShowLoading = true;
@@ -33,29 +41,80 @@ class _SignInFormState extends State<SignInForm> {
     });
     Future.delayed(
       Duration(seconds: 1),
-      () {
+      () async {
         if (_formKey.currentState!.validate()) {
-          check.fire();
-          Future.delayed(
-            Duration(seconds: 2),
-            () {
-              setState(() {
-                isShowLoading = false;
-              });
+          _formKey.currentState!.save();
 
-              confetti.fire();
+          String url =
+              'https://expo2023-6f28ab340676.herokuapp.com/Credenciales/user?correo=$correo&claveCredenciales=$claveCredenciales';
+          http.Response response = await http.get(Uri.parse(url));
+          if (response.statusCode == 200) {
+            dynamic responseData = json.decode(response.body);
+            if (responseData != null) {
+              Person person = Person.fromJson(responseData);
+var personas = Provider.of<Personas>(context, listen: false);
+personas.idPersona = person.idPersona;
+              check.fire();
               Future.delayed(
-                Duration(seconds: 1),
+                Duration(seconds: 2),
                 () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EntryPoint(),
-                      ));
+                  setState(() {
+                    isShowLoading = false;
+                  });
+
+                  confetti.fire();
+
+                  if (person.idTipoPersona == 2) {
+                    Future.delayed(
+                      Duration(seconds: 1),
+                      () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EntryPoint(),
+                            ));
+                      },
+                    );
+                  } else {
+                    if (person.idTipoPersona == 1) {
+                      Future.delayed(
+                        Duration(seconds: 1),
+                        () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DisciplinaApp(),
+                              ));
+                        },
+                      );
+                    } else {
+                      print("No es un usuario valido");
+                    }
+                  }
                 },
               );
-            },
-          );
+            } else {
+              error.fire();
+              Future.delayed(
+                const Duration(seconds: 2),
+                () {
+                  setState(() {
+                    isShowLoading = false;
+                  });
+                },
+              );
+            }
+          } else {
+            error.fire();
+            Future.delayed(
+              const Duration(seconds: 2),
+              () {
+                setState(() {
+                  isShowLoading = false;
+                });
+              },
+            );
+          }
         } else {
           error.fire();
           Future.delayed(
@@ -94,13 +153,21 @@ class _SignInFormState extends State<SignInForm> {
                       }
                       return null;
                     },
-                    onSaved: (email) {},
+                    onSaved: (email) {
+                      correo = email!;
+                    },
                     decoration: InputDecoration(
                       prefixIcon: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Container(width: 10, height: 10,decoration: const BoxDecoration(color: Colors.white30,
-                      borderRadius:  BorderRadius.all(Radius.circular(20)),
-                       ), child: Image.asset("assets/icons/email.png")),
+                        child: Container(
+                            width: 10,
+                            height: 10,
+                            decoration: const BoxDecoration(
+                              color: Colors.white30,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            child: Image.asset("assets/icons/email.png")),
                       ),
                     ),
                   ),
@@ -118,14 +185,22 @@ class _SignInFormState extends State<SignInForm> {
                       }
                       return null;
                     },
-                    onSaved: (password) {},
+                    onSaved: (password) {
+                      claveCredenciales = password!;
+                    },
                     obscureText: true,
                     decoration: InputDecoration(
                       prefixIcon: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Container(width: 10, height: 10,decoration: const BoxDecoration(color: Colors.white30,
-                      borderRadius:  BorderRadius.all(Radius.circular(20)),
-                       ), child: Image.asset("assets/icons/pass.png")),
+                        child: Container(
+                            width: 10,
+                            height: 10,
+                            decoration: const BoxDecoration(
+                              color: Colors.white30,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            child: Image.asset("assets/icons/pass.png")),
                       ),
                     ),
                   ),
@@ -181,9 +256,9 @@ class _SignInFormState extends State<SignInForm> {
                       onInit: (artboard) {
                         StateMachineController controller =
                             RiveUtils.getRiveController(artboard);
-    
-                        confetti =
-                            controller.findSMI("Trigger explosion") as SMITrigger;
+
+                        confetti = controller.findSMI("Trigger explosion")
+                            as SMITrigger;
                       },
                     ),
                   ),
