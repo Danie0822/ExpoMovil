@@ -8,7 +8,6 @@ import 'package:SistemaExpo/utils/rive_utils.dart';
 import 'package:http/http.dart' as http;
 import '../../../ModelsDB/Personas.dart';
 import '../../../ModelsDB/Providers/Personas.dart';
-import '../../../ModelsDB/Providers/ProviderPerson.dart';
 import '../../../entry_point.dart';
 import '../../pantallas/Codigos.dart';
 
@@ -52,8 +51,8 @@ class _SignInFormState extends State<SignInForm> {
             dynamic responseData = json.decode(response.body);
             if (responseData != null) {
               Person person = Person.fromJson(responseData);
-var personas = Provider.of<Personas>(context, listen: false);
-personas.idPersona = person.idPersona;
+              var personas = Provider.of<Personas>(context, listen: false);
+              personas.person = person;
               check.fire();
               Future.delayed(
                 Duration(seconds: 2),

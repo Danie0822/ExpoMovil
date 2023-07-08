@@ -1,14 +1,26 @@
 import 'package:flutter/foundation.dart';
 
-class Personas extends ChangeNotifier {
-  int _idPersona = 1;
+import '../Personas.dart';
 
-  int get idPersona {
-    return _idPersona;
+class Personas extends ChangeNotifier {
+  Person _person = Person(
+    idPersona: 0,
+    codigo: '',
+    nombrePersona: '',
+    apellidoPersona: '',
+    nacimientoPersona: '',
+    idTipoPersona: 0,
+    correo: '',
+    claveCredenciales: '',
+    foto: '',
+  );
+
+  Person get person {
+    return _person;
   }
 
-  set idPersona(int value) {
-    _idPersona = value;
+  set person(Person value) {
+    _person = value;
     notifyListeners();
   }
 }

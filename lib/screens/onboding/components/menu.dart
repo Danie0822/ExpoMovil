@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:SistemaExpo/utils/rive_utils.dart';
 
+import '../../../ModelsDB/Providers/Personas.dart';
 import '../../../components/Entrada.dart';
 import '../../../components/listaMenu.dart';
 import '../../../models/menu.dart';
@@ -20,6 +22,18 @@ class _MenuScreenState extends State<MenuScreen> {
   RiveAsset selectedMenu = sideMenus.first;
   @override
   Widget build(BuildContext context) {
+    final personas = Provider.of<Personas>(context, listen: false);
+    String Name = personas.person.nombrePersona;
+    int Tipo = personas.person.idTipoPersona;
+    String Foto = personas.person.foto; 
+    String texto;
+    if (Tipo == 1) {
+      texto = "Docente";
+    } else if (Tipo == 2) {
+      texto = "Estudiante";
+    } else {
+      texto = "Valor no válido";
+    }
     return Scaffold(
       body: Container(
         width: 288,
@@ -29,10 +43,10 @@ class _MenuScreenState extends State<MenuScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Entrada(Name: 'Daniel Morales', Rol: 'Admin'),
+              Entrada(Name: Name, Rol: texto,Foto: Foto),
               Padding(
                 padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
-                child: Text('Browse'.toUpperCase(),
+                child: Text('Menu'.toUpperCase(),
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium!
@@ -67,7 +81,7 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
-                child: Text('History'.toUpperCase(),
+                child: Text('Adicionar'.toUpperCase(),
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium!
@@ -83,7 +97,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     menu.input = controller.findSMI('active') as SMIBool;
                   },
                   press: () {
-                   menu.input!.change(true);
+                    menu.input!.change(true);
                     Menu2().WingetsRw(menu.Pantlla);
                     widget.onMenuSelected(menu);
                     menu.input!.change(true);

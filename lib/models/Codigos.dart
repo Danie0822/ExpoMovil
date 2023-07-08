@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 class CodigosScreen extends StatelessWidget {
   final String companyName; 
   final String JobTItle; 
-  final String Logo; 
-  final Color color; 
   final String hour; 
+  final String TIPo; 
    
    
-  const CodigosScreen({Key? key, required this.companyName, required this.JobTItle, required this.Logo, required this.hour, required this.color}) : super(key: key);
+  const CodigosScreen({Key? key, required this.companyName, required this.JobTItle, required this.hour, required this.TIPo,}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -17,8 +16,8 @@ class CodigosScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          color: Colors.grey[340],
+          borderRadius: BorderRadius.circular(100),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.2),
@@ -40,7 +39,7 @@ class CodigosScreen extends StatelessWidget {
                   children: [
                     Positioned.fill(
                       child: Image.asset(
-                        Logo,
+                        'assets/icons/Notifi1.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -61,7 +60,7 @@ class CodigosScreen extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          companyName,
+                          TIPo,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 12,
@@ -103,13 +102,13 @@ class CodigosScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               decoration: BoxDecoration(
-                color: color,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
                 hour,
-                style: const TextStyle(
-                  color: Colors.white,
+                style:  TextStyle(
+                  color: Colors.grey[600],
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),

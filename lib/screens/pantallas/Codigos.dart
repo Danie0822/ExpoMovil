@@ -1,8 +1,58 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class DisciplinaApp extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import '../../ModelsDB/Codigos.dart';
+import '../../ModelsDB/Providers/Personas.dart';
+import '../../models/Codigos.dart';
+class DisciplinaApp extends StatefulWidget {
+
+  @override
+  State<DisciplinaApp> createState() => _DisciplinaAppState();
+}
+
+class _DisciplinaAppState extends State<DisciplinaApp> {
+       GlobalKey<RefreshIndicatorState> refreshKey =
+      GlobalKey<RefreshIndicatorState>();
+    @override
+  void initState() {
+    super.initState();
+    getCodigos();
+  }
+  List<Codigos> observaciones = [];
+
+  Future<void> getCodigos() async {
+    final personas = Provider.of<Personas>(context, listen: false);
+    int id = personas.person.idPersona;
+    try {
+      var url = Uri.parse(
+          'https://expo2023-6f28ab340676.herokuapp.com/Funciones/CodigosConductuales/$id');
+      var response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        var observacionesData = json.decode(response.body);
+        print('Observaciones Data: $observacionesData');
+
+        setState(() {
+          observaciones = List<Codigos>.from(
+              observacionesData.map((item) => Codigos.fromJson(item)));
+        });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error: $error');
+    }
+  }
+
+  Future<void> _refreshObservaciones() async {
+    await getCodigos();
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(
         children: [
@@ -99,7 +149,7 @@ class DisciplinaApp extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.all(0),
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
+                    color: Colors.grey[100],
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(20),
@@ -113,12 +163,25 @@ class DisciplinaApp extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: ListView(
-                    padding: const EdgeInsets.all(15),
-                    children: const [
-                      // Aquí van las cards
-                    ],
-                  ),
+                  child: RefreshIndicator(
+              key: refreshKey,
+              onRefresh: _refreshObservaciones,
+              child: ListView.builder(
+                itemCount: observaciones.length,
+                itemBuilder: (context, index) {
+                  final observacion = observaciones[index];
+                  final fechaCompleta = observacion.fecha.toString();
+                  final fecha = fechaCompleta.substring(0, 10);
+
+                  return CodigosScreen(
+                    JobTItle: observacion.docente,
+                    companyName: observacion.codigoConductual,
+                    hour: fecha,
+                    TIPo: observacion.tipoCodigoConductual,
+                  );
+                },
+              ),
+            ),
                 ),
               ),
             ],

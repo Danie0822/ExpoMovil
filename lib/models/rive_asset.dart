@@ -28,9 +28,9 @@ List<RiveAsset> bottomNavs = [
   RiveAsset("assets/RiveAssets/icons.riv",
       artboard: "CHAT", stateMachineName: "CHAT_Interactivity", title: "Chat", Pantlla: HomeScreen()),
   RiveAsset("assets/RiveAssets/icons.riv",
-      artboard: "SEARCH",
-      stateMachineName: "SEARCH_Interactivity",
-      title: "Search", Pantlla: HomeScreen()),
+      artboard: "LIKE/STAR",
+      stateMachineName: "STAR_Interactivity",
+      title: "Estrella", Pantlla: HomeScreen()),
   RiveAsset("assets/RiveAssets/icons.riv",
       artboard: "TIMER",
       stateMachineName: "TIMER_Interactivity",
@@ -46,13 +46,13 @@ List<RiveAsset> bottomNavs = [
 ];
 
 List<RiveAsset> sideMenus = [
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'HOME', stateMachineName: 'HOME_interactivity', title: 'Home', Pantlla: InicioEstudianteScreen()), 
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'HOME', stateMachineName: 'HOME_interactivity', title: 'Inicio', Pantlla: InicioEstudianteScreen()), 
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'SEARCH', stateMachineName: 'SEARCH_Interactivity', title: 'Codigos', Pantlla: DisciplinaApp()),
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'LIKE/STAR', stateMachineName: 'STAR_Interactivity', title: 'Favorites', Pantlla: MiClase()),
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'CHAT', stateMachineName: 'CHAT_Interactivity', title: 'CHAT', Pantlla: HomeScreen()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'CHAT', stateMachineName: 'CHAT_Interactivity', title: 'Comunicados', Pantlla: MiClase()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'Horarios', Pantlla: HomeScreen()),
 ];
 
 List<RiveAsset> sideMenu2 = [
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'History', Pantlla: HomeScreen()),
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'BELL', stateMachineName: 'BELL_Interactivity', title: 'History', Pantlla: HomeScreen()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'BELL', stateMachineName: 'BELL_Interactivity', title: 'Notificaciones', Pantlla: HomeScreen()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'USER', stateMachineName: 'USER_Interactivity', title: 'Ajuste', Pantlla: HomeScreen()),
 ];

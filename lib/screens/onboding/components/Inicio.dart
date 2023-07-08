@@ -3,18 +3,12 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../ModelsDB/Observaciones.dart';
-import '../../../ModelsDB/Personas.dart';
 import '../../../ModelsDB/Providers/Personas.dart';
-import '../../../ModelsDB/Providers/ProviderPerson.dart';
 import '../../../models/Cardview.dart';
 import '../../../models/Observaciones.dart';
 
 class Colum extends StatefulWidget {
-  const Colum({
-    super.key,
-    required this.Cards,
-    required this.CardList
-  });
+  const Colum({super.key, required this.Cards, required this.CardList});
 
   final List Cards;
   final List CardList;
@@ -35,12 +29,12 @@ class _ColumState extends State<Colum> {
 
   List<Observaciones> observaciones = [];
 
-
   Future<void> getObservaciones() async {
-final personas = Provider.of<Personas>(context, listen: false);
-int id = personas.idPersona;
+    final personas = Provider.of<Personas>(context, listen: false);
+    int id = personas.person.idPersona;
     try {
-      var url = Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Funciones/Observaciones/$id');
+      var url = Uri.parse(
+          'https://expo2023-6f28ab340676.herokuapp.com/Funciones/Observaciones/$id');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -65,7 +59,6 @@ int id = personas.idPersona;
 
   @override
   Widget build(BuildContext context) {
-  
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
