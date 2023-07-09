@@ -116,7 +116,7 @@ Widget build(BuildContext context) {
               ),
               child: RefreshIndicator(
                 onRefresh: _refreshNotificaciones,
-                color: Colors.black,
+                color: Colors.blue,
                 backgroundColor: Colors.white,
                 child: ListView.builder(
                   itemCount: notificaciones.length,
@@ -149,6 +149,7 @@ Widget build(BuildContext context) {
                               child: NotificacionScreen(
                                 titulo: notificacion.detalle,
                                 TipoNotificacion: 'ITR',
+
                               ),
                             ),
                           ),
