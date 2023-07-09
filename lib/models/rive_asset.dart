@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-import 'package:SistemaExpo/screens/home/components/prueba.dart';
 import 'package:SistemaExpo/screens/home/home_screen.dart';
 
 import '../screens/home/dashboard.dart';

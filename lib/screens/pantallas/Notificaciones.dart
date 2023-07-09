@@ -28,7 +28,7 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
     int id = personas.person.idPersona;
     try {
       var url = Uri.parse(
-          'https://expo2023-6f28ab340676.herokuapp.com/Notificaciones/list');
+          'https://expo2023-6f28ab340676.herokuapp.com/Notificaciones/list/$id');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -114,7 +114,7 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
                 ),
                 child: RefreshIndicator(
                   onRefresh: _refreshNotificaciones,
-                  color: Colors.black,
+                  color: Colors.blue,
                   backgroundColor: Colors.white,
                   child: ListView.builder(
                     itemCount: notificaciones.length,
