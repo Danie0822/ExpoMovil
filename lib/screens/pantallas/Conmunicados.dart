@@ -100,7 +100,7 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
             children: [
               const SizedBox(height: 55),
               const Text(
-                'Codigos ',
+                'Disciplina App',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -126,9 +126,9 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
                 ),
                 child: Center(
                     child: AspectRatio(
-                  aspectRatio: 1.8,
+                  aspectRatio: 1,
                   child: Image.asset(
-                    'assets/icons/Positivos.png',
+                    'assets/icons/Notifi1.png',
                     width: 70,
                     height: 70,
                   ),

@@ -4,31 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import '../../ModelsDB/Codigos.dart';
 import '../../ModelsDB/Providers/Personas.dart';
-import '../../models/Codigos.dart';
-class DisciplinaApp extends StatefulWidget {
+import '../../ModelsDB/VisitaEnfermeria.dart';
 
+import '../../models/Enfermira.dart';
+
+class VisitaEnfermeria extends StatefulWidget {
   @override
-  State<DisciplinaApp> createState() => _DisciplinaAppState();
+  State<VisitaEnfermeria> createState() => _VisitaEnfermeriaState();
 }
 
-class _DisciplinaAppState extends State<DisciplinaApp> {
-       GlobalKey<RefreshIndicatorState> refreshKey =
+class _VisitaEnfermeriaState extends State<VisitaEnfermeria> {
+  GlobalKey<RefreshIndicatorState> refreshKey =
       GlobalKey<RefreshIndicatorState>();
-    @override
+
+  @override
   void initState() {
     super.initState();
     getCodigos();
   }
-  List<Codigos> observaciones = [];
+
+  List<VisitasEnfermeria> observaciones = [];
 
   Future<void> getCodigos() async {
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
     try {
       var url = Uri.parse(
-          'https://expo2023-6f28ab340676.herokuapp.com/Funciones/CodigosConductuales/$id');
+          'https://expo2023-6f28ab340676.herokuapp.com/VisitasEnfermeria/String/$id');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -36,8 +39,8 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
         print('Observaciones Data: $observacionesData');
 
         setState(() {
-          observaciones = List<Codigos>.from(
-              observacionesData.map((item) => Codigos.fromJson(item)));
+          observaciones = List<VisitasEnfermeria>.from(observacionesData
+              .map((item) => VisitasEnfermeria.fromJson(item)));
         });
       } else {
         print('Error: ${response.statusCode}');
@@ -50,9 +53,9 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
   Future<void> _refreshObservaciones() async {
     await getCodigos();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Stack(
         children: [
@@ -98,45 +101,61 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
           ),
           Column(
             children: [
-              const SizedBox(height: 55),
-              const Text(
-                'Codigos ',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+              SizedBox(height: 55),
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  const Text(
+                    'Visita Enfermería',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
               Container(
                 width: 100,
                 height: 95,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+                decoration: const  BoxDecoration(
+                  shape: BoxShape.rectangle,
                   color: Colors.white,
-                  border: Border.all(color: Colors.black, width: 1),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
                 ),
                 child: Center(
-                    child: AspectRatio(
-                  aspectRatio: 1.8,
-                  child: Image.asset(
-                    'assets/icons/Positivos.png',
-                    width: 70,
-                    height: 70,
+                  child: Stack(
+                    children: [
+                      Container(
+                        width:90,
+                        height: 90,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      Positioned.fill(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            'assets/icons/Enfer.png',
+                            width: 54,
+                            height: 54,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                )),
+                ),
               ),
               const SizedBox(height: 30),
               const Text(
-                'Promoviendo la disciplina y el crecimiento',
+                '¡Tu salud, nuestra prioridad! Visita enfermería y vive al máximo',
                 style: TextStyle(
                   fontSize: 20,
                   fontStyle: FontStyle.italic,
@@ -151,12 +170,12 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
                   decoration: BoxDecoration(
                     color: Colors.grey[100],
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withOpacity(0.2),
                         spreadRadius: 2,
                         blurRadius: 5,
                         offset: Offset(0, 3),
@@ -164,24 +183,22 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
                     ],
                   ),
                   child: RefreshIndicator(
-              key: refreshKey,
-              onRefresh: _refreshObservaciones,
-              child: ListView.builder(
-                itemCount: observaciones.length,
-                itemBuilder: (context, index) {
-                  final observacion = observaciones[index];
-                  final fechaCompleta = observacion.fecha.toString();
-                  final fecha = fechaCompleta.substring(0, 10);
+                    key: refreshKey,
+                    onRefresh: _refreshObservaciones,
+                    child: ListView.builder(
+                      itemCount: observaciones.length,
+                      itemBuilder: (context, index) {
+                        final observacion = observaciones[index];
+                        final fechaCompleta = observacion.fecha.toString();
+                        final fecha = fechaCompleta.substring(0, 10);
 
-                  return CodigosScreen(
-                    JobTItle: observacion.docente,
-                    companyName: observacion.codigoConductual,
-                    hour: fecha,
-                    TIPo: observacion.tipoCodigoConductual,
-                  );
-                },
-              ),
-            ),
+                        return EnfermeriaCards(
+                          Detalle: observacion.detalleVisitia,
+                          Fecha: fecha,
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
             ],

@@ -28,7 +28,7 @@ class NotificacionScreen extends StatelessWidget {
                   height: 50,
                   padding: const EdgeInsets.all(12),
                   color: Colors.grey[300],
-                  child: Image.asset('assets/icons/Notifi1.png'),
+                  child: Image.asset('assets/icons/Campa.png'),
                 ),
               ),
               const SizedBox(width: 10),

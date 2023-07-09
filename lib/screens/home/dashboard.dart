@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../onboding/components/Inicio.dart';
+import '../pantallas/EnfermeriaView.dart';
 
 
 
@@ -14,9 +15,9 @@ class InicioEstudianteScreen extends StatefulWidget {
 
 class _InicioEstudianteScreenState extends State<InicioEstudianteScreen> {
   final List Cards = [
-     ['ITR', 'Acerca del', 'assets/icons/ricaldone.png', 'Colegio'], 
-      ['Academicos', 'Horarios', 'assets/icons/dedo.png', 'Academicos'], 
-       ['Noticias', 'Comunicados', 'assets/icons/noti.png', 'Importantes']
+     ['ITR', 'Acerca del', 'assets/icons/ricaldone.png', 'Colegio', VisitaEnfermeria()], 
+      ['Salud', 'Visitas Enfermeria', 'assets/icons/dedo.png', 'Salud', VisitaEnfermeria()], 
+       ['Noticias', 'Permisos', 'assets/icons/noti.png', 'Importantes', VisitaEnfermeria()]
   ]; 
 
     // ignore: non_constant_identifier_names

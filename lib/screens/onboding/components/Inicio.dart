@@ -79,9 +79,10 @@ class _ColumState extends State<Colum> {
               itemBuilder: (context, index) {
                 return CardviewScreen(
                   companyName: widget.Cards[index][0],
-                  JobTItle: widget.Cards[index][1],
-                  Logo: widget.Cards[index][2],
+                  jobTitle: widget.Cards[index][1],
+                  logo: widget.Cards[index][2],
                   hour: widget.Cards[index][3],
+                  pantalla: widget.Cards[index][4],
                 );
               }),
         ),
@@ -89,7 +90,7 @@ class _ColumState extends State<Colum> {
         const Padding(
           padding: EdgeInsets.only(left: 25.0),
           child: Text(
-            'Notificaciones',
+            'Observaciones',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
           ),
         ),

@@ -34,12 +34,11 @@ class CodigosScreen extends StatelessWidget {
               child: Container(
                 width: 60,
                 height: 60,
-                color: Colors.grey[300],
                 child: Stack(
                   children: [
                     Positioned.fill(
                       child: Image.asset(
-                        'assets/icons/Notifi1.png',
+                        'assets/icons/escuela.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -81,7 +80,7 @@ class CodigosScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    JobTItle,
+                    'Prof:$JobTItle',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -108,7 +107,7 @@ class CodigosScreen extends StatelessWidget {
               child: Text(
                 hour,
                 style:  TextStyle(
-                  color: Colors.grey[600],
+                  color: Colors.grey[700],
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
