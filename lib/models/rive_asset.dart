@@ -5,6 +5,7 @@ import 'package:SistemaExpo/screens/home/home_screen.dart';
 
 import '../screens/home/dashboard.dart';
 import '../screens/pantallas/Codigos.dart';
+import '../screens/pantallas/Notificaciones.dart';
 
 class RiveAsset {
   final String artboard, stateMachineName, title, src;
@@ -53,6 +54,6 @@ List<RiveAsset> sideMenus = [
 ];
 
 List<RiveAsset> sideMenu2 = [
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'BELL', stateMachineName: 'BELL_Interactivity', title: 'Notificaciones', Pantlla: HomeScreen()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'BELL', stateMachineName: 'BELL_Interactivity', title: 'Notificaciones', Pantlla: NotificacionesPantalla()),
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'USER', stateMachineName: 'USER_Interactivity', title: 'Ajuste', Pantlla: HomeScreen()),
 ];

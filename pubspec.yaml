@@ -40,6 +40,7 @@ dependencies:
   rive: ^0.9.1
   flutter_svg: ^1.1.6
   carousel_slider: ^4.2.1
+  fluttertoast: ^8.2.2
 
 dev_dependencies:
   flutter_test:
