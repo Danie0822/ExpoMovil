@@ -4,7 +4,7 @@ import 'package:SistemaExpo/screens/onboding/onboding_screen.dart';
 import 'package:SistemaExpo/ModelsDB/Providers/Personas.dart';
 
 void main() {
-  runApp(const MyApp());
+  runMyApp();
 }
 
 class MyApp extends StatelessWidget {
@@ -12,27 +12,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Personas>(
-      create: (context) => Personas(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Expo 2023',
-        theme: ThemeData(
-          scaffoldBackgroundColor: const Color(0xFFEEF1F8),
-          primarySwatch: Colors.blue,
-          fontFamily: "Intel",
-          inputDecorationTheme: const InputDecorationTheme(
-            filled: true,
-            fillColor: Colors.white,
-            errorStyle: TextStyle(height: 0),
-            border: defaultInputBorder,
-            enabledBorder: defaultInputBorder,
-            focusedBorder: defaultInputBorder,
-            errorBorder: defaultInputBorder,
-          ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Expo 2023',
+      theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFFEEF1F8),
+        primarySwatch: Colors.blue,
+        fontFamily: "Intel",
+        inputDecorationTheme: const InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white,
+          errorStyle: TextStyle(height: 0),
+          border: defaultInputBorder,
+          enabledBorder: defaultInputBorder,
+          focusedBorder: defaultInputBorder,
+          errorBorder: defaultInputBorder,
         ),
-        home: OnboardingScreen(),
       ),
+      home: OnboardingScreen(),
     );
   }
 }
@@ -44,3 +41,36 @@ const defaultInputBorder = OutlineInputBorder(
     width: 1,
   ),
 );
+
+void runMyApp() {
+  try {
+    runApp(
+      ChangeNotifierProvider<Personas>(
+        create: (context) => Personas(),
+        child: const MyApp(),
+      ),
+    );
+  } catch (error) {
+     // ignore: avoid_print
+     print('An error occurred: $error');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showDialog(
+        context: GlobalKey<NavigatorState>().currentState!.overlay!.context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('An error occurred. Please restart the application.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    });
+  }
+}

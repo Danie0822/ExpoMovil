@@ -7,28 +7,59 @@ import 'package:provider/provider.dart';
 import '../../ModelsDB/Codigos.dart';
 import '../../ModelsDB/Providers/Personas.dart';
 import '../../models/Codigos.dart';
-class DisciplinaApp extends StatefulWidget {
 
+class DisciplinaApp extends StatefulWidget {
   @override
   State<DisciplinaApp> createState() => _DisciplinaAppState();
 }
 
-class _DisciplinaAppState extends State<DisciplinaApp> {
-       GlobalKey<RefreshIndicatorState> refreshKey =
-      GlobalKey<RefreshIndicatorState>();
-    @override
+class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProviderStateMixin {
+  GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
+  List<Codigos> observaciones = [];
+  late AnimationController refreshAnimationController;
+  late Animation<Offset> slideOutAnimation;
+  late Animation<Offset> slideInAnimation;
+
+  @override
   void initState() {
     super.initState();
-    getCodigos();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      getCodigos();
+    });
+
+    refreshAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    slideOutAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(-1, 0),
+    ).animate(CurvedAnimation(
+      parent: refreshAnimationController,
+      curve: Curves.easeInOut,
+    ));
+
+    slideInAnimation = Tween<Offset>(
+      begin: const Offset(1, 0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: refreshAnimationController,
+      curve: Curves.easeInOut,
+    ));
   }
-  List<Codigos> observaciones = [];
+
+  @override
+  void dispose() {
+    refreshAnimationController.dispose();
+    super.dispose();
+  }
 
   Future<void> getCodigos() async {
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
     try {
-      var url = Uri.parse(
-          'https://expo2023-6f28ab340676.herokuapp.com/Funciones/CodigosConductuales/$id');
+      var url = Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Funciones/CodigosConductuales/$id');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -37,8 +68,11 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
 
         setState(() {
           observaciones = List<Codigos>.from(
-              observacionesData.map((item) => Codigos.fromJson(item)));
+            observacionesData.map((item) => Codigos.fromJson(item)),
+          );
         });
+
+        refreshAnimationController.forward();
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -48,11 +82,12 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
   }
 
   Future<void> _refreshObservaciones() async {
+    refreshAnimationController.reset();
     await getCodigos();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Stack(
         children: [
@@ -125,14 +160,15 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
                   ],
                 ),
                 child: Center(
-                    child: AspectRatio(
-                  aspectRatio: 1.8,
-                  child: Image.asset(
-                    'assets/icons/Positivos.png',
-                    width: 70,
-                    height: 70,
+                  child: AspectRatio(
+                    aspectRatio: 1.8,
+                    child: Image.asset(
+                      'assets/icons/Positivos.png',
+                      width: 70,
+                      height: 70,
+                    ),
                   ),
-                )),
+                ),
               ),
               const SizedBox(height: 30),
               const Text(
@@ -164,24 +200,41 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
                     ],
                   ),
                   child: RefreshIndicator(
-              key: refreshKey,
-              onRefresh: _refreshObservaciones,
-              child: ListView.builder(
-                itemCount: observaciones.length,
-                itemBuilder: (context, index) {
-                  final observacion = observaciones[index];
-                  final fechaCompleta = observacion.fecha.toString();
-                  final fecha = fechaCompleta.substring(0, 10);
+                    key: refreshKey,
+                    onRefresh: _refreshObservaciones,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      transitionBuilder: (child, animation) {
+                        final position = animation.status == AnimationStatus.reverse
+                            ? slideOutAnimation
+                            : slideInAnimation;
 
-                  return CodigosScreen(
-                    JobTItle: observacion.docente,
-                    companyName: observacion.codigoConductual,
-                    hour: fecha,
-                    TIPo: observacion.tipoCodigoConductual,
-                  );
-                },
-              ),
-            ),
+                        return SlideTransition(
+                          position: position,
+                          child: child,
+                        );
+                      },
+                      child: ListView.builder(
+                        key: UniqueKey(), // Importante: Asignar una clave única
+                        itemCount: observaciones.length,
+                        itemBuilder: (context, index) {
+                          final observacion = observaciones[index];
+                          final fechaCompleta = observacion.fecha.toString();
+                          final fecha = fechaCompleta.substring(0, 10);
+
+                          return FadeTransition(
+                            opacity: refreshAnimationController,
+                            child: CodigosScreen(
+                              JobTItle: observacion.docente,
+                              companyName: observacion.codigoConductual,
+                              hour: fecha,
+                              TIPo: observacion.tipoCodigoConductual,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

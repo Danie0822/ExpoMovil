@@ -4,10 +4,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-
-import '../../ModelsDB/Notificaciones.dart';
+import '../../ModelsDB/Observaciones.dart';
 import '../../ModelsDB/Providers/Personas.dart';
-import '../../models/NotificacionCard.dart';
+import '../../models/Observaciones.dart';
 
 class NotificacionesPantalla extends StatefulWidget {
   @override
@@ -15,29 +14,32 @@ class NotificacionesPantalla extends StatefulWidget {
 }
 
 class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
-  List<Notificaciones> notificaciones = [];
+  GlobalKey<RefreshIndicatorState> refreshKey =
+      GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
     super.initState();
-    getNotificaciones();
+    getObservaciones();
   }
 
-  Future<void> getNotificaciones() async {
+  List<Observaciones> observaciones = [];
+
+  Future<void> getObservaciones() async {
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
     try {
       var url = Uri.parse(
-          'https://expo2023-6f28ab340676.herokuapp.com/Notificaciones/list/$id');
+          'https://expo2023-6f28ab340676.herokuapp.com/Funciones/Observaciones/$id');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
-        var notificacionesData = json.decode(response.body);
-        print('Notificaciones Data: $notificacionesData');
+        var observacionesData = json.decode(response.body);
+        print('Observaciones Data: $observacionesData');
 
         setState(() {
-          notificaciones = List<Notificaciones>.from(
-              notificacionesData.map((item) => Notificaciones.fromJson(item)));
+          observaciones = List<Observaciones>.from(
+              observacionesData.map((item) => Observaciones.fromJson(item)));
         });
       } else {
         print('Error: ${response.statusCode}');
@@ -47,24 +49,8 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
     }
   }
 
-  Future<void> _refreshNotificaciones() async {
-    await getNotificaciones();
-  }
-
-  Future<void> deleteNotification(int idNotificacion) async {
-    try {
-      var url = Uri.parse(
-          'https://expo2023-6f28ab340676.herokuapp.com/Notificaciones/delete/$idNotificacion');
-      var response = await http.delete(url);
-
-      if (response.statusCode == 200) {
-        print('Notification deleted successfully.');
-      } else {
-        print('Error deleting notification: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Error deleting notification: $error');
-    }
+  Future<void> _refreshObservaciones() async {
+    await getObservaciones();
   }
 
   @override
@@ -81,7 +67,7 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
               child: const Column(
                 children: [
                   Text(
-                    'Notificaciones',
+                    'Observaciones',
                     style: TextStyle(
                       fontSize: 29,
                       fontWeight: FontWeight.bold,
@@ -91,7 +77,7 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Notificaciones sin límites \n el mundo en tus manos',
+                    'Descubre el poder \n Aprende, crece y transforma',
                     style: TextStyle(
                       fontSize: 19,
                       fontStyle: FontStyle.italic,
@@ -103,82 +89,28 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
               ),
             ),
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(32),
-                    topRight: Radius.circular(32),
-                  ),
-                ),
-                child: RefreshIndicator(
-                  onRefresh: _refreshNotificaciones,
-                  color: Colors.blue,
-                  backgroundColor: Colors.white,
-                  child: ListView.builder(
-                    itemCount: notificaciones.length,
-                    itemBuilder: (context, index) {
-                      final notificacion = notificaciones[index];
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      child: RefreshIndicator(
+        key: refreshKey,
+        onRefresh: _refreshObservaciones,
+        child: ListView.builder(
+          itemCount: observaciones.length,
+          itemBuilder: (context, index) {
+            final observacion = observaciones[index];
+            final fechaCompleta = observacion.fecha.toString();
+            final fecha = fechaCompleta.substring(0, 10);
 
-                      return Dismissible(
-                        key: ValueKey(notificacion.idNotificacion),
-                        direction: DismissDirection.endToStart,
-                        onDismissed: (direction) async {
-                          deleteNotification(notificacion.idNotificacion);
-                          await Future.delayed(const Duration(
-                              milliseconds: 500));
-                          setState(() {
-                            notificaciones.removeAt(index);
-                          });
-                        },
-                        background: Container(
-                          alignment: Alignment.centerRight,
-                          color: Colors.red,
-                          child: const Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 6),
-                          child: Container(
-                            padding: EdgeInsets.all(0),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  spreadRadius: 2,
-                                  blurRadius: 10,
-                                  offset: Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: BackdropFilter(
-                                filter:
-                                    ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                                child: Container(
-                                  padding: EdgeInsets.all(0),
-                                  color: Colors.grey[100],
-                                  child: NotificacionScreen(
-                                    titulo: notificacion.detalle,
-                                    TipoNotificacion: 'ITR',
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
+            return ObservacionesScreen(
+              detalle: observacion.detalle,
+              docente: observacion.docente,
+              Fecha: fecha,
+            );
+          },
+        ),
+      ),
+    ),
+  ),
           ],
         ),
       ),

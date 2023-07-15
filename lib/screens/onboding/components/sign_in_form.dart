@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:SistemaExpo/utils/rive_utils.dart';
 import 'package:http/http.dart' as http;
+import '../../../Dashboard.dart';
 import '../../../ModelsDB/Personas.dart';
 import '../../../ModelsDB/Providers/Personas.dart';
 import '../../../entry_point.dart';
-import '../../pantallas/Codigos.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
@@ -44,8 +44,13 @@ class _SignInFormState extends State<SignInForm> {
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
 
-          String url =
-              'https://expo2023-6f28ab340676.herokuapp.com/Credenciales/user?correo=$correo&claveCredenciales=$claveCredenciales';
+          String baseUrl =
+              'https://expo2023-6f28ab340676.herokuapp.com/Credenciales/user';
+          String url = Uri.parse(baseUrl).replace(queryParameters: {
+            'correo': correo,
+            'claveCredenciales': claveCredenciales,
+          }).toString();
+
           http.Response response = await http.get(Uri.parse(url));
           if (response.statusCode == 200) {
             dynamic responseData = json.decode(response.body);
@@ -68,27 +73,27 @@ class _SignInFormState extends State<SignInForm> {
                       Duration(seconds: 1),
                       () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EntryPoint(),
-                            ));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EntryPoint(),
+                          ),
+                        );
+                      },
+                    );
+                  } else if (person.idTipoPersona == 1) {
+                    Future.delayed(
+                      Duration(seconds: 1),
+                      () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DashboardDocenteScreen(),
+                          ),
+                        );
                       },
                     );
                   } else {
-                    if (person.idTipoPersona == 1) {
-                      Future.delayed(
-                        Duration(seconds: 1),
-                        () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DisciplinaApp(),
-                              ));
-                        },
-                      );
-                    } else {
-                      print("No es un usuario valido");
-                    }
+                    print("No es un usuario válido");
                   }
                 },
               );

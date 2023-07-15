@@ -18,18 +18,16 @@ class Entrada extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading:  CircleAvatar(
-                      backgroundColor: Colors.white24,
-                      backgroundImage: Foto != null
-                          ? MemoryImage(base64Decode(Foto))
-                          : null,
-                      child: Foto == null
-                          ? const Icon(
-                              CupertinoIcons.person,
-                              color: Colors.white,
-                            )
-                          : null,
-                    ),
+      leading: CircleAvatar(
+        backgroundColor: Colors.white24,
+        backgroundImage: Foto != null ? MemoryImage(base64Decode(Foto)) : null,
+        child: Foto == null
+            ? const Icon(
+                CupertinoIcons.person,
+                color: Colors.white,
+              )
+            : null,
+      ),
       title: Text(Name, style: const TextStyle(color: Colors.white)),
       subtitle: Text(Rol, style: const TextStyle(color: Colors.white)),
     );
