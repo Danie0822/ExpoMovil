@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,12 +43,13 @@ class _SignInFormState extends State<SignInForm> {
       () async {
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
-
+          String password = claveCredenciales;
+          String encryptedPassword = encryptPassword(password);
           String baseUrl =
               'https://expo2023-6f28ab340676.herokuapp.com/Credenciales/user';
           String url = Uri.parse(baseUrl).replace(queryParameters: {
             'correo': correo,
-            'claveCredenciales': claveCredenciales,
+            'claveCredenciales': encryptedPassword,
           }).toString();
 
           http.Response response = await http.get(Uri.parse(url));
@@ -132,6 +133,13 @@ class _SignInFormState extends State<SignInForm> {
         }
       },
     );
+  }
+
+  String encryptPassword(String password) {
+    var bytes = utf8.encode(password);
+    var sha256Password = sha256.convert(bytes);
+
+    return sha256Password.toString();
   }
 
   @override
