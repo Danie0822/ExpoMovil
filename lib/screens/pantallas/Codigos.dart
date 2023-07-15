@@ -23,7 +23,7 @@ class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       getCodigos();
     });
 
