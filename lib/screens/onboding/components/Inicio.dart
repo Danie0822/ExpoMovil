@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:flutter/animation.dart';
 import 'package:provider/provider.dart';
 import '../../../ModelsDB/Notificaciones.dart';
 import '../../../ModelsDB/Providers/Personas.dart';
@@ -9,7 +10,8 @@ import '../../../models/Cardview.dart';
 import '../../../models/NotificacionCard.dart';
 
 class Colum extends StatefulWidget {
-  const Colum({super.key, required this.Cards, required this.CardList});
+  const Colum({Key? key, required this.Cards, required this.CardList})
+      : super(key: key);
 
   final List Cards;
   final List CardList;
@@ -18,13 +20,29 @@ class Colum extends StatefulWidget {
   State<Colum> createState() => _ColumState();
 }
 
-class _ColumState extends State<Colum> {
+class _ColumState extends State<Colum> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late CurvedAnimation _animation;
   List<Notificaciones> notificaciones = [];
 
   @override
   void initState() {
     super.initState();
-    getNotificaciones();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
+    _refreshNotificaciones();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   Future<void> getNotificaciones() async {
@@ -53,6 +71,10 @@ class _ColumState extends State<Colum> {
 
   Future<void> _refreshNotificaciones() async {
     await getNotificaciones();
+    if (_animationController.isCompleted) {
+      _animationController.reset();
+    }
+    _animationController.forward();
   }
 
   Future<void> deleteNotification(int idNotificacion) async {
@@ -147,30 +169,33 @@ class _ColumState extends State<Colum> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: Container(
-                        padding: const EdgeInsets.all(0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 10,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                            child: Container(
-                              padding: const EdgeInsets.all(0),
-                              color: Colors.grey[100],
-                              child: NotificacionScreen(
-                                titulo: notificacion.detalle,
-                                TipoNotificacion: 'ITR',
+                      child: FadeTransition(
+                        opacity: _animation,
+                        child: Container(
+                          padding: const EdgeInsets.all(0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 2,
+                                blurRadius: 10,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: Container(
+                                padding: const EdgeInsets.all(0),
+                                color: Colors.grey[100],
+                                child: NotificacionScreen(
+                                  titulo: notificacion.detalle,
+                                  TipoNotificacion: 'ITR',
+                                ),
                               ),
                             ),
                           ),
