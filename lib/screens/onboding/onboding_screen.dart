@@ -51,7 +51,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     print('Error al obtener los mensajes: ${response.statusCode}');
   }
 }
+bool isSignInDialogOpen = false; 
 
+void _handlePress() {
+  if (isSignInDialogOpen) {
+    return; 
+  }
+  setState(() {
+    isSignInDialogOpen = true;
+  });
+
+  _btnAnimationColtroller.isActive = true;
+  Future.delayed(
+    const Duration(milliseconds: 800),
+    () {
+      customSigninDialog(
+        context,
+        onCLosed: (_) {
+          setState(() {
+            isSignInDialogOpen = false;
+          });
+        },
+      );
+    },
+  );
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,26 +134,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               const SizedBox(height: 40),
                       AnimatedBtn(
                         btnAnimationColtroller: _btnAnimationColtroller,
-                        press: () {
-                          _btnAnimationColtroller.isActive = true;
-                          Future.delayed(
-                            const Duration(milliseconds: 800),
-                            () {
-                              setState(() {
-                                isSignInDialogShown = true;
-                              });
-        
-                              customSigninDialog(
-                                context,
-                                onCLosed: (_) {
-                                  setState(() {
-                                    isSignInDialogShown = false;
-                                  });
-                                },
-                              );
-                            },
-                          );
-                        },
+                        press: _handlePress
                       ),
             ],
           ),
