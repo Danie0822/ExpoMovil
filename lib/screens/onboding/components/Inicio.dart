@@ -21,9 +21,10 @@ class Colum extends StatefulWidget {
 }
 
 class _ColumState extends State<Colum> with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
+ late AnimationController _animationController;
   late CurvedAnimation _animation;
   List<Notificaciones> notificaciones = [];
+  bool isAnimating = false; // New flag to track animation status
 
   @override
   void initState() {
@@ -44,6 +45,26 @@ class _ColumState extends State<Colum> with SingleTickerProviderStateMixin {
     _animationController.dispose();
     super.dispose();
   }
+
+  Future<void> _refreshNotificaciones() async {
+    if (_animationController != null && mounted && !isAnimating) {
+      try {
+        isAnimating = true; // Set the flag to true before starting animation
+        await getNotificaciones();
+        if (_animationController.isCompleted) {
+          _animationController.reset();
+        }
+        _animationController.forward().whenComplete(() {
+          isAnimating = false; // Set the flag back to false after animation
+        });
+      } catch (e) {
+        isAnimating = false; // Make sure to reset the flag in case of errors
+        print('Error during refresh: $e');
+      }
+    }
+  }
+
+
 
   Future<void> getNotificaciones() async {
     final personas = Provider.of<Personas>(context, listen: false);
@@ -67,14 +88,6 @@ class _ColumState extends State<Colum> with SingleTickerProviderStateMixin {
     } catch (error) {
       print('Error: $error');
     }
-  }
-
-  Future<void> _refreshNotificaciones() async {
-    await getNotificaciones();
-    if (_animationController.isCompleted) {
-      _animationController.reset();
-    }
-    _animationController.forward();
   }
 
   Future<void> deleteNotification(int idNotificacion) async {
