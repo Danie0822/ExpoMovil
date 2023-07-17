@@ -13,24 +13,36 @@ class NotificacionesPantalla extends StatefulWidget {
   State<NotificacionesPantalla> createState() => _NotificacionesPantallaState();
 }
 
-class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
-  GlobalKey<RefreshIndicatorState> refreshKey =
-      GlobalKey<RefreshIndicatorState>();
+class _NotificacionesPantallaState extends State<NotificacionesPantalla> with SingleTickerProviderStateMixin {
+  GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
+  late AnimationController slideController;
+  late Animation<Offset> slideAnimation;
+  List<Observaciones> observaciones = [];
 
   @override
   void initState() {
     super.initState();
-    getObservaciones();
-  }
+    _refreshObservaciones();
 
-  List<Observaciones> observaciones = [];
+    slideController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: slideController,
+      curve: Curves.easeInOut,
+    ));
+  }
 
   Future<void> getObservaciones() async {
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
     try {
-      var url = Uri.parse(
-          'https://expo2023-6f28ab340676.herokuapp.com/Funciones/Observaciones/$id');
+      var url = Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Funciones/Observaciones/$id');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -39,7 +51,8 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
 
         setState(() {
           observaciones = List<Observaciones>.from(
-              observacionesData.map((item) => Observaciones.fromJson(item)));
+            observacionesData.map((item) => Observaciones.fromJson(item)),
+          );
         });
       } else {
         print('Error: ${response.statusCode}');
@@ -49,8 +62,23 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
     }
   }
 
+  @override
+  void dispose() {
+    slideController.dispose();
+    super.dispose();
+  }
+
   Future<void> _refreshObservaciones() async {
+    // Check if the state is still mounted before proceeding.
+    if (!mounted) return;
+
     await getObservaciones();
+
+    // Check if the state is still mounted before triggering the animation.
+    if (mounted) {
+      slideController.reset();
+      slideController.forward();
+    }
   }
 
   @override
@@ -81,7 +109,7 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
                     style: TextStyle(
                       fontSize: 19,
                       fontStyle: FontStyle.italic,
-                      color: Colors.black,
+                      color: Colors.grey,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -89,28 +117,45 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> {
               ),
             ),
             Expanded(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: RefreshIndicator(
-        key: refreshKey,
-        onRefresh: _refreshObservaciones,
-        child: ListView.builder(
-          itemCount: observaciones.length,
-          itemBuilder: (context, index) {
-            final observacion = observaciones[index];
-            final fechaCompleta = observacion.fecha.toString();
-            final fecha = fechaCompleta.substring(0, 10);
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: RefreshIndicator(
+                  key: refreshKey,
+                  onRefresh: _refreshObservaciones,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    transitionBuilder: (child, animation) {
+                      final position = animation.status == AnimationStatus.reverse
+                          ? slideAnimation
+                          : slideAnimation;
 
-            return ObservacionesScreen(
-              detalle: observacion.detalle,
-              docente: observacion.docente,
-              Fecha: fecha,
-            );
-          },
-        ),
-      ),
-    ),
-  ),
+                      return SlideTransition(
+                        position: position,
+                        child: FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: ListView.builder(
+                      itemCount: observaciones.length,
+                      itemBuilder: (context, index) {
+                        final observacion = observaciones[index];
+                        final fechaCompleta = observacion.fecha.toString();
+                        final fecha = fechaCompleta.substring(0, 10);
+
+                        return ObservacionesScreen(
+                          key: ValueKey<int>(index),
+                          detalle: observacion.detalle,
+                          docente: observacion.docente,
+                          Fecha: fecha, 
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
