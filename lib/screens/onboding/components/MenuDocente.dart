@@ -33,6 +33,7 @@ class _MenuDocenteScreenState extends State<MenuDocenteScreen> {
       texto = "Valor no válido";
     }
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         width: 288,
         height: double.infinity,
