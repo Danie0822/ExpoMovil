@@ -7,6 +7,7 @@ import '../screens/pantallas/Codigos.dart';
 import '../screens/pantallas/CodigosPost.dart';
 import '../screens/pantallas/EnfermeriaView.dart';
 import '../screens/pantallas/Notificaciones.dart';
+import '../screens/pantallas/Perfil.dart';
 
 class RiveAsset {
   final String artboard, stateMachineName, title, src;
@@ -56,7 +57,7 @@ List<RiveAsset> sideMenus = [
 
 List<RiveAsset> sideMenu2 = [
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'LIKE/STAR', stateMachineName: 'STAR_Interactivity', title: 'Observaciones', Pantlla: NotificacionesPantalla()),
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'USER', stateMachineName: 'USER_Interactivity', title: 'Ajuste', Pantlla: HomeScreen()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'USER', stateMachineName: 'USER_Interactivity', title: 'Usuario', Pantlla: ProfileScreen()),
 ];
 
 List<RiveAsset> sideMenus2 = [
@@ -67,5 +68,5 @@ List<RiveAsset> sideMenus2 = [
 ];
 List<RiveAsset> sideMenu22 = [
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'CHAT', stateMachineName: 'CHAT_Interactivity', title: 'Comunicados', Pantlla: VisitaEnfermeria()),
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'USER', stateMachineName: 'USER_Interactivity', title: 'Ajuste', Pantlla: HomeScreen()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'USER', stateMachineName: 'USER_Interactivity', title: 'Usuario', Pantlla: ProfileScreen()),
 ];
