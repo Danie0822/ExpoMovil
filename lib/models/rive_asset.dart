@@ -5,7 +5,8 @@ import 'package:SistemaExpo/screens/home/home_screen.dart';
 import '../screens/home/dashboard.dart';
 import '../screens/pantallas/Codigos.dart';
 import '../screens/pantallas/CodigosPost.dart';
-import '../screens/pantallas/EnfermeriaView.dart';
+import '../screens/pantallas/Comunicados.dart';
+import '../screens/pantallas/Horarios.dart';
 import '../screens/pantallas/Notificaciones.dart';
 import '../screens/pantallas/Perfil.dart';
 
@@ -52,11 +53,11 @@ List<RiveAsset> sideMenus = [
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'HOME', stateMachineName: 'HOME_interactivity', title: 'Inicio', Pantlla: InicioEstudianteScreen()), 
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'SEARCH', stateMachineName: 'SEARCH_Interactivity', title: 'Codigos', Pantlla: DisciplinaApp()),
      RiveAsset('assets/RiveAssets/icons.riv', artboard: 'LIKE/STAR', stateMachineName: 'STAR_Interactivity', title: 'Observaciones', Pantlla: NotificacionesPantalla()),
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'CHAT', stateMachineName: 'CHAT_Interactivity', title: 'Comunicados', Pantlla: VisitaEnfermeria()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'CHAT', stateMachineName: 'CHAT_Interactivity', title: 'Comunicados', Pantlla: ComunicadosScreen()),
 ];
 
 List<RiveAsset> sideMenu2 = [
-    RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'Horarios', Pantlla: HomeScreen()),
+    RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'Horarios', Pantlla: HorariosScreen()),
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'USER', stateMachineName: 'USER_Interactivity', title: 'Usuario', Pantlla: ProfileScreen()),
 ];
 
@@ -64,9 +65,9 @@ List<RiveAsset> sideMenus2 = [
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'HOME', stateMachineName: 'HOME_interactivity', title: 'Inicio', Pantlla: InicioEstudianteScreen()), 
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'SEARCH', stateMachineName: 'SEARCH_Interactivity', title: 'Codigos', Pantlla: SearchBarWidget()),
  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'LIKE/STAR', stateMachineName: 'STAR_Interactivity', title: 'Observaciones', Pantlla: NotificacionesPantalla()),
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'Horarios', Pantlla: HomeScreen()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'Horarios', Pantlla: HorariosScreen()),
 ];
 List<RiveAsset> sideMenu22 = [
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'CHAT', stateMachineName: 'CHAT_Interactivity', title: 'Comunicados', Pantlla: VisitaEnfermeria()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'CHAT', stateMachineName: 'CHAT_Interactivity', title: 'Comunicados', Pantlla: ComunicadosScreen()),
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'USER', stateMachineName: 'USER_Interactivity', title: 'Usuario', Pantlla: ProfileScreen()),
 ];
