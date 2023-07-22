@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../ModelsDB/Providers/Personas.dart';
@@ -9,9 +12,10 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final personas = Provider.of<Personas>(context, listen: false);
-    String Name = personas.person.nombrePersona;
-    String Correo = personas.person.correo;
-    String codigo = personas.person.codigo;
+    String name = personas.person.nombrePersona;
+    String email = personas.person.correo;
+    String code = personas.person.codigo;
+    String image = personas.person.foto;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -24,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     AntDesign.logout,
                     color: Colors.black,
                   ),
@@ -34,7 +38,7 @@ class ProfileScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => OnboardingScreen(),
                       ),
-                      (route) => false, 
+                      (route) => false,
                     );
                   },
                 ),
@@ -45,11 +49,6 @@ class ProfileScreen extends StatelessWidget {
                 height: 160,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  image: const DecorationImage(
-                    image: AssetImage(
-                        'assets/icons/ricaldone.png'), // Replace with user's profile picture
-                    fit: BoxFit.cover,
-                  ),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.3),
@@ -57,51 +56,62 @@ class ProfileScreen extends StatelessWidget {
                       offset: Offset(0, 12),
                     ),
                   ],
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFF7D5FFF), Color(0xFF4A00E0)],
+                  ),
+                ),
+                child: CircleAvatar(
+                  backgroundImage: MemoryImage(base64Decode(image)),
+                  radius: 80,
                 ),
               ),
               const SizedBox(height: 24),
               Text(
-                '¡Hola, $Name', // Replace with user's name
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Nunito',
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
+                'Hola, $name', 
+                style: GoogleFonts.nunito(
+                  textStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              const SizedBox(height: 48),
+              const SizedBox(height: 40),
               Expanded(
-                flex: 3,
+                flex: 7,
                 child: Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey[900],
+                    color: Colors.black,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Información Personal',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Nunito',
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                        Text(
+                          'Informacion personal',
+                          style: GoogleFonts.nunito(
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 24),
                         InfoTile(
                           icon: Icons.email,
-                          label: 'Correo',
-                          value: Correo, // Replace with user's email
+                          label: 'Correo electrónico',
+                          value: email, 
                         ),
-                        SizedBox(height: 16),
+                     const    SizedBox(height: 16),
                         InfoTile(
                           icon: Icons.confirmation_number,
-                          label: 'Codigo',
-                          value: codigo, // Replace with user's code
+                          label: 'Código',
+                          value: code, 
                         ),
                       ],
                     ),
@@ -135,28 +145,30 @@ class InfoTile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Icon(icon, color: Colors.white, size: 28),
-        SizedBox(width: 16),
+       const SizedBox(width: 16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Nunito',
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                style: GoogleFonts.nunito(
+                  textStyle:  const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              SizedBox(height: 4),
+             const  SizedBox(height: 4),
               Text(
                 value,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Nunito',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                style: GoogleFonts.nunito(
+                  textStyle:  const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],

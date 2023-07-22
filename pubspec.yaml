@@ -43,6 +43,7 @@ dependencies:
   fluttertoast: ^8.2.2
   crypto: ^3.0.3
   flutter_vector_icons: ^2.0.0
+  google_fonts: ^4.0.4
 
 dev_dependencies:
   flutter_test:

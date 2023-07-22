@@ -2,13 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import '../../ModelsDB/Providers/Personas.dart';
 import '../../utils/Colors.dart';
 
 class RecipeDetailAppBar extends StatelessWidget {
   const RecipeDetailAppBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
