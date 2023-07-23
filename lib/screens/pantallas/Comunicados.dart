@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../ModelsDB/Comunicados.dart';
-import '../../ModelsDB/Observaciones.dart';
+import '../../models/ComunicadosCards.dart';
 import '../../models/Observaciones.dart';
 
 class ComunicadosScreen extends StatefulWidget {
@@ -58,24 +58,25 @@ class _ComunicadosScreenState extends State<ComunicadosScreen> with SingleTicker
     }
   }
 
-  @override
-  void dispose() {
-    slideController.dispose();
-    super.dispose();
-  }
+@override
+void dispose() {
+  slideController.dispose();
+  super.dispose();
+}
+
 
   Future<void> _refreshObservaciones() async {
-    // Check if the state is still mounted before proceeding.
-    if (!mounted) return;
+  // Check if the state is still mounted before proceeding.
+  if (!mounted) return;
 
-    await getObservaciones();
+  await getObservaciones();
 
-    // Check if the state is still mounted before triggering the animation.
-    if (mounted) {
-      slideController.reset();
-      slideController.forward();
-    }
+  // Check if the state is still mounted before triggering the animation.
+  if (mounted) {
+    slideController.reset();
+    slideController.forward();
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -140,11 +141,11 @@ class _ComunicadosScreenState extends State<ComunicadosScreen> with SingleTicker
                         final fechaCompleta = observacion.fecha.toString();
                         final fecha = fechaCompleta.substring(0, 10);
 
-                        return ObservacionesScreen(
-                          key: ValueKey<int>(index),
+                        return ComunicadoCard(
                           detalle: observacion.detalle,
                           docente: observacion.idComunicado.toString(),
                           Fecha: fecha, 
+                          pdfBytes: base64.decode(observacion.archivo),
                         );
                       },
                     ),
