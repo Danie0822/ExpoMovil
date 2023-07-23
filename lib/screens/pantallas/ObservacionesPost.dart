@@ -48,19 +48,17 @@ class CodigosPersonas {
   }
 }
 
-
 class Codigos {
   final int idCodigoConductual;
   final int idTipoCodigoConductual;
   final int idNivelCodigoConductual;
   final String codigoConductual;
 
-  Codigos( {
-    required this.idCodigoConductual,
-    required this.idTipoCodigoConductual,
-    required this.idNivelCodigoConductual,
-    required this.codigoConductual
-  });
+  Codigos(
+      {required this.idCodigoConductual,
+      required this.idTipoCodigoConductual,
+      required this.idNivelCodigoConductual,
+      required this.codigoConductual});
 
   factory Codigos.fromJson(Map<String, dynamic> json) {
     return Codigos(
@@ -68,12 +66,9 @@ class Codigos {
       idCodigoConductual: json['idCodigoConductual'] ?? 0,
       idTipoCodigoConductual: json['idTipoCodigoConductual'] ?? 0,
       idNivelCodigoConductual: json['idNivelCodigoConductual'] ?? 0,
-
-
     );
   }
 }
-
 
 class Person {
   final int idPersona;
@@ -113,13 +108,17 @@ class Person {
   }
 }
 
+
+
 class ObservacionesSearchBar extends StatefulWidget {
   @override
   _ObservacionesSearchBarState createState() => _ObservacionesSearchBarState();
 }
 
 class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
-   TextEditingController _searchController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String correo = "";
   List<Person> _searchResults = [];
   Person? _selectedPerson;
   bool _isLoading = false;
@@ -129,30 +128,12 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
   @override
   void initState() {
     super.initState();
-    _fetchComboBoxData();
   }
 
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
-  }
-
-  Future<List<String>> _fetchComboBoxData() async {
-    final response = await http.get(
-      Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/CodigosConductuales/list'),
-    );
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body) as List<dynamic>;
-      final List<String> comboBoxItems = [];
-      for (var item in data) {
-        comboBoxItems.add(item['codigoConductual'].toString());
-      }
-      return comboBoxItems;
-    } else {
-      print('Failed to load ComboBox data');
-      return [];
-    }
   }
 
   Future<void> _searchData(String query) async {
@@ -172,7 +153,8 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
     }
 
     final response = await http.get(
-      Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Credenciales/Search/$query'),
+      Uri.parse(
+          'https://expo2023-6f28ab340676.herokuapp.com/Credenciales/Search/$query'),
     );
 
     if (response.statusCode == 200) {
@@ -222,7 +204,8 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
             },
       decoration: InputDecoration(
         hintText: _isLoading ? 'Loading...' : 'Select a person',
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
@@ -234,261 +217,204 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
     );
   }
 
- Future<void> _postData(String searchValue, String comboBoxValue) async {
-  final response1 = await http.get(
-    Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/CodigosConductuales/Search/$comboBoxValue'),
-  );
+  Future<void> _postData(String searchValue) async {
+    if(_formKey.currentState!.validate()){
+     _formKey.currentState!.save();
+    final personas = Provider.of<Personas>(context, listen: false);
+    int id = personas.person.idPersona;
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(now);
+    final Map<String, dynamic> requestData = {
+      'idPeriodo': 1,
+      'fecha': formattedDate,
+      'idEstudiante': _selectedPerson?.idPersona,
+      'idDocente': id,
+      'detalle': correo,
+      'idObservacion': 1,
+    };
+    final Map<String, dynamic> requestNoti = {
+      'idNotificacion': 1,
+      'detalle': "Revisar Observaciones",
+      'idPersona': _selectedPerson?.idPersona,
+      'idTipoNotificacion': 1
+    };
+    setState(() {
+      _isLoading = true;
+    });
 
-  if (response1.statusCode == 200) {
-    final List<dynamic> decodedJsonList = json.decode(response1.body);
-    if (decodedJsonList.isNotEmpty) {
-      final Codigos idCodigo = Codigos.fromJson(decodedJsonList[0]);
+    final response = await http.post(
+      Uri.parse(
+          'https://expo2023-6f28ab340676.herokuapp.com/0bservaciones/save'),
+      body: json.encode(requestData),
+      headers: {'Content-Type': 'application/json'},
+    );
 
-      final personas = Provider.of<Personas>(context, listen: false);
-      int id = personas.person.idPersona;
-      DateTime now = DateTime.now();
-      String formattedDate = DateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(now);
-      final Map<String, dynamic> requestData = {
-        'idPeriodo': 1,
-        'fecha': formattedDate,
-        'idEstudiante': _selectedPerson?.idPersona,
-        'idDocente': id,
-        'idCodigoConductual': idCodigo.idCodigoConductual,
-        'idCodigoConductualPersona': 1,
-      };
-        final Map<String, dynamic> requestNoti = {
-        'idNotificacion': 1,
-        'detalle': "Revisar Codigos",
-        'idPersona': _selectedPerson?.idPersona,
-        'idTipoNotificacion': 1
-      };
-      setState(() {
-        _isLoading = true;
-      });
-
-      final response = await http.post(
-        Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/CodigosConductualesPersonas/save'),
-        body: json.encode(requestData),
-        headers: {'Content-Type': 'application/json'},
-      );
-      
-
-      if (response.statusCode == 200) {
-        print('Se pudo');
-         final response1 = await http.post(
-        Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Notificaciones/save'),
+    if (response.statusCode == 200) {
+      print('Se pudo');
+      final response1 = await http.post(
+        Uri.parse(
+            'https://expo2023-6f28ab340676.herokuapp.com/Notificaciones/save'),
         body: json.encode(requestNoti),
         headers: {'Content-Type': 'application/json'},
       );
-      if(response1.statusCode == 200){
-         // ignore: use_build_context_synchronously
-         showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        backgroundColor: Colors.green[100],
-        title: const Text(
-          '¡Éxito!',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(
-              Icons.check_circle,
-              color: Colors.green[800],
-              size: 40,
+      if (response1.statusCode == 200) {
+        // ignore: use_build_context_synchronously
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              backgroundColor: Colors.green[100],
+              title: const Text(
+                '¡Éxito!',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.check_circle,
+                    color: Colors.green[800],
+                    size: 40,
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'El Codigo se envió correctamente.',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the alert
+                  },
+                  child: Text(
+                    'Aceptar',
+                    style: TextStyle(
+                      color: Colors.green[800],
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        print('Failed to make POST request: ${response1.statusCode}');
+      }
+    } else {
+      print('Failed to make POST request: ${response.statusCode}');
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+    }
+    else{
+       showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
             ),
-          const  SizedBox(height: 8),
-            const Text(
-              'El Codigo se envió correctamente.',
+            backgroundColor: Colors.grey[300],
+            title: const Text(
+              'Mensaje',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 18,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close the alert
-            },
-            child: Text(
-              'Aceptar',
-              style: TextStyle(
-                color: Colors.green[800],
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-        ],
-      );
-    },
-  );
-      }
-      else{
-        print('Failed to make POST request: ${response1.statusCode}');
-      }
-        
-      } else {
-        print('Failed to make POST request: ${response.statusCode}');
-      }
-
-      setState(() {
-        _isLoading = false;
-      });
-    } else {
-      print('No se encontró ningún código conductual con el valor: $comboBoxValue');
-    }
-  } else {
-       // ignore: use_build_context_synchronously
-       showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          backgroundColor: Colors.grey[300],
-          title:const  Text(
-            'Seleccionar un Codigo',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: const Text(
-            'Por favor, seleccione un Codigo antes de guardar.',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the alert
-              },
-              child: const Text(
-                'Aceptar',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+            content: const Text(
+              'Escribir un mensaje en descripción al alumno',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
               ),
             ),
-          ],
-        );
-      },
-    );
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the alert
+                },
+                child: const Text(
+                  'Aceptar',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
-}
-
 
   void _onSaveButtonPressed() {
     if (_selectedPerson != null) {
       final searchValue = _searchController.text;
-      final comboBoxValue = _selectedComboBoxItem ?? '';
-      _postData(searchValue, comboBoxValue);
+      _postData(searchValue);
     } else {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          backgroundColor: Colors.grey[300],
-          title:const  Text(
-            'Seleccionar un alumno',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
             ),
-          ),
-          content: const Text(
-            'Por favor, seleccione un alumno antes de guardar.',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the alert
-              },
-              child: const Text(
-                'Aceptar',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+            backgroundColor: Colors.grey[300],
+            title: const Text(
+              'Seleccionar un alumno',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-  Widget _buildComboBox() {
-    return FutureBuilder<List<String>>(
-      future: _fetchComboBoxData(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          _comboBoxItems = snapshot.data!;
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: InputDecorator(
-              decoration: InputDecoration(
-                labelText: 'Selecione el Codigo Conductual',
-                labelStyle:  const TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: _selectedComboBoxItem,
-                  items: _comboBoxItems.map((item) {
-                    return DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (selectedItem) {
-                    setState(() {
-                      _selectedComboBoxItem = selectedItem;
-                    });
-                  },
-                ),
+            content: const Text(
+              'Por favor, seleccione un alumno antes de guardar.',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
               ),
             ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the alert
+                },
+                child: const Text(
+                  'Aceptar',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           );
-        } else {
-          return  const Center(child: CircularProgressIndicator());
-        }
-      },
-    );
+        },
+      );
+    }
   }
 
   @override
@@ -497,7 +423,7 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-         const SizedBox(height: 100),
+          const SizedBox(height: 100),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(
@@ -525,8 +451,47 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
             ),
           ),
           const SizedBox(height: 16),
-          _buildComboBox(),
-         const  SizedBox(height: 16),
+          Form(
+            key: _formKey,
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Padding(
+                padding:  EdgeInsets.only(left: 16),
+                child:  Text(
+                  "Descripcion",
+                  style: TextStyle(color: Colors.black54),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 13, right: 13, top: 3),
+                child: TextFormField(
+                  maxLines: 1,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "";
+                    }
+                    return null;
+                  },
+                  onSaved: (email) {
+                    correo = email!;
+                  },
+                  decoration: InputDecoration(
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: const BoxDecoration(
+                            color: Colors.white30,
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          child: Image.asset("assets/icons/Descripcion.png")),
+                    ),
+                  ),
+                ),
+              ),
+            ]),
+          ),
+          const SizedBox(height: 16),
           if (_searchResults.isNotEmpty)
             Expanded(
               child: Container(
@@ -536,13 +501,13 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
               ),
             )
           else if (_isLoading)
-          const  Expanded(
+            const Expanded(
               child: Center(
                 child: CircularProgressIndicator(),
               ),
             )
           else
-           const Expanded(
+            const Expanded(
               child: Center(
                 child: Text(""),
               ),
