@@ -148,22 +148,29 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     super.dispose();
   }
 
-  Future<List<String>> _fetchComboBoxData() async {
-    final response = await http.get(
-      Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/CodigosConductuales/list'),
-    );
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body) as List<dynamic>;
-      final List<String> comboBoxItems = [];
-      for (var item in data) {
-        comboBoxItems.add(item['codigoConductual'].toString());
-      }
-      return comboBoxItems;
-    } else {
-      print('Failed to load ComboBox data');
-      return [];
+Future<List<String>> _fetchComboBoxData() async {
+  final response = await http.get(
+    Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/CodigosConductuales/list'),
+  );
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body) as List<dynamic>;
+
+    // Create a set to store unique values
+    final Set<String> uniqueValues = {};
+
+    for (var item in data) {
+      uniqueValues.add(item['codigoConductual'].toString());
     }
+
+    // Convert the set back to a list
+    final List<String> comboBoxItems = uniqueValues.toList();
+    return comboBoxItems;
+  } else {
+    print('Failed to load ComboBox data');
+    return [];
   }
+}
 
   Future<void> _searchData(String query) async {
     setState(() {
@@ -206,43 +213,43 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
   }
 
   Widget _buildDropDownMenu() {
-    return DropdownButtonFormField<Person>(
-      value: _selectedPerson,
-      items: _searchResults.map((person) {
-        return DropdownMenuItem<Person>(
-          value: person,
-          child: Text(
-            '${person.nombrePersona} ${person.apellidoPersona}',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        );
-      }).toList(),
-      onChanged: _searchResults.isEmpty || _isLoading
-          ? null
-          : (selectedPerson) {
-              setState(() {
-                _selectedPerson = selectedPerson;
-                _searchController.text =
-                    '${selectedPerson!.nombrePersona} ${selectedPerson.apellidoPersona}';
-                print('idPersona: ${_selectedPerson!.idPersona}');
-              });
-            },
-      decoration: InputDecoration(
-        hintText: _isLoading ? 'Loading...' : 'Select a person',
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: Colors.blue,
-            width: 2,
+  return DropdownButtonFormField<Person>(
+    value: _selectedPerson, // Make sure _selectedPerson is one of the items' values
+    items: _searchResults.map((person) {
+      return DropdownMenuItem<Person>(
+        value: person,
+        child: Text(
+          '${person.nombrePersona} ${person.apellidoPersona}',
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           ),
         ),
+      );
+    }).toList(),
+    onChanged: _searchResults.isEmpty || _isLoading
+        ? null
+        : (selectedPerson) {
+            setState(() {
+              _selectedPerson = selectedPerson;
+              _searchController.text =
+                  '${selectedPerson!.nombrePersona} ${selectedPerson.apellidoPersona}';
+              print('idPersona: ${_selectedPerson!.idPersona}');
+            });
+          },
+    decoration: InputDecoration(
+      hintText: _isLoading ? 'Loading...' : 'Select a person',
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(
+          color: Colors.blue,
+          width: 2,
+        ),
       ),
-    );
-  }
+    ),
+  );
+}
 
  Future<void> _postData(String searchValue, String comboBoxValue) async {
   final response1 = await http.get(
