@@ -112,24 +112,14 @@ class Person {
     );
   }
 }
-class MyApp extends StatelessWidget {
+
+class ObservacionesSearchBar extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SearchBarWidget(),
-      ),
-    );
-  }
+  _ObservacionesSearchBarState createState() => _ObservacionesSearchBarState();
 }
 
-class SearchBarWidget extends StatefulWidget {
-  @override
-  _SearchBarWidgetState createState() => _SearchBarWidgetState();
-}
-
-class _SearchBarWidgetState extends State<SearchBarWidget> {
-  TextEditingController _searchController = TextEditingController();
+class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
+   TextEditingController _searchController = TextEditingController();
   List<Person> _searchResults = [];
   Person? _selectedPerson;
   bool _isLoading = false;
