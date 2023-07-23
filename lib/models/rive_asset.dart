@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:SistemaExpo/screens/home/home_screen.dart';
 
+import '../screens/home/components/InicioDocente.dart';
 import '../screens/home/dashboard.dart';
+import '../screens/pantallas/Asitencia.dart';
 import '../screens/pantallas/Codigos.dart';
 import '../screens/pantallas/CodigosPost.dart';
 import '../screens/pantallas/Comunicados.dart';
@@ -63,10 +65,10 @@ List<RiveAsset> sideMenu2 = [
 ];
 
 List<RiveAsset> sideMenus2 = [
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'HOME', stateMachineName: 'HOME_interactivity', title: 'Inicio', Pantlla: InicioEstudianteScreen()), 
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'HOME', stateMachineName: 'HOME_interactivity', title: 'Inicio', Pantlla: InicioDocenteScreen()), 
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'SEARCH', stateMachineName: 'SEARCH_Interactivity', title: 'Codigos', Pantlla: SearchBarWidget()),
  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'LIKE/STAR', stateMachineName: 'STAR_Interactivity', title: 'Observaciones', Pantlla: ObservacionesSearchBar()),
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'Asistencia', Pantlla: HorariosScreen()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'Asistencia', Pantlla: AsitenciaScreen()),
 ];
 List<RiveAsset> sideMenu22 = [
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'CHAT', stateMachineName: 'CHAT_Interactivity', title: 'Comunicados', Pantlla: ComunicadosScreen()),

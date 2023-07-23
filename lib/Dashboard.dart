@@ -24,7 +24,7 @@ class _DashboardDocenteScreenState extends State<DashboardDocenteScreen> with Si
   bool IsSideMenuClose = true;
   bool cambioWidget = false;
   bool isSideMenuClose = true;
- RiveAsset selectedMenu = sideMenus.first;
+ RiveAsset selectedMenu = sideMenus2.first;
   
   
 

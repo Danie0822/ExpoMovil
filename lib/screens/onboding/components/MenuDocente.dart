@@ -17,7 +17,7 @@ class MenuDocenteScreen extends StatefulWidget {
 }
 
 class _MenuDocenteScreenState extends State<MenuDocenteScreen> {
-  RiveAsset selectedMenu = sideMenus.first;
+  RiveAsset selectedMenu = sideMenus2.first;
   @override
   Widget build(BuildContext context) {
     final personas = Provider.of<Personas>(context, listen: false);
