@@ -10,6 +10,7 @@ import '../../../Dashboard.dart';
 import '../../../ModelsDB/Personas.dart';
 import '../../../ModelsDB/Providers/Personas.dart';
 import '../../../entry_point.dart';
+import '../../pantallas/AlertaAdmin.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
@@ -94,7 +95,17 @@ class _SignInFormState extends State<SignInForm> {
                       },
                     );
                   } else {
-                    print("No es un usuario válido");
+                    Future.delayed(
+                      Duration(seconds: 1),
+                      () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AlertaAdmin(),
+                          ),
+                        );
+                      },
+                    );
                   }
                 },
               );
