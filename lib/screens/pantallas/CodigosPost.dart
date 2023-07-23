@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../../ModelsDB/Providers/Personas.dart';
+
 class CodigosPersonas {
   final int idCodigoConductualPersona;
   final int idPeriodo;
@@ -136,14 +141,21 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     super.initState();
     _fetchComboBoxData();
   }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   Future<List<String>> _fetchComboBoxData() async {
     final response = await http.get(
-        Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/CodigosConductuales/list'));
+      Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/CodigosConductuales/list'),
+    );
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List<dynamic>;
       final List<String> comboBoxItems = [];
       for (var item in data) {
-        // Aquí se selecciona el campo "nombre" del objeto JSON y se agrega a la lista de elementos de la ComboBox.
         comboBoxItems.add(item['codigoConductual'].toString());
       }
       return comboBoxItems;
@@ -153,48 +165,45 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     }
   }
 
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
   Future<void> _searchData(String query) async {
-  setState(() {
-    _searchResults.clear();
-    _selectedPerson = null;
-    _isLoading = true;
-  });
-
-  if (query.isEmpty) {
     setState(() {
-      _isLoading = false;
+      _searchResults.clear();
+      _selectedPerson = null;
+      _isLoading = true;
     });
-    return;
+
+    if (query.isEmpty) {
+      setState(() {
+        _selectedPerson = null;
+        _selectedComboBoxItem = null;
+        _isLoading = false;
+      });
+      return;
+    }
+
+    final response = await http.get(
+      Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Credenciales/Search/$query'),
+    );
+
+    if (response.statusCode == 200) {
+      if (!mounted) return;
+      setState(() {
+        _searchResults = (json.decode(response.body) as List)
+            .map((item) => Person.fromJson(item))
+            .toList();
+        _isLoading = false;
+        if (_searchResults.isEmpty) {
+          _selectedPerson = null;
+        }
+      });
+    } else {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+      print('Failed to load data');
+    }
   }
-
-  final response = await http.get(
-      Uri.parse(
-          'https://expo2023-6f28ab340676.herokuapp.com/Credenciales/Search/$query'));
-
-  if (response.statusCode == 200) {
-    if (!mounted) return; // Add this line to check if the widget is still mounted
-    setState(() {
-      _searchResults = (json.decode(response.body) as List)
-          .map((item) => Person.fromJson(item))
-          .toList();
-      _isLoading = false;
-    });
-  } else {
-    if (!mounted) return; // Add this line to check if the widget is still mounted
-    setState(() {
-      _isLoading = false;
-    });
-    print('Failed to load data');
-  }
-}
-
 
   Widget _buildDropDownMenu() {
     return DropdownButtonFormField<Person>(
@@ -202,64 +211,130 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
       items: _searchResults.map((person) {
         return DropdownMenuItem<Person>(
           value: person,
-          child: Text('${person.nombrePersona} ${person.apellidoPersona}'),
+          child: Text(
+            '${person.nombrePersona} ${person.apellidoPersona}',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         );
       }).toList(),
       onChanged: _searchResults.isEmpty || _isLoading
           ? null
           : (selectedPerson) {
-        setState(() {
-          _selectedPerson = selectedPerson;
-          _searchController.text =
-          '${selectedPerson!.nombrePersona} ${selectedPerson.apellidoPersona}';
-          print('idPersona: ${_selectedPerson!.idPersona}');
-        });
-      },
+              setState(() {
+                _selectedPerson = selectedPerson;
+                _searchController.text =
+                    '${selectedPerson!.nombrePersona} ${selectedPerson.apellidoPersona}';
+                print('idPersona: ${_selectedPerson!.idPersona}');
+              });
+            },
       decoration: InputDecoration(
         hintText: _isLoading ? 'Loading...' : 'Select a person',
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: Colors.blue,
+            width: 2,
+          ),
+        ),
       ),
     );
   }
 
-  Future<void> _postData(String searchValue, String comboBoxValue) async {
+ Future<void> _postData(String searchValue, String comboBoxValue) async {
+  final response1 = await http.get(
+    Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/CodigosConductuales/Search/$comboBoxValue'),
+  );
 
-    final response1 = await http.get(
-        Uri.parse(
-            'https://expo2023-6f28ab340676.herokuapp.com/CodigosConductuales/Search/$comboBoxValue'));
+  if (response1.statusCode == 200) {
+    final List<dynamic> decodedJsonList = json.decode(response1.body);
+    if (decodedJsonList.isNotEmpty) {
+      final Codigos idCodigo = Codigos.fromJson(decodedJsonList[0]);
 
-    List<Codigos> idCodigo = (json.decode(response1.body) as List)
-        .map((item) => Codigos.fromJson(item))
-        .toList();
+      final personas = Provider.of<Personas>(context, listen: false);
+      int id = personas.person.idPersona;
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(now);
+      final Map<String, dynamic> requestData = {
+        'idPeriodo': 1,
+        'fecha': formattedDate,
+        'idEstudiante': _selectedPerson?.idPersona,
+        'idDocente': id,
+        'idCodigoConductual': idCodigo.idCodigoConductual,
+        'idCodigoConductualPersona': 1,
+      };
 
-    final Map<String, dynamic> requestData = {
-      'idPeriodo' : 1,
-      'fecha': DateTime.now().toString(),
-      'idEstudiante': _selectedPerson?.idPersona,
-      'idDocente': 24,
-      'idCodigoConductual': idCodigo[0].idCodigoConductual,
-      'idCodigoConductualPersona': null
-    };
+      setState(() {
+        _isLoading = true;
+      });
 
-    setState(() {
-      _isLoading = true;
-    });
+      final response = await http.post(
+        Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/CodigosConductualesPersonas/save'),
+        body: json.encode(requestData),
+        headers: {'Content-Type': 'application/json'},
+      );
 
-    final response = await http.post(
-      Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/CodigosConductualesPersonas/save'), 
-      body: json.encode(requestData),
-      headers: {'Content-Type': 'application/json'},
-    );
+      if (response.statusCode == 200) {
+        print('Se pudo');
+      } else {
+        print('Failed to make POST request: ${response.statusCode}');
+      }
 
-    if (response.statusCode == 200) {
-
+      setState(() {
+        _isLoading = false;
+      });
     } else {
-      print('Failed to make POST request' + response.statusCode.toString());
+      print('No se encontró ningún código conductual con el valor: $comboBoxValue');
     }
-
-    setState(() {
-      _isLoading = false;
-    });
+  } else {
+       // ignore: use_build_context_synchronously
+       showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          backgroundColor: Colors.grey[300],
+          title:const  Text(
+            'Seleccionar un Codigo',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: const Text(
+            'Por favor, seleccione un Codigo antes de guardar.',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert
+              },
+              child: const Text(
+                'Aceptar',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
+}
+
 
   void _onSaveButtonPressed() {
     if (_selectedPerson != null) {
@@ -267,90 +342,146 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
       final comboBoxValue = _selectedComboBoxItem ?? '';
       _postData(searchValue, comboBoxValue);
     } else {
-      print('No person selected.');
-    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          backgroundColor: Colors.grey[300],
+          title:const  Text(
+            'Seleccionar un alumno',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: const Text(
+            'Por favor, seleccione un alumno antes de guardar.',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert
+              },
+              child: const Text(
+                'Aceptar',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
+}
 
- Widget _buildComboBox() {
+  Widget _buildComboBox() {
     return FutureBuilder<List<String>>(
       future: _fetchComboBoxData(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           _comboBoxItems = snapshot.data!;
-          return DropdownButtonFormField<String>(
-            value: _selectedComboBoxItem,
-            items: _comboBoxItems.map((item) {
-              return DropdownMenuItem<String>(
-                value: item,
-                child: Text(item),
-              );
-            }).toList(),
-            onChanged: (selectedItem) {
-              setState(() {
-                _selectedComboBoxItem = selectedItem;
-              });
-            },
-            decoration: InputDecoration(
-              hintText: 'Select an item',
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: InputDecorator(
+              decoration: InputDecoration(
+                labelText: 'Selecione el Codigo Conductual',
+                labelStyle:  const TextStyle(color: Colors.grey),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _selectedComboBoxItem,
+                  items: _comboBoxItems.map((item) {
+                    return DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (selectedItem) {
+                    setState(() {
+                      _selectedComboBoxItem = selectedItem;
+                    });
+                  },
+                ),
+              ),
             ),
           );
         } else {
-          return Text('Failed to load data');
+          return  const Center(child: CircularProgressIndicator());
         }
       },
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Aplicar código'),
-        backgroundColor: Colors.lightBlue, // Color de fondo de la AppBar
-        elevation: 0, // Elimina la sombra debajo de la AppBar
-      ),
+      backgroundColor: Colors.white,
       body: Column(
         children: [
-          SizedBox(height: 16),
+         const SizedBox(height: 100),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.blueGrey[50], // Color de fondo de la barra de búsqueda
+                color: Colors.grey[250],
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)],
+                boxShadow: const [
+                  BoxShadow(color: Colors.black12, blurRadius: 5),
+                ],
               ),
               child: TextField(
                 controller: _searchController,
                 onChanged: _searchData,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
                 decoration: InputDecoration(
                   hintText: "Search...",
-                  border: InputBorder.none, // Elimina el borde de la barra de búsqueda
+                  border: InputBorder.none,
                   prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
                 ),
               ),
             ),
           ),
-          SizedBox(height: 16),
-          _buildComboBox(), // ComboBox debajo de la barra de búsqueda
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
+          _buildComboBox(),
+         const  SizedBox(height: 16),
           if (_searchResults.isNotEmpty)
             Expanded(
               child: Container(
                 color: Colors.white,
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(10),
                 child: _buildDropDownMenu(),
               ),
             )
           else if (_isLoading)
-            Expanded(
+          const  Expanded(
               child: Center(
                 child: CircularProgressIndicator(),
               ),
             )
           else
-            Expanded(
+           const Expanded(
               child: Center(
                 child: Text(""),
               ),
@@ -360,9 +491,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
       floatingActionButton: FloatingActionButton(
         onPressed: _onSaveButtonPressed,
         tooltip: 'Save',
-        backgroundColor: Colors.lightBlue, // Color de fondo del botón flotante
-        child: Icon(Icons.save, color: Colors.white), // Color del ícono del botón flotante
-        elevation: 4, // Añade una sombra al botón flotante
+        child: const Icon(Icons.save),
       ),
     );
   }

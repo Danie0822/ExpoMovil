@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../ModelsDB/Comunicados.dart';
 import '../../models/ComunicadosCards.dart';
-import '../../models/Observaciones.dart';
 
 class ComunicadosScreen extends StatefulWidget {
   @override
