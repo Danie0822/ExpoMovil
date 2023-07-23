@@ -66,7 +66,7 @@ class ComunicadoCard extends StatelessWidget {
                     children: [
                       Positioned.fill(
                         child: Image.asset(
-                          'assets/icons/Notifi1.png',
+                          'assets/icons/comuni.png',
                           fit: BoxFit.cover,
                         ),
                       ),

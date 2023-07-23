@@ -28,7 +28,7 @@ class _ComunicadosScreenState extends State<ComunicadosScreen> with SingleTicker
     );
 
     slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 1),
+      begin: const Offset(0, -1),
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: slideController,
@@ -102,7 +102,7 @@ void dispose() {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Descubre el poder \n Aprende, crece y transforma',
+                    'Conecta, Comunica, Aprende \n Tu escuela en línea',
                     style: TextStyle(
                       fontSize: 19,
                       fontStyle: FontStyle.italic,
