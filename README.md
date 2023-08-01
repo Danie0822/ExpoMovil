@@ -1,4 +1,4 @@
-# Exoo
+# Expo
 
 A new Flutter project.
 
