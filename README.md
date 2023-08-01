@@ -1,6 +1,7 @@
-# rive_animation
+# Exoo
 
 A new Flutter project.
+
 
 ## Getting Started
 
