@@ -16,7 +16,6 @@ class ComunicadoCard extends StatelessWidget {
     required this.Fecha,
     required this.pdfBytes,
   });
-
   Future<void> downloadAndOpenPdf(BuildContext context) async {
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
@@ -33,7 +32,6 @@ class ComunicadoCard extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
