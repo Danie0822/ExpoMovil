@@ -1,6 +1,7 @@
-# rive_animation
+# Expo
 
 A new Flutter project.
+
 
 ## Getting Started
 
