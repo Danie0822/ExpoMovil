@@ -5,13 +5,7 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Sistema de Gestión Estudiantil
+El Sistema de Gestión Estudiantil es una aplicación diseñada para facilitar la administración y el seguimiento de información relacionada con estudiantes, 
+cursos, calificaciones y otros aspectos académicos. Esta herramienta proporciona una interfaz intuitiva y eficiente para que las instituciones educativas
+puedan llevar un control preciso de sus datos y procesos académicos.
