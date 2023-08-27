@@ -15,13 +15,20 @@ class Entrada extends StatelessWidget {
   final String Rol;
   final String Foto;
 
-  @override
+   @override
   Widget build(BuildContext context) {
+    MemoryImage? image;
+    try {
+      image = MemoryImage(base64Decode(Foto));
+    } catch (e) {
+      print('Error decoding base64 image: $e'); 
+    }
+
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Colors.white24,
-        backgroundImage: Foto != null ? MemoryImage(base64Decode(Foto)) : null,
-        child: Foto == null
+        backgroundImage: image != null ? image : null,
+        child: image == null
             ? const Icon(
                 CupertinoIcons.person,
                 color: Colors.white,

@@ -19,6 +19,7 @@ class _InicioEstudianteScreenState extends State<InicioEstudianteScreen> {
   final List Cards = [
      ['ITR', 'Acerca del', 'assets/icons/ricaldone.png', 'Colegio', RecipeDetailScreen()], 
       ['Salud', 'Visitas Enfermeria', 'assets/icons/dedo.png', 'Salud', VisitaEnfermeria()], 
+          ['Orden', 'Horarios', 'assets/icons/horario.png', 'Academicos', VisitaEnfermeria()], 
        ['Noticias', 'Permisos', 'assets/icons/noti.png', 'Importantes', PermisosScreen()]
   ]; 
 

@@ -514,7 +514,9 @@ Future<List<String>> _fetchComboBoxData() async {
       backgroundColor: Colors.white,
       body: Column(
         children: [
+          
          const SizedBox(height: 100),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(

@@ -452,45 +452,54 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
           ),
           const SizedBox(height: 16),
           Form(
-            key: _formKey,
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Padding(
-                padding:  EdgeInsets.only(left: 16),
-                child:  Text(
-                  "Descripcion",
-                  style: TextStyle(color: Colors.black54),
+  key: _formKey,
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Padding(
+        padding: EdgeInsets.only(left: 16),
+        child: Text(
+          "Descripción",
+          style: TextStyle(color: Colors.black54),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 13, right: 13, top: 3),
+        child: TextFormField(
+          maxLines: 1,
+          maxLength: 120, // Limit the input to 120 characters
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "Este campo es requerido";
+            }
+            if (value.length > 120) {
+              return "No puede ingresar más de 120 caracteres";
+            }
+            return null;
+          },
+          onSaved: (description) {
+            correo = description!;
+          },
+          decoration: InputDecoration(
+            prefixIcon: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Container(
+                width: 10,
+                height: 10,
+                decoration: const BoxDecoration(
+                  color: Colors.white30,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
+                child: Image.asset("assets/icons/Descripcion.png"),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 13, right: 13, top: 3),
-                child: TextFormField(
-                  maxLines: 1,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "";
-                    }
-                    return null;
-                  },
-                  onSaved: (email) {
-                    correo = email!;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Container(
-                          width: 10,
-                          height: 10,
-                          decoration: const BoxDecoration(
-                            color: Colors.white30,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                          child: Image.asset("assets/icons/Descripcion.png")),
-                    ),
-                  ),
-                ),
-              ),
-            ]),
+            ),
           ),
+        ),
+      ),
+    ],
+  ),
+),
+
           const SizedBox(height: 16),
           if (_searchResults.isNotEmpty)
             Expanded(
