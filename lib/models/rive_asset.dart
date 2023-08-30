@@ -10,6 +10,7 @@ import '../screens/pantallas/CodigosPost.dart';
 import '../screens/pantallas/Comunicados.dart';
 import '../screens/pantallas/Horarios.dart';
 import '../screens/pantallas/Inasistencias.dart';
+import '../screens/pantallas/LlegadasTardesPost.dart';
 import '../screens/pantallas/Notificaciones.dart';
 import '../screens/pantallas/ObservacionesPost.dart';
 import '../screens/pantallas/Perfil.dart';
@@ -71,7 +72,8 @@ List<RiveAsset> sideMenus2 = [
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'HOME', stateMachineName: 'HOME_interactivity', title: 'Inicio', Pantlla: InicioDocenteScreen()), 
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'SEARCH', stateMachineName: 'SEARCH_Interactivity', title: 'Codigos', Pantlla: SearchBarWidget()),
  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'LIKE/STAR', stateMachineName: 'STAR_Interactivity', title: 'Observaciones', Pantlla: ObservacionesSearchBar()),
-  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'Asistencia', Pantlla: AsitenciaScreen()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'BELL', stateMachineName: 'BELL_Interactivity', title: 'Llegadas Tarde', Pantlla: LlegadasPostScreen()),
+  RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'Inasistencias', Pantlla: AsistenciaScreen()),
 ];
 List<RiveAsset> sideMenu22 = [
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'CHAT', stateMachineName: 'CHAT_Interactivity', title: 'Comunicados', Pantlla: ComunicadosScreen()),

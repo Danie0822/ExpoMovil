@@ -110,22 +110,17 @@ class Person {
 
 
 
-class ObservacionesSearchBar extends StatefulWidget {
+class LlegadasPostScreen extends StatefulWidget {
   @override
-  _ObservacionesSearchBarState createState() => _ObservacionesSearchBarState();
+  _LlegadasPostScreenState createState() => _LlegadasPostScreenState();
 }
 
-class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
-  bool _isSaving = false;
+class _LlegadasPostScreenState extends State<LlegadasPostScreen> {
+bool _isSaving = false;
   TextEditingController _searchController = TextEditingController();
-   TextEditingController _correoController = TextEditingController(); 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String correo = "";
   List<Person> _searchResults = [];
   Person? _selectedPerson;
   bool _isLoading = false;
-  List<String> _comboBoxItems = [];
-  String? _selectedComboBoxItem;
 
   @override
   void initState() {
@@ -148,7 +143,6 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
     if (query.isEmpty) {
       setState(() {
         _selectedPerson = null;
-        _selectedComboBoxItem = null;
         _isLoading = false;
       });
       return;
@@ -220,8 +214,6 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
   }
 
   Future<void> _postData(String searchValue) async {
-    if(_formKey.currentState!.validate()){
-     _formKey.currentState!.save();
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
     DateTime now = DateTime.now();
@@ -231,12 +223,12 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
       'fecha': formattedDate,
       'idEstudiante': _selectedPerson?.idPersona,
       'idDocente': id,
-      'detalle': correo,
-      'idObservacion': 1,
+      'idTipoLlegadaTarde': 1,
+      'estado': 1
     };
     final Map<String, dynamic> requestNoti = {
       'idNotificacion': 1,
-      'detalle': "Revisar Observaciones",
+      'detalle': "Revisar Llegadas Tardes",
       'idPersona': _selectedPerson?.idPersona,
       'idTipoNotificacion': 1
     };
@@ -246,7 +238,7 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
 
     final response = await http.post(
       Uri.parse(
-          'https://expo2023-6f28ab340676.herokuapp.com/0bservaciones/save'),
+          'https://expo2023-6f28ab340676.herokuapp.com/LlegadasTarde/save'),
       body: json.encode(requestData),
       headers: {'Content-Type': 'application/json'},
     );
@@ -288,7 +280,7 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'El Codigo se envió correctamente.',
+                    'La Llegada Tarde se envió correctamente.',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -324,70 +316,28 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
     setState(() {
       _isLoading = false;
     });
-    }
-    else{
-       showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            backgroundColor: Colors.grey[300],
-            title: const Text(
-              'Mensaje',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            content: const Text(
-              'Escribir un mensaje en descripción al alumno',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the alert
-                },
-                child: const Text(
-                  'Aceptar',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    }
+    
+
   }
 
-  Future<void> _onSaveButtonPressed() async {
-    if (_selectedPerson != null) {
-      if(!_isSaving){
+ void _onSaveButtonPressed() async {
+  if (_selectedPerson != null ) {
+    if(!_isSaving){
 
     
     setState(() {
       _isSaving = true;
     });
-      final searchValue = _searchController.text;
+
+    final searchValue = _searchController.text;
     await _postData(searchValue);
 
     setState(() {
       _isSaving = false;
          _searchController.clear();
            _selectedPerson = null;  
-           _correoController.clear();
     });
-    } 
+    }
     else{
       showDialog(
         context: context,
@@ -406,7 +356,7 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
               ),
             ),
             content: const Text(
-              'Por favor, Esperar el envio de Observacion',
+              'Por favor, Esperar el envio de llegarda Tarde',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 16,
@@ -431,8 +381,7 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
         },
       );
     }
-    }
-    else {
+  } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -510,57 +459,6 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
-          Form(
-  key: _formKey,
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const Padding(
-        padding: EdgeInsets.only(left: 16),
-        child: Text(
-          "Descripción",
-          style: TextStyle(color: Colors.black54),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(left: 13, right: 13, top: 3),
-        child: TextFormField(
-          controller: _correoController,
-          maxLines: 1,
-          maxLength: 120, // Limit the input to 120 characters
-          validator: (value) {
-            if (value!.isEmpty) {
-              return "Este campo es requerido";
-            }
-            if (value.length > 120) {
-              return "No puede ingresar más de 120 caracteres";
-            }
-            return null;
-          },
-          onSaved: (description) {
-            correo = description!;
-          },
-          decoration: InputDecoration(
-            prefixIcon: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Container(
-                width: 10,
-                height: 10,
-                decoration: const BoxDecoration(
-                  color: Colors.white30,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Image.asset("assets/icons/Descripcion.png"),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ],
-  ),
-),
-
           const SizedBox(height: 16),
           if (_searchResults.isNotEmpty)
             Expanded(
