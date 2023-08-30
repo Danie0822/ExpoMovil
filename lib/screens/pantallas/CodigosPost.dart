@@ -129,6 +129,7 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
+  bool _isRequestInProgress = false;
   TextEditingController _searchController = TextEditingController();
   List<Person> _searchResults = [];
   Person? _selectedPerson;
@@ -298,6 +299,10 @@ Future<List<String>> _fetchComboBoxData() async {
         headers: {'Content-Type': 'application/json'},
       );
       if(response1.statusCode == 200){
+            setState(() {
+      _isLoading = false;
+      _isRequestInProgress = false; // Reset the flag here
+    });
          // ignore: use_build_context_synchronously
          showDialog(
     context: context,
@@ -355,17 +360,64 @@ Future<List<String>> _fetchComboBoxData() async {
       }
       else{
         print('Failed to make POST request: ${response1.statusCode}');
+           setState(() {
+      _isRequestInProgress = false; // Reset the flag here too
+    });
       }
         
       } else {
         print('Failed to make POST request: ${response.statusCode}');
+           setState(() {
+      _isRequestInProgress = false; // Reset the flag here too
+    });
       }
 
       setState(() {
         _isLoading = false;
       });
     } else {
-      print('No se encontró ningún código conductual con el valor: $comboBoxValue');
+// ignore: use_build_context_synchronously
+showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          backgroundColor: Colors.grey[300],
+          title:const  Text(
+            'Seleccionar un Codigo',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: const Text(
+            'Por favor, seleccione un Codigo antes de guardar.',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert
+              },
+              child: const Text(
+                'Aceptar',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
     }
   } else {
        // ignore: use_build_context_synchronously
@@ -414,12 +466,25 @@ Future<List<String>> _fetchComboBoxData() async {
 }
 
 
-  void _onSaveButtonPressed() {
-    if (_selectedPerson != null) {
-      final searchValue = _searchController.text;
-      final comboBoxValue = _selectedComboBoxItem ?? '';
-      _postData(searchValue, comboBoxValue);
-    } else {
+ void _onSaveButtonPressed() {
+  if (_isRequestInProgress) {
+    return;
+  }
+
+  if (_selectedPerson != null) {
+    final searchValue = _searchController.text;
+    final comboBoxValue = _selectedComboBoxItem ?? '';
+    
+    setState(() {
+      _isRequestInProgress = true;
+    });
+
+    _postData(searchValue, comboBoxValue).then((_) {
+      setState(() {
+        _isRequestInProgress = false;
+      });
+    });
+  }  else {
     showDialog(
       context: context,
       builder: (BuildContext context) {

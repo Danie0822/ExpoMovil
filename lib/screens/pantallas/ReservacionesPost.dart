@@ -90,6 +90,7 @@ class ReservacioneScreen extends StatefulWidget {
 
 class _ReservacioneScreenState extends State<ReservacioneScreen> {
   TextEditingController _searchController = TextEditingController();
+     TextEditingController _correoController = TextEditingController(); 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String correo = "";
   bool _isLoading = false;
@@ -159,6 +160,13 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
   }
 
   Future<void> _postData(String comboBoxValue, String comboBoxItems) async {
+      if (_isLoading) {
+      return; // Return if a request is already in progress
+    }
+    setState(() {
+      _isLoading = true;
+    });
+
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       final response1 = await http.get(
@@ -200,6 +208,10 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
           );
 
           if (response.statusCode == 200) {
+            _correoController.clear();
+                  setState(() {
+        _isLoading = false;
+      });
             // ignore: use_build_context_synchronously
             showDialog(
               context: context,
@@ -256,15 +268,66 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
             );
           } else {
             print('Failed to make POST request: ${response1.statusCode}');
+                  setState(() {
+        _isLoading = false;
+      });
           }
 
           setState(() {
             _isLoading = false;
           });
         } else {
-          print('No se encontró ningún Salon  con el valor: $comboBoxValue');
+                          setState(() {
+        _isLoading = false;
+      });
+        // ignore: use_build_context_synchronously
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              backgroundColor: Colors.grey[300],
+              title: const Text(
+                'Seleccionar la información',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              content: const Text(
+                'Selecionar salon y rango de hora antes de guardar.',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the alert
+                  },
+                  child: const Text(
+                    'Aceptar',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+
         }
       } else {
+                        setState(() {
+        _isLoading = false;
+      });
         // ignore: use_build_context_synchronously
         showDialog(
           context: context,
@@ -309,6 +372,9 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
         );
       }
     } else {
+                      setState(() {
+        _isLoading = false;
+      });
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -483,6 +549,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
 Padding(
   padding: const EdgeInsets.only(left: 13, right: 13, top: 3),
   child: TextFormField(
+    controller: _correoController,
     maxLines: 1,
     maxLength: 128, // Limit the input to 128 characters
     validator: (value) {
