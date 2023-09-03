@@ -65,7 +65,7 @@ class LlegadasTardeCards extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    '🚫👤',
+                    '🕒🚶',
                     style:  TextStyle(
                       color: Colors.white,
                       fontSize: 10,
