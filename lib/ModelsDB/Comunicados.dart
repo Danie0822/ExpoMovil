@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+// clase de comunicados 
 class Comunicados {
   final int idComunicado;
   final int idGrado;
@@ -15,7 +15,7 @@ class Comunicados {
     required this.detalle,
     required this.archivo,
   });
-
+// clase para llamar la api en formato json 
   factory Comunicados.fromJson(Map<String, dynamic> json) {
     return Comunicados(
       idComunicado: json['idComunicado'] ?? 0,
@@ -25,7 +25,7 @@ class Comunicados {
       archivo: json['archivo'] ?? '',
     );
   }
-
+// conversion de df osea obiente el archico binario lo convierte 
   Future<File?> getPdfFile() async {
     try {
       final bytes = base64.decode(archivo);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
 class MenuBtnScreen extends StatelessWidget {
-   
+   // menu boton 
   const MenuBtnScreen({Key? key, required this.press, required this.riveOnInit}) : super(key: key);
   final VoidCallback press; 
   final ValueChanged<Artboard> riveOnInit;

@@ -7,13 +7,14 @@ import 'package:provider/provider.dart';
 import '../../ModelsDB/Codigos.dart';
 import '../../ModelsDB/Providers/Personas.dart';
 import '../../models/Codigos.dart';
-
+// pagina para obtener  datos de codigos a personas 
 class DisciplinaApp extends StatefulWidget {
   @override
   State<DisciplinaApp> createState() => _DisciplinaAppState();
 }
 
 class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProviderStateMixin {
+  // estado de reflesgh 
   GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
   List<Codigos> observaciones = [];
   late AnimationController refreshAnimationController;
@@ -31,7 +32,7 @@ class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProvider
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-
+// animaciones cuando hay aparece las tarejetas 
     slideOutAnimation = Tween<Offset>(
       begin: Offset.zero,
       end: const Offset(-1, 0),
@@ -54,11 +55,13 @@ class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProvider
     refreshAnimationController.dispose();
     super.dispose();
   }
-
+// metodo para obtener los datos de tarjeta 
   Future<void> getCodigos() async {
+    // provider para obtener el id de tarjeta 
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
     try {
+      // url de la api 
       var url = Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Funciones/CodigosConductuales/$id');
       var response = await http.get(url);
 
@@ -80,7 +83,7 @@ class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProvider
       print('Error: $error');
     }
   }
-
+// metodo para reflesh 
   Future<void> _refreshObservaciones() async {
     refreshAnimationController.reset();
     await getCodigos();
@@ -89,6 +92,7 @@ class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // diseño de codigo de formulario 
       body: Stack(
         children: [
           Container(
@@ -224,6 +228,7 @@ class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProvider
 
                           return FadeTransition(
                             opacity: refreshAnimationController,
+                            // tarjeta de codigos screen 
                             child: CodigosScreen(
                               JobTItle: observacion.docente,
                               companyName: observacion.codigoConductual,

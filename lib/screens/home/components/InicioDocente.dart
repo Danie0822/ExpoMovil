@@ -4,7 +4,7 @@ import '../../onboding/components/Inicio.dart';
 import '../../pantallas/AcercaDe.dart';
 import '../../pantallas/Horarios.dart';
 import '../../pantallas/ReservacionesPost.dart';
-
+// inicio de de docente 
 
 
 class InicioDocenteScreen extends StatefulWidget {
@@ -15,12 +15,13 @@ class InicioDocenteScreen extends StatefulWidget {
 }
 
 class _InicioDocenteScreenState extends State<InicioDocenteScreen> {
+  // llamadas de tarjetas de inicio 
   final List Cards = [
     ['ITR', 'Acerca del', 'assets/icons/ricaldone.png', 'Colegio', RecipeDetailScreen()],
     ['Educación', 'Horarios', 'assets/icons/dedo.png', 'Clase', HorariosScreen()],
     ['Gestión', 'Reserva Salones', 'assets/icons/noti.png', 'Importantes', ReservacioneScreen()]
   ];
-
+// ya no se usa xd 
   final List CardList = [
     ['Un comunicado', 'Se ha enviado', 'assets/icons/Notifi1.png', 'Importante', Colors.red],
     ['Leve', 'Codigo', 'assets/icons/Notifi1.png', 'Adventicia', Colors.orange],
@@ -30,6 +31,7 @@ class _InicioDocenteScreenState extends State<InicioDocenteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // llamada de un nuevo widget 
       backgroundColor: Colors.white,
       body: Colum(Cards: Cards, CardList: CardList),
     );

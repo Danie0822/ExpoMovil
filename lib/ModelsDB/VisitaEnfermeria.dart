@@ -1,3 +1,5 @@
+// visistas de enfermeria clase de la base 
+
 class VisitasEnfermeria {
   final int idVisitaEnfermeria;
   final int idPeriodo;
@@ -14,7 +16,7 @@ class VisitasEnfermeria {
     required this.idPersona,
     required this.persona,
   });
-
+// formato de json para obtener los valores de la a api 
   factory VisitasEnfermeria.fromJson(Map<String, dynamic> json) {
     return VisitasEnfermeria(
       idVisitaEnfermeria: json['idVisitaEnfermeria'] ?? 0,

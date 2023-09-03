@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../utils/Colors.dart';
-
+// pantalla de acerca del colegio 
 class RecipeDetailAppBar extends StatelessWidget {
   const RecipeDetailAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    // es un bar de arriba 
     return SliverAppBar(
       systemOverlayStyle:
           const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),

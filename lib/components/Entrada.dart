@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+// Muestra el perfil del menu osea la imagen
 class Entrada extends StatelessWidget {
   const Entrada({
     super.key,
@@ -26,6 +26,7 @@ class Entrada extends StatelessWidget {
 
     return ListTile(
       leading: CircleAvatar(
+        // convierte el binario a imagen otra vez 
         backgroundColor: Colors.white24,
         backgroundImage: image != null ? image : null,
         child: image == null

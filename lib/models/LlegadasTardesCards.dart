@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 // obtener los datos de las tarjetas 
-class InasisitenciasCards extends StatelessWidget {
+class LlegadasTardeCards extends StatelessWidget {
   final int estado;
   final String docente;
   final String fecha;
 
-  const InasisitenciasCards({
+  const LlegadasTardeCards({
     Key? key,
     required this.estado,
     required this.docente,
@@ -14,9 +14,8 @@ class InasisitenciasCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // depende del estado se visualiza diferentes cosas 
-    String estadoTexto = estado == 1 ? "Injustificada" : "Justificada";
-    Color cardColor = estado == 1 ? Colors.redAccent : Colors.greenAccent;
+     String estadoTexto = estado == 1 ? "Primer Periodo" : "Segundo Periodo";
+    Color cardColor = estado == 1 ? Colors.grey : Colors.grey;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8.0),
@@ -79,7 +78,7 @@ class InasisitenciasCards extends StatelessWidget {
           ),
         ),
         title: Text(
-          'Prof: $docente',
+          estadoTexto,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
@@ -91,7 +90,7 @@ class InasisitenciasCards extends StatelessWidget {
           children: [
             const SizedBox(height: 4),
             Text(
-              'Estado: $estadoTexto',
+              'Prof: $docente',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 12,

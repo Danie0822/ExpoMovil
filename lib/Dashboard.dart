@@ -6,7 +6,7 @@ import 'package:SistemaExpo/constants.dart';
 import 'package:SistemaExpo/utils/rive_utils.dart';
 import 'components/menu.dart';
 import 'models/rive_asset.dart';
-
+// pantalla de dashboard de docente 
 class DashboardDocenteScreen extends StatefulWidget {
    
   const DashboardDocenteScreen({Key? key}) : super(key: key);
@@ -16,6 +16,7 @@ class DashboardDocenteScreen extends StatefulWidget {
 }
 
 class _DashboardDocenteScreenState extends State<DashboardDocenteScreen> with SingleTickerProviderStateMixin {
+  // animaciones 
   late AnimationController _animationController;
   late Animation<double> animation;
   late Animation<double> ScaleAnimation;
@@ -56,6 +57,7 @@ class _DashboardDocenteScreenState extends State<DashboardDocenteScreen> with Si
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // diseño que hay de en dicha pestaña 
       backgroundColor: backgroundColor2,
       resizeToAvoidBottomInset: false,
       extendBody: true,

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../ModelsDB/Providers/Personas.dart';
-
+// clase de personas 
 class CodigosPersonas {
   final int idCodigoConductualPersona;
   final int idPeriodo;
@@ -100,15 +100,15 @@ class Person {
 
   factory Person.fromJson(Map<String, dynamic> json) {
     return Person(
-      idPersona: json['idPersona'],
-      codigo: json['codigo'],
-      nombrePersona: json['nombrePersona'],
-      apellidoPersona: json['apellidoPersona'],
-      nacimientoPersona: json['nacimientoPersona'],
-      idTipoPersona: json['idTipoPersona'],
-      correo: json['correo'],
-      claveCredenciales: json['claveCredenciales'],
-      foto: json['foto'],
+      idPersona: json['idPersona'] ?? 0,
+      codigo: json['codigo']?? '',
+      nombrePersona: json['nombrePersona']?? '',
+      apellidoPersona: json['apellidoPersona']?? '',
+      nacimientoPersona: json['nacimientoPersona']?? '',
+      idTipoPersona: json['idTipoPersona'] ?? '',
+      correo: json['correo']?? '',
+      claveCredenciales: json['claveCredenciales'] ?? '',
+      foto: json['foto'] ?? '',
     );
   }
 }
@@ -129,6 +129,7 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
+  // contralodores de estado como del buscador 
   bool _isRequestInProgress = false;
   TextEditingController _searchController = TextEditingController();
   List<Person> _searchResults = [];
@@ -212,7 +213,7 @@ Future<List<String>> _fetchComboBoxData() async {
       print('Failed to load data');
     }
   }
-
+// obtener el comobo box con personas 
   Widget _buildDropDownMenu() {
   return DropdownButtonFormField<Person>(
     value: _selectedPerson, // Make sure _selectedPerson is one of the items' values
@@ -251,12 +252,12 @@ Future<List<String>> _fetchComboBoxData() async {
     ),
   );
 }
-
+// metodo de guardar los datos en el buscador 
  Future<void> _postData(String searchValue, String comboBoxValue) async {
   final response1 = await http.get(
     Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/CodigosConductuales/Search/$comboBoxValue'),
   );
-
+// repuesta a obtener el id de codigo 
   if (response1.statusCode == 200) {
     final List<dynamic> decodedJsonList = json.decode(response1.body);
     if (decodedJsonList.isNotEmpty) {
@@ -305,6 +306,7 @@ Future<List<String>> _fetchComboBoxData() async {
     });
          // ignore: use_build_context_synchronously
          showDialog(
+          // da un aviso de que todo esta bien y se mando super bien las cosas a la api 
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
@@ -467,6 +469,7 @@ showDialog(
 
 
  void _onSaveButtonPressed() {
+  // validacion que no le pueda dar mas de dos veces al boton 
   if (_isRequestInProgress) {
     return;
   }
@@ -528,7 +531,7 @@ showDialog(
     );
   }
 }
-
+// combo box para ver las personas 
   Widget _buildComboBox() {
     return FutureBuilder<List<String>>(
       future: _fetchComboBoxData(),
@@ -575,6 +578,7 @@ showDialog(
 
   @override
   Widget build(BuildContext context) {
+    // diseño de guardar 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(

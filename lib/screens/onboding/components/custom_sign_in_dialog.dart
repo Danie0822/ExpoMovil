@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'sign_in_form.dart';
-
+// Dialog de login osea el ingresar del sitema
 Future<Object?> customSigninDialog(BuildContext context,
     {required ValueChanged onCLosed}) {
   return showGeneralDialog(
@@ -11,6 +11,7 @@ Future<Object?> customSigninDialog(BuildContext context,
     transitionDuration: const Duration(milliseconds: 400),
     transitionBuilder: (_, animation, __, child) {
       Tween<Offset> tween;
+      //  dicha aniamcion de Dialog
       tween = Tween(begin: const Offset(0, -1), end: Offset.zero);
       return SlideTransition(
         position: tween.animate(
@@ -20,6 +21,7 @@ Future<Object?> customSigninDialog(BuildContext context,
       );
     },
     pageBuilder: (context, _, __) => Center(
+      // para que siempre este centrado 
       child: Container(
         height: 530,
         margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -54,7 +56,7 @@ Future<Object?> customSigninDialog(BuildContext context,
                   ),
                     ],
                   ),
-                   
+                   // se llama a tro widget 
                    const SignInForm(),
                 ],
               ),

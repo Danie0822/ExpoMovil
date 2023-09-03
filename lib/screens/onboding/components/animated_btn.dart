@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import 'package:rive/rive.dart';
-
+// botom de animacion de de pantalla de inicio 
 class AnimatedBtn extends StatelessWidget {
   const AnimatedBtn({
     Key? key,
@@ -15,6 +15,7 @@ class AnimatedBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // diseño del botom 
     return GestureDetector(
       onTap: press,
       child: SizedBox(
@@ -24,6 +25,7 @@ class AnimatedBtn extends StatelessWidget {
           children: [
 
             RiveAnimation.asset(
+              // se llama el boton de animacion 
               "assets/RiveAssets/button.riv",
               controllers: [_btnAnimationColtroller],
             ),

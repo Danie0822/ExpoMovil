@@ -7,10 +7,11 @@ import 'package:provider/provider.dart';
 
 import '../../ModelsDB/Providers/Personas.dart';
 import '../onboding/onboding_screen.dart';
-
+// pantalla de perfil 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // esto para obtener desde el provider todo de la persona que ingreso 
     final personas = Provider.of<Personas>(context, listen: false);
     String name = personas.person.nombrePersona;
     String email = personas.person.correo;
@@ -18,6 +19,7 @@ class ProfileScreen extends StatelessWidget {
     String image = personas.person.foto;
 
     return Scaffold(
+      // esto es diseño 
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
@@ -32,6 +34,7 @@ class ProfileScreen extends StatelessWidget {
                     AntDesign.logout,
                     color: Colors.black,
                   ),
+                  // es boton de cerrar sesion 
                   onPressed: () {
                     Navigator.pushAndRemoveUntil(
                       context,
@@ -44,6 +47,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
+              // aqui va el diseño de donde se muestra la informacion 
               Container(
                 width: 160,
                 height: 160,
@@ -127,7 +131,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-
+// esto es el widget de donde sazle dica infromacion oea cuadrado negro 
 class InfoTile extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -142,6 +146,7 @@ class InfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      // diseño de dica card pequeña 
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Icon(icon, color: Colors.white, size: 28),

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../ModelsDB/Providers/Personas.dart';
-
+// codigos de obtener 
 class CodigosPersonas {
   final int idCodigoConductualPersona;
   final int idPeriodo;
@@ -95,15 +95,15 @@ class Person {
 
   factory Person.fromJson(Map<String, dynamic> json) {
     return Person(
-      idPersona: json['idPersona'],
-      codigo: json['codigo'],
-      nombrePersona: json['nombrePersona'],
-      apellidoPersona: json['apellidoPersona'],
-      nacimientoPersona: json['nacimientoPersona'],
-      idTipoPersona: json['idTipoPersona'],
-      correo: json['correo'],
-      claveCredenciales: json['claveCredenciales'],
-      foto: json['foto'],
+      idPersona: json['idPersona'] ?? 0,
+      codigo: json['codigo']?? '',
+      nombrePersona: json['nombrePersona']?? '',
+      apellidoPersona: json['apellidoPersona']?? '',
+      nacimientoPersona: json['nacimientoPersona']?? '',
+      idTipoPersona: json['idTipoPersona'] ?? '',
+      correo: json['correo']?? '',
+      claveCredenciales: json['claveCredenciales'] ?? '',
+      foto: json['foto'] ?? '',
     );
   }
 }
@@ -116,6 +116,7 @@ class LlegadasPostScreen extends StatefulWidget {
 }
 
 class _LlegadasPostScreenState extends State<LlegadasPostScreen> {
+  //contralodores 
 bool _isSaving = false;
   TextEditingController _searchController = TextEditingController();
   List<Person> _searchResults = [];

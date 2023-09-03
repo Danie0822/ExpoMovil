@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+// diseño de text field de Buscador
 class SearchScreen extends StatelessWidget {
    
   const SearchScreen({Key? key}) : super(key: key);
@@ -8,6 +8,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
             children: [
+              // diseño pro de buscador 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Row(

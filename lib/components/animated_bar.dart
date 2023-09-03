@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//animmacion de menu 
 class AnimatedBar extends StatelessWidget {
   const AnimatedBar({
     Key? key,
@@ -10,6 +10,7 @@ class AnimatedBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // estilo de animacion 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       margin: const EdgeInsets.only(bottom: 2),

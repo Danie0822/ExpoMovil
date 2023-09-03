@@ -8,7 +8,7 @@ import '../../../ModelsDB/Notificaciones.dart';
 import '../../../ModelsDB/Providers/Personas.dart';
 import '../../../models/Cardview.dart';
 import '../../../models/NotificacionCard.dart';
-
+// inicio de estudiante 
 class Colum extends StatefulWidget {
   const Colum({Key? key, required this.Cards, required this.CardList})
       : super(key: key);
@@ -21,22 +21,26 @@ class Colum extends StatefulWidget {
 }
 
 class _ColumState extends State<Colum> with SingleTickerProviderStateMixin {
+  // aniamciones como lista de animaciones de notificiaciones
  late AnimationController _animationController;
   late CurvedAnimation _animation;
   List<Notificaciones> notificaciones = [];
   bool isAnimating = false; // New flag to track animation status
 
   @override
+  // animaciones el como se hace 
   void initState() {
     super.initState();
     _animationController = AnimationController(
       vsync: this,
+      // delay que se tiene 
       duration: const Duration(milliseconds: 1000),
     );
     _animation = CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOut,
     );
+    // reflesh de notificaciones 
     _refreshNotificaciones();
   }
 
@@ -47,6 +51,7 @@ class _ColumState extends State<Colum> with SingleTickerProviderStateMixin {
   }
 
   Future<void> _refreshNotificaciones() async {
+    // refresh Notificaciones
     if (_animationController != null && mounted && !isAnimating) {
       try {
         isAnimating = true; // Set the flag to true before starting animation
@@ -64,21 +69,23 @@ class _ColumState extends State<Colum> with SingleTickerProviderStateMixin {
     }
   }
 
-
-
+// llamada de la api  a nuestro sistema 
+// que esta llamada en async osea que hasta que espere una repuesta de dicha api 
   Future<void> getNotificaciones() async {
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
     try {
       var url = Uri.parse(
+        // url de la api de notificaciones 
           'https://expo2023-6f28ab340676.herokuapp.com/Notificaciones/list/$id');
       var response = await http.get(url);
-
+// repuesta de la api si es 200 esta bien 
       if (response.statusCode == 200) {
         var notificacionesData = json.decode(response.body);
         print('Notificaciones Data: $notificacionesData');
 
         setState(() {
+          // de formato de json despues se mapea 
           notificaciones = List<Notificaciones>.from(
               notificacionesData.map((item) => Notificaciones.fromJson(item)));
         });
@@ -89,14 +96,16 @@ class _ColumState extends State<Colum> with SingleTickerProviderStateMixin {
       print('Error: $error');
     }
   }
-
+/// delete de notifcaciones 
   Future<void> deleteNotification(int idNotificacion) async {
     try {
       var url = Uri.parse(
+        // url de de la delete de api 
           'https://expo2023-6f28ab340676.herokuapp.com/Notificaciones/delete/$idNotificacion');
       var response = await http.delete(url);
-
+// metodo de appi 
       if (response.statusCode == 200) {
+        // respuesta de la api 
         print('Notification deleted successfully.');
       } else {
         print('Error deleting notification: ${response.statusCode}');
@@ -108,6 +117,7 @@ class _ColumState extends State<Colum> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // diseño de pantalla 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

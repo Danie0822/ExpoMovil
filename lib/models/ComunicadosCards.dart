@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-
+// Permite obtener los datos de dicha cards 
 class ComunicadoCard extends StatelessWidget {
   final String detalle;
   final String docente;
@@ -35,8 +35,10 @@ class ComunicadoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      // esto es para visualizar el pdf 
       onTap: () => downloadAndOpenPdf(context),
       child: Padding(
+        // diseño de dicha card 
         padding: const EdgeInsets.only(bottom: 12.0),
         child: Container(
           padding: const EdgeInsets.all(14),

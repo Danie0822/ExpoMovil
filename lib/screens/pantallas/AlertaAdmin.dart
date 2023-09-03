@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../onboding/onboding_screen.dart';
-
+// pantalla donde lo manda cuando es admin 
 class AlertaAdmin extends StatefulWidget {
   const AlertaAdmin({super.key,});
 
@@ -9,9 +9,11 @@ class AlertaAdmin extends StatefulWidget {
   State<AlertaAdmin> createState() => _AlertaAdminState();
 }
 class _AlertaAdminState extends State<AlertaAdmin> {
+  // es admin entonces es una alerta 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // diseño de widget 
       backgroundColor: Colors.white,
       body: Center(
         child: Column(

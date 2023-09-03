@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import '../onboding/components/Inicio.dart';
 import '../pantallas/AcercaDe.dart';
 import '../pantallas/EnfermeriaView.dart';
+import '../pantallas/Horarios.dart';
 import '../pantallas/Permisos.dart';
-
-
-
-
+// inicio para el estudiante  
 class InicioEstudianteScreen extends StatefulWidget {
   const InicioEstudianteScreen({Key? key}) : super(key: key);
 
@@ -17,9 +15,10 @@ class InicioEstudianteScreen extends StatefulWidget {
 
 class _InicioEstudianteScreenState extends State<InicioEstudianteScreen> {
   final List Cards = [
+    // lista para las tarjetas de de arriba 
      ['ITR', 'Acerca del', 'assets/icons/ricaldone.png', 'Colegio', RecipeDetailScreen()], 
       ['Salud', 'Visitas Enfermeria', 'assets/icons/dedo.png', 'Salud', VisitaEnfermeria()], 
-          ['Orden', 'Horarios', 'assets/icons/horario.png', 'Academicos', VisitaEnfermeria()], 
+          ['Orden', 'Horarios', 'assets/icons/horario.png', 'Academicos', HorariosScreen()], 
        ['Noticias', 'Permisos', 'assets/icons/noti.png', 'Importantes', PermisosScreen()]
   ]; 
 

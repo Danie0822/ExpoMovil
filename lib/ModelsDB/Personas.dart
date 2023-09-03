@@ -1,3 +1,4 @@
+// clase de personas de la base 
 class Person {
 
   final int idPersona;
@@ -22,18 +23,18 @@ class Person {
     required this.foto,
   });
 
- 
+ // llamada a la api para obtener los datos en formato json 
   factory Person.fromJson(Map<String, dynamic> json) {
     return Person(
-      idPersona: json['idPersona'],
-      codigo: json['codigo'],
-      nombrePersona: json['nombrePersona'],
-      apellidoPersona: json['apellidoPersona'],
-      nacimientoPersona: json['nacimientoPersona'],
-      idTipoPersona: json['idTipoPersona'],
-      correo: json['correo'],
-      claveCredenciales: json['claveCredenciales'],
-      foto: json['foto'],
+      idPersona: json['idPersona'] ?? 0,
+      codigo: json['codigo']?? '',
+      nombrePersona: json['nombrePersona']?? '',
+      apellidoPersona: json['apellidoPersona']?? '',
+      nacimientoPersona: json['nacimientoPersona']?? '',
+      idTipoPersona: json['idTipoPersona'] ?? '',
+      correo: json['correo']?? '',
+      claveCredenciales: json['claveCredenciales'] ?? '',
+      foto: json['foto'] ?? '',
     );
   }
 }

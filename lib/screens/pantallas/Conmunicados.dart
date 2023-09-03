@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../ModelsDB/Codigos.dart';
 import '../../ModelsDB/Providers/Personas.dart';
 import '../../models/Codigos.dart';
+// obtener el codigos 
 class DisciplinaApp extends StatefulWidget {
 
   @override
@@ -14,6 +15,7 @@ class DisciplinaApp extends StatefulWidget {
 }
 
 class _DisciplinaAppState extends State<DisciplinaApp> {
+  // contralodores de reflescar 
        GlobalKey<RefreshIndicatorState> refreshKey =
       GlobalKey<RefreshIndicatorState>();
     @override
@@ -22,7 +24,7 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
     getCodigos();
   }
   List<Codigos> observaciones = [];
-
+// obtener codigos del usuario 
   Future<void> getCodigos() async {
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
@@ -46,7 +48,7 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
       print('Error: $error');
     }
   }
-
+// metodo de reflesh de codigos 
   Future<void> _refreshObservaciones() async {
     await getCodigos();
   }
@@ -54,6 +56,7 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      // diseño de codigos 
       body: Stack(
         children: [
           Container(
@@ -167,6 +170,7 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
               key: refreshKey,
               onRefresh: _refreshObservaciones,
               child: ListView.builder(
+                // obtener codigos osea las cards 
                 itemCount: observaciones.length,
                 itemBuilder: (context, index) {
                   final observacion = observaciones[index];

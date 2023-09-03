@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../ModelsDB/Comunicados.dart';
 import '../../models/ComunicadosCards.dart';
-
+// comunicados de screen 
 class ComunicadosScreen extends StatefulWidget {
   @override
   State<ComunicadosScreen> createState() => _ComunicadosScreenState();
 }
 
 class _ComunicadosScreenState extends State<ComunicadosScreen> with SingleTickerProviderStateMixin {
+  // contralador paraa reflesh y obtener comunicados 
   GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
   late AnimationController slideController;
   late Animation<Offset> slideAnimation;
@@ -20,7 +21,7 @@ class _ComunicadosScreenState extends State<ComunicadosScreen> with SingleTicker
   void initState() {
     super.initState();
     _refreshObservaciones();
-
+// animaciones de las cards 
     slideController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -34,7 +35,7 @@ class _ComunicadosScreenState extends State<ComunicadosScreen> with SingleTicker
       curve: Curves.easeInOut,
     ));
   }
-
+// obtener los comunicados 
   Future<void> getObservaciones() async {
     try {
       var url = Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Comunicados/list');
@@ -80,6 +81,7 @@ void dispose() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // diseño base de las pestañas 
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
@@ -139,7 +141,7 @@ void dispose() {
                         final observacion = observaciones[index];
                         final fechaCompleta = observacion.fecha.toString();
                         final fecha = fechaCompleta.substring(0, 10);
-
+// llamada de la tarjeta 
                         return ComunicadoCard(
                           detalle: observacion.detalle,
                           docente: observacion.idComunicado.toString(),

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../ModelsDB/Providers/Personas.dart';
-
+// clases pra codigos de personas 
 class CodigosPersonas {
   final int idCodigoConductualPersona;
   final int idPeriodo;
@@ -69,7 +69,7 @@ class Codigos {
     );
   }
 }
-
+// clase de personas de la base 
 class Person {
   final int idPersona;
   final String codigo;
@@ -95,27 +95,28 @@ class Person {
 
   factory Person.fromJson(Map<String, dynamic> json) {
     return Person(
-      idPersona: json['idPersona'],
-      codigo: json['codigo'],
-      nombrePersona: json['nombrePersona'],
-      apellidoPersona: json['apellidoPersona'],
-      nacimientoPersona: json['nacimientoPersona'],
-      idTipoPersona: json['idTipoPersona'],
-      correo: json['correo'],
-      claveCredenciales: json['claveCredenciales'],
-      foto: json['foto'],
+      idPersona: json['idPersona'] ?? 0,
+      codigo: json['codigo']?? '',
+      nombrePersona: json['nombrePersona']?? '',
+      apellidoPersona: json['apellidoPersona']?? '',
+      nacimientoPersona: json['nacimientoPersona']?? '',
+      idTipoPersona: json['idTipoPersona'] ?? '',
+      correo: json['correo']?? '',
+      claveCredenciales: json['claveCredenciales'] ?? '',
+      foto: json['foto'] ?? '',
     );
   }
 }
 
 
-
+// asitencias de screen 
 class AsistenciaScreen extends StatefulWidget {
   @override
   _AsistenciaScreenState createState() => _AsistenciaScreenState();
 }
 
 class _AsistenciaScreenState extends State<AsistenciaScreen> {
+  // llamada para lista 
 bool _isSaving = false;
   TextEditingController _searchController = TextEditingController();
   List<Person> _searchResults = [];
@@ -129,6 +130,7 @@ bool _isSaving = false;
 
   @override
   void dispose() {
+    // el combo box desactivado
     _searchController.dispose();
     super.dispose();
   }
@@ -147,12 +149,12 @@ bool _isSaving = false;
       });
       return;
     }
-
+//  url para el combo box de persons 
     final response = await http.get(
       Uri.parse(
           'https://expo2023-6f28ab340676.herokuapp.com/Credenciales/Search/$query'),
     );
-
+// status de code de la api 
     if (response.statusCode == 200) {
       if (!mounted) return;
       setState(() {
@@ -172,7 +174,7 @@ bool _isSaving = false;
       print('Failed to load data');
     }
   }
-
+// para cuando haye una repuesta se abre el combo box 
   Widget _buildDropDownMenu() {
     return DropdownButtonFormField<Person>(
       value: _selectedPerson,
@@ -212,7 +214,7 @@ bool _isSaving = false;
       ),
     );
   }
-
+// para mandar los datos de inasitencias 
   Future<void> _postData(String searchValue) async {
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
@@ -339,6 +341,7 @@ bool _isSaving = false;
     });
     }
     else{
+      // validacion si da dos veces al boton de guardar 
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -428,6 +431,7 @@ bool _isSaving = false;
 
   @override
   Widget build(BuildContext context) {
+    // diseño del de la interfaz siempre 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -482,6 +486,7 @@ bool _isSaving = false;
             ),
         ],
       ),
+      // boton se llama para mandar los datos 
       floatingActionButton: FloatingActionButton(
         onPressed: _onSaveButtonPressed,
         tooltip: 'Save',

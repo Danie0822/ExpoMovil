@@ -1,3 +1,4 @@
+// clase de notificaciones de la base 
 class Notificaciones {
   final int idNotificacion;
   final String detalle;
@@ -9,6 +10,7 @@ class Notificaciones {
     required this.tipoNotificacion,
     required this.idPersona,
   });
+  // llamada de la api en formato json osea convierte a datos normales 
   factory Notificaciones.fromJson(Map<String, dynamic> json) {
     return Notificaciones(
       idNotificacion: json['idNotificacion'] ?? 0,

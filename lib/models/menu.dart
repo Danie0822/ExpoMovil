@@ -2,8 +2,9 @@
 import 'package:flutter/cupertino.dart';
 
 import '../screens/home/dashboard.dart';
-
+// clase con lo que funciona el menu 
 class Menu2 {
+  // se obtiene la pantalla que se cambia  
    late Widget Pantlla = InicioEstudianteScreen();
    late bool  input = false;
 

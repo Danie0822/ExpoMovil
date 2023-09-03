@@ -11,7 +11,7 @@ import '../../../ModelsDB/Personas.dart';
 import '../../../ModelsDB/Providers/Personas.dart';
 import '../../../entry_point.dart';
 import '../../pantallas/AlertaAdmin.dart';
-
+// esto es formario de dialog 
 class SignInForm extends StatefulWidget {
   const SignInForm({
     Key? key,
@@ -23,7 +23,7 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+// aniamciones de confeti 
   bool isShowLoading = false;
   bool isShowConfetti = false;
 
@@ -43,8 +43,10 @@ class _SignInFormState extends State<SignInForm> {
       Duration(seconds: 1),
       () async {
         if (_formKey.currentState!.validate()) {
+          // se valida si algo vacio 
           _formKey.currentState!.save();
           String password = claveCredenciales;
+          // incrip de la contraseñas 
           String encryptedPassword = encryptPassword(password);
           String baseUrl =
               'https://expo2023-6f28ab340676.herokuapp.com/Credenciales/user';
@@ -52,8 +54,9 @@ class _SignInFormState extends State<SignInForm> {
             'correo': correo,
             'claveCredenciales': encryptedPassword,
           }).toString();
-
+// manda llamar el url 
           http.Response response = await http.get(Uri.parse(url));
+          // si encuentra algun resgistro da un  200 code de la api 
           if (response.statusCode == 200) {
             dynamic responseData = json.decode(response.body);
             if (responseData != null) {
@@ -156,6 +159,7 @@ class _SignInFormState extends State<SignInForm> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      // diseño de la pantalla 
       child: Stack(
         children: [
           Form(
@@ -263,6 +267,7 @@ class _SignInFormState extends State<SignInForm> {
                     onInit: (artboard) {
                       StateMachineController controller =
                           RiveUtils.getRiveController(artboard);
+                          // animacion de error 
                       check = controller.findSMI("Check") as SMITrigger;
                       error = controller.findSMI("Error") as SMITrigger;
                       reset = controller.findSMI("Reset") as SMITrigger;

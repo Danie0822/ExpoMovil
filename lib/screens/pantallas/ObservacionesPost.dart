@@ -95,15 +95,15 @@ class Person {
 
   factory Person.fromJson(Map<String, dynamic> json) {
     return Person(
-      idPersona: json['idPersona'],
-      codigo: json['codigo'],
-      nombrePersona: json['nombrePersona'],
-      apellidoPersona: json['apellidoPersona'],
-      nacimientoPersona: json['nacimientoPersona'],
-      idTipoPersona: json['idTipoPersona'],
-      correo: json['correo'],
-      claveCredenciales: json['claveCredenciales'],
-      foto: json['foto'],
+      idPersona: json['idPersona'] ?? 0,
+      codigo: json['codigo']?? '',
+      nombrePersona: json['nombrePersona']?? '',
+      apellidoPersona: json['apellidoPersona']?? '',
+      nacimientoPersona: json['nacimientoPersona']?? '',
+      idTipoPersona: json['idTipoPersona'] ?? '',
+      correo: json['correo']?? '',
+      claveCredenciales: json['claveCredenciales'] ?? '',
+      foto: json['foto'] ?? '',
     );
   }
 }

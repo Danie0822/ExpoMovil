@@ -4,49 +4,48 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import '../../ModelsDB/Observaciones.dart';
+import '../../ModelsDB/Inasistencias.dart';
+import '../../ModelsDB/LlegadasTarde.dart';
 import '../../ModelsDB/Providers/Personas.dart';
-import '../../models/Observaciones.dart';
-// notificaciones screen 
-class NotificacionesPantalla extends StatefulWidget {
+import '../../models/InasistenciasCard.dart';
+import '../../models/LlegadasTardesCards.dart';
+//LLegadas Tardes de screen para mostrar 
+class LLegadasTardesGetScreen extends StatefulWidget {
   @override
-  State<NotificacionesPantalla> createState() => _NotificacionesPantallaState();
+  State<LLegadasTardesGetScreen> createState() => _LLegadasTardesGetScreenState();
 }
 
-class _NotificacionesPantallaState extends State<NotificacionesPantalla> with SingleTickerProviderStateMixin {
-  // contraladores de Observaciones 
+class _LLegadasTardesGetScreenState extends State<LLegadasTardesGetScreen> with SingleTickerProviderStateMixin {
+  //contraladores de reflesh de para LLegadasTardes
   GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
   late AnimationController slideController;
   late Animation<Offset> slideAnimation;
-  List<Observaciones> observaciones = [];
+  List<LlegadasTardes> observaciones = [];
 
   @override
   void initState() {
     super.initState();
-    // cargar los datos de Observaciones
     _refreshObservaciones();
-
+//animaciones de tarjetas 
     slideController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-// animaciones de Observaciones 
+
     slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 1),
+      begin: const Offset(-1, -1),
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: slideController,
       curve: Curves.easeInOut,
     ));
   }
-// obtiene los datos de observaciones  
+// metodo para obtener LLegadasTardes 
   Future<void> getObservaciones() async {
-    // obtiene el id de la persona
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
-    // url de la api 
     try {
-      var url = Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Funciones/Observaciones/$id');
+      var url = Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Funciones/LlegadasTardes/$id');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -54,8 +53,8 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> with Si
         print('Observaciones Data: $observacionesData');
 
         setState(() {
-          observaciones = List<Observaciones>.from(
-            observacionesData.map((item) => Observaciones.fromJson(item)),
+          observaciones = List<LlegadasTardes>.from(
+            observacionesData.map((item) => LlegadasTardes.fromJson(item)),
           );
         });
       } else {
@@ -71,7 +70,7 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> with Si
     slideController.dispose();
     super.dispose();
   }
-// llama el reflesh osea llame el get de Observaciones
+
   Future<void> _refreshObservaciones() async {
     // Check if the state is still mounted before proceeding.
     if (!mounted) return;
@@ -88,7 +87,7 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> with Si
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // diseño de la pantalla 
+      // diseño de LLegadasTardes 
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
@@ -100,7 +99,7 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> with Si
               child: const Column(
                 children: [
                   Text(
-                    'Observaciones',
+                    'Llegadas Tardes',
                     style: TextStyle(
                       fontSize: 29,
                       fontWeight: FontWeight.bold,
@@ -110,7 +109,7 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> with Si
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Descubre el poder \n Aprende, crece y transforma',
+                    'Llega temprano, triunfa siempre',
                     style: TextStyle(
                       fontSize: 19,
                       fontStyle: FontStyle.italic,
@@ -148,12 +147,12 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> with Si
                         final observacion = observaciones[index];
                         final fechaCompleta = observacion.fecha.toString();
                         final fecha = fechaCompleta.substring(0, 10);
-                        // se lllama las cards de Observaciones
-                        return ObservacionesScreen(
+
+                        return LlegadasTardeCards(
                           key: ValueKey<int>(index),
-                          detalle: observacion.detalle,
+                          estado: observacion.idPeriodo,
                           docente: observacion.docente,
-                          Fecha: fecha, 
+                          fecha: fecha, 
                         );
                       },
                     ),

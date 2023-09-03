@@ -5,17 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import '../../ModelsDB/Inasistencias.dart';
-import '../../ModelsDB/Observaciones.dart';
 import '../../ModelsDB/Providers/Personas.dart';
 import '../../models/InasistenciasCard.dart';
-import '../../models/Observaciones.dart';
-
+//Inasistencias de screen para mostrar 
 class InasistenciasScreen extends StatefulWidget {
   @override
   State<InasistenciasScreen> createState() => _InasistenciasScreenState();
 }
 
 class _InasistenciasScreenState extends State<InasistenciasScreen> with SingleTickerProviderStateMixin {
+  //contraladores de reflesh de para Inasisitencias
   GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
   late AnimationController slideController;
   late Animation<Offset> slideAnimation;
@@ -25,7 +24,7 @@ class _InasistenciasScreenState extends State<InasistenciasScreen> with SingleTi
   void initState() {
     super.initState();
     _refreshObservaciones();
-
+//animaciones de tarjetas 
     slideController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -39,7 +38,7 @@ class _InasistenciasScreenState extends State<InasistenciasScreen> with SingleTi
       curve: Curves.easeInOut,
     ));
   }
-
+// metodo para obtener inasitencias 
   Future<void> getObservaciones() async {
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
@@ -86,6 +85,7 @@ class _InasistenciasScreenState extends State<InasistenciasScreen> with SingleTi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // diseño de Inasisitencias 
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(

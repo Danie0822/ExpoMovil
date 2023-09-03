@@ -82,13 +82,14 @@ class RangoHoras {
         Finals: json['finals'] ?? '');
   }
 }
-
+//pantalla de reservaciones de salones 
 class ReservacioneScreen extends StatefulWidget {
   @override
   _ReservacioneScreenState createState() => _ReservacioneScreenState();
 }
 
 class _ReservacioneScreenState extends State<ReservacioneScreen> {
+  // contraladores de de buscadores como lista 
   TextEditingController _searchController = TextEditingController();
      TextEditingController _correoController = TextEditingController(); 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -110,7 +111,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
     _searchController.dispose();
     super.dispose();
   }
-
+// obtener datos para salones 
   Future<List<String>> _fetchComboBoxData() async {
     final response = await http.get(
       Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Salones/list'),
@@ -119,7 +120,6 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List<dynamic>;
 
-      // Create a set to store unique values
       final Set<String> uniqueValues = {};
 
       for (var item in data) {
@@ -134,7 +134,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
       return [];
     }
   }
-
+// obtiene la lista de rango de horas 
   Future<List<String>> _fetchComboBoxData1() async {
     final response = await http.get(
       Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/RangoHoras/list'),
@@ -142,8 +142,6 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List<dynamic>;
-
-      // Create a set to store unique values
       final Set<String> uniqueValues = {};
 
       for (var item in data) {
@@ -177,7 +175,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
         Uri.parse(
             'https://expo2023-6f28ab340676.herokuapp.com/RangoHoras/Search/$comboBoxItems'),
       );
-
+     // url para tener el id de rengo de horas como tambien de salones 
       if (response1.statusCode == 200 && response12.statusCode == 200) {
         final List<dynamic> decodedJsonList = json.decode(response1.body);
         final List<dynamic> decodedJsonList2 = json.decode(response12.body);
@@ -206,7 +204,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
             body: json.encode(requestData),
             headers: {'Content-Type': 'application/json'},
           );
-
+         // status de post que hace para guardar reservaciones de salones 
           if (response.statusCode == 200) {
             _correoController.clear();
                   setState(() {
@@ -214,6 +212,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
       });
             // ignore: use_build_context_synchronously
             showDialog(
+              // el mensaje de que todo estuvo bien 
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
@@ -418,14 +417,14 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
       );
     }
   }
-
+// llamaa el metodo de save le pasa todos los valores 
   void _onSaveButtonPressed() {
     final comboBoxValue = _selectedComboBoxItem ?? '';
     final comboBoxValue2 = _selectedComboBoxItem1 ?? '';
     print(comboBoxValue2);
     _postData(comboBoxValue, comboBoxValue2);
   }
-
+// llena el combo box osea el primero 
   Widget _buildComboBox() {
     return FutureBuilder<List<String>>(
       future: _fetchComboBoxData(),
@@ -469,7 +468,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
       },
     );
   }
-
+// llena el combo box osea el segundo  
   Widget _buildComboBox2() {
     return FutureBuilder<List<String>>(
       future: _fetchComboBoxData1(),
@@ -516,6 +515,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // diseño de pantalla y llama todos los elementos 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(

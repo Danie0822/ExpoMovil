@@ -4,13 +4,15 @@ import 'package:flutter_svg/svg.dart';
 import '../../utils/Colors.dart';
 import 'Acerca.dart';
 
-
+// acerca de 
 class RecipeDetailScreen extends StatelessWidget {
   const RecipeDetailScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // esto tiende toda la informacion del acerca de 
     return Scaffold(
+      // diseño de dicho widget 
       body: CustomScrollView(
         slivers: <Widget>[
           const RecipeDetailAppBar(),

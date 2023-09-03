@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../models/course.dart';
-
+// carusel para inicio osea pantalla de inicio 
 class CourseCard extends StatelessWidget {
   const CourseCard({
     Key? key,
@@ -14,6 +14,7 @@ class CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // diseño de dicho  carusel 
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       height: 280,
       width: 260,

@@ -8,7 +8,7 @@ import '../../ModelsDB/Providers/Personas.dart';
 import '../../ModelsDB/VisitaEnfermeria.dart';
 
 import '../../models/Enfermira.dart';
-
+// vista de enfermeria 
 class VisitaEnfermeria extends StatefulWidget {
   @override
   State<VisitaEnfermeria> createState() => _VisitaEnfermeriaState();
@@ -25,7 +25,7 @@ class _VisitaEnfermeriaState extends State<VisitaEnfermeria> {
   }
 
   List<VisitasEnfermeria> observaciones = [];
-
+// metodo para obtener las visitas enfermeria 
   Future<void> getCodigos() async {
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
@@ -49,13 +49,14 @@ class _VisitaEnfermeriaState extends State<VisitaEnfermeria> {
       print('Error: $error');
     }
   }
-
+// metodo de refelsh 
   Future<void> _refreshObservaciones() async {
     await getCodigos();
   }
 
   @override
   Widget build(BuildContext context) {
+    // diseño de formulario 
     return Scaffold(
       body: Stack(
         children: [
@@ -168,7 +169,7 @@ class _VisitaEnfermeriaState extends State<VisitaEnfermeria> {
                 child: Container(
                   margin: const EdgeInsets.all(0),
                   decoration: BoxDecoration(
-                    color: Colors.grey[100],
+                    color: Colors.grey[300],
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(40),
                       topRight: Radius.circular(40),
@@ -186,6 +187,7 @@ class _VisitaEnfermeriaState extends State<VisitaEnfermeria> {
                     key: refreshKey,
                     onRefresh: _refreshObservaciones,
                     child: ListView.builder(
+                      // llamada de cards de Visitas de enfermeria 
                       itemCount: observaciones.length,
                       itemBuilder: (context, index) {
                         final observacion = observaciones[index];

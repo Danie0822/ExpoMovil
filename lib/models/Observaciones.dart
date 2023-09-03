@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+// Cards de tarjetas de observaciones 
 class ObservacionesScreen extends StatelessWidget {
   final String detalle;
   final String docente;
@@ -13,6 +13,7 @@ class ObservacionesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // card de de diseño de la tarjeta 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0),
       child: Container(

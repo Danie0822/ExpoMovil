@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../Personas.dart';
-
+// clase de personas 
 class Personas extends ChangeNotifier {
   Person _person = Person(
     idPersona: 0,

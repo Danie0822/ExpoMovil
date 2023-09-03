@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+// el carusel obtiene los valores de 
 class Course {
   final String title, description, iconSrc;
   final Color bgColor;

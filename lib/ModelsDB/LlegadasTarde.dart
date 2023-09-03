@@ -1,6 +1,6 @@
 // clase de Inasisitencias de ka base 
-class Inasisitencias {
-  final int idInasistencia;
+class LlegadasTardes {
+  final int idLlegadaTarde;
   final String TipoLlegadaTarde;
   final DateTime fecha;
   final int estado;
@@ -9,8 +9,8 @@ class Inasisitencias {
   final String docente;
   final int idPeriodo; 
 
-  Inasisitencias(  {
-    required this.idInasistencia,
+  LlegadasTardes(  {
+    required this.idLlegadaTarde,
     required this.TipoLlegadaTarde,
     required this.fecha,
     required this.estado,
@@ -19,11 +19,11 @@ class Inasisitencias {
     required this.docente, required this.idPeriodo,
   });
 //  llamada la api para la conversion de json a datos normales 
-  factory Inasisitencias.fromJson(Map<String, dynamic> json) {
-    return Inasisitencias(
+  factory LlegadasTardes.fromJson(Map<String, dynamic> json) {
+    return LlegadasTardes(
       idPeriodo:json['idPeriodo'] ?? 0,
-      idInasistencia: json['idInasistencia'] ?? 0,
-      TipoLlegadaTarde: json['TipoLlegadaTarde'] ?? '',
+      idLlegadaTarde: json['idLlegadaTarde'] ?? 0,
+      TipoLlegadaTarde: json['tipoLlegadaTarde'] ?? '',
       fecha: DateTime.parse(json['fecha'] ?? ''),
       estado: json['estado'] ?? 0,
       idEstudiante: json['idEstudiante'] ?? 0,

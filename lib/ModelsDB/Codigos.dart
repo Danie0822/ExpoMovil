@@ -1,3 +1,4 @@
+// clase de codigos de la base 
 class Codigos {
   final int idCodigoConductualPersona;
   final int idPeriodo;
@@ -18,7 +19,7 @@ class Codigos {
     required this.docente,
     required this.codigoConductual
   });
-
+// llamar la api en forma de json 
   factory Codigos.fromJson(Map<String, dynamic> json) {
     return Codigos(
       codigoConductual: json['codigoConductual'] ?? '',

@@ -9,7 +9,7 @@ import 'components/menu.dart';
 import 'models/rive_asset.dart';
 
 
-
+// dashboard de estudiantes 
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
 
@@ -18,6 +18,7 @@ class EntryPoint extends StatefulWidget {
 }
 
 class _EntryPointState extends State<EntryPoint> with SingleTickerProviderStateMixin {
+  // animaciones y contraladores de dashboard 
   late AnimationController _animationController;
   late Animation<double> animation;
   late Animation<double> ScaleAnimation;
@@ -57,6 +58,7 @@ class _EntryPointState extends State<EntryPoint> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // diseño de dashboard 
       backgroundColor: backgroundColor2,
       resizeToAvoidBottomInset: false,
       extendBody: true,

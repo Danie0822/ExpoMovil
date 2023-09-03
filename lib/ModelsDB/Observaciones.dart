@@ -1,3 +1,4 @@
+// clase de observaciones de la base 
 class Observaciones {
   final int idObservacion;
   final int idPeriodo;
@@ -16,7 +17,7 @@ class Observaciones {
     required this.estudiante,
     required this.docente,
   });
-
+// formato json para la api 
   factory Observaciones.fromJson(Map<String, dynamic> json) {
     return Observaciones(
       idObservacion: json['idObservacion'] ?? 0,

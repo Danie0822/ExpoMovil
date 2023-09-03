@@ -8,7 +8,7 @@ import '../../../components/Entrada.dart';
 import '../../../components/listaMenu.dart';
 import '../../../models/menu.dart';
 import '../../../models/rive_asset.dart';
-
+// menu osea el menu que manda a llamar a todos los widget para dibujarse 
 class MenuScreen extends StatefulWidget {
   final Function(RiveAsset menu) onMenuSelected;
 
@@ -36,6 +36,7 @@ class _MenuScreenState extends State<MenuScreen> {
     }
     return Scaffold(
       body: Container(
+        // diseño de la pantalla 
         width: 288,
         height: double.infinity,
         color: const Color(0xFF17203A),

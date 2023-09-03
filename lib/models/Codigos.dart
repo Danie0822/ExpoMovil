@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+// Permite obtener los datos de dicha cards 
 class CodigosScreen extends StatefulWidget {
   final String companyName;
   final String JobTItle;
@@ -33,6 +33,7 @@ class _CodigosScreenState extends State<CodigosScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // diseño de dicha card 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0),
       child: AnimatedOpacity(

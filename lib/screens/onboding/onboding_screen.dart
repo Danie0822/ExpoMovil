@@ -8,7 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'components/animated_btn.dart';
 import 'components/custom_sign_in_dialog.dart';
 
-
+// inicio de la aplicacion 
 class OnboardingScreen extends StatefulWidget {
    OnboardingScreen({super.key});
 
@@ -17,6 +17,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
+  // se llama todo los widget como carusel el boton animado 
   bool isSignInDialogShown = false;
   late RiveAnimationController _btnAnimationColtroller;
   List images = ['assets/Backgrounds/Da.png', 'assets/Backgrounds/dona.png'];
@@ -35,6 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.initState();
     
   }
+  // se cara lo mensjes aletadores para dar animos 
   Future<void> fetchMessages() async {
   final response = await http.get(Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Funciones/Mensajes'));
 
@@ -78,6 +80,7 @@ void _handlePress() {
 }
   @override
   Widget build(BuildContext context) {
+    // diseño de dicha pantalla 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

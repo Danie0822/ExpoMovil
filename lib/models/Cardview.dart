@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+// diseño de cartas 
 class CardviewScreen extends StatelessWidget {
   final String companyName;
   final String jobTitle;
@@ -18,6 +18,7 @@ class CardviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // navegar hacia otra pestaña 
     return GestureDetector(
       onTap: () {
         Navigator.push(

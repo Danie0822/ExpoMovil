@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class EnfermeriaCards extends StatelessWidget {
   final String Detalle;
   final String Fecha;
-
+// obtener  los datos de las tarjetas  
   const EnfermeriaCards({
     Key? key,
     required this.Detalle,
@@ -23,8 +23,10 @@ Color generarColorAleatorio() {
 
   @override
   Widget build(BuildContext context) {
+    // color de aletorio para la tarjeta 
     Color colorAleatorio = generarColorAleatorio();
     return Container(
+      // diseño de tarjeta  
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

@@ -8,6 +8,7 @@ import '../../../components/Entrada.dart';
 import '../../../components/listaMenu.dart';
 import '../../../models/menu.dart';
 import '../../../models/rive_asset.dart';
+// es el menu de doncente que hace lo mismo 
 class MenuDocenteScreen extends StatefulWidget {
   final Function(RiveAsset menu) onMenuSelected;
   const MenuDocenteScreen({Key? key, required this.onMenuSelected}) : super(key: key);
@@ -33,6 +34,7 @@ class _MenuDocenteScreenState extends State<MenuDocenteScreen> {
       texto = "Valor no válido";
     }
     return Scaffold(
+      // diseño de widget 
       resizeToAvoidBottomInset: false,
       body: Container(
         width: 288,

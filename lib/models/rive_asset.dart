@@ -10,11 +10,12 @@ import '../screens/pantallas/CodigosPost.dart';
 import '../screens/pantallas/Comunicados.dart';
 import '../screens/pantallas/Horarios.dart';
 import '../screens/pantallas/Inasistencias.dart';
+import '../screens/pantallas/LlegadasTardesGet.dart';
 import '../screens/pantallas/LlegadasTardesPost.dart';
 import '../screens/pantallas/Notificaciones.dart';
 import '../screens/pantallas/ObservacionesPost.dart';
 import '../screens/pantallas/Perfil.dart';
-
+// lista de del menu 
 class RiveAsset {
   final String artboard, stateMachineName, title, src;
   late SMIBool? input;
@@ -59,7 +60,7 @@ List<RiveAsset> sideMenus = [
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'SEARCH', stateMachineName: 'SEARCH_Interactivity', title: 'Codigos', Pantlla: DisciplinaApp()),
      RiveAsset('assets/RiveAssets/icons.riv', artboard: 'LIKE/STAR', stateMachineName: 'STAR_Interactivity', title: 'Observaciones', Pantlla: NotificacionesPantalla()),
       RiveAsset('assets/RiveAssets/icons.riv', artboard: 'BELL', stateMachineName: 'BELL_Interactivity', title: 'Inasistencias', Pantlla: InasistenciasScreen()),
-       RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'LLegadas Tarde', Pantlla: HorariosScreen()),
+       RiveAsset('assets/RiveAssets/icons.riv', artboard: 'TIMER', stateMachineName: 'TIMER_Interactivity', title: 'LLegadas Tarde', Pantlla: LLegadasTardesGetScreen()),
   
 ];
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+// Tarjetas de de Notificaciones 
 class NotificacionScreen extends StatefulWidget {
   final String titulo;
   final String TipoNotificacion;
@@ -11,7 +11,7 @@ class NotificacionScreen extends StatefulWidget {
   @override
   State<NotificacionScreen> createState() => _NotificacionScreenState();
 }
-
+// diseño de dicha tarjeta 
 class _NotificacionScreenState extends State<NotificacionScreen> {
     bool isVisible = false;
 
