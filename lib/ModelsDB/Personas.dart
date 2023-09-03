@@ -31,7 +31,7 @@ class Person {
       nombrePersona: json['nombrePersona']?? '',
       apellidoPersona: json['apellidoPersona']?? '',
       nacimientoPersona: json['nacimientoPersona']?? '',
-      idTipoPersona: json['idTipoPersona'] ?? '',
+      idTipoPersona: json['idTipoPersona'] ?? 0,
       correo: json['correo']?? '',
       claveCredenciales: json['claveCredenciales'] ?? '',
       foto: json['foto'] ?? '',
