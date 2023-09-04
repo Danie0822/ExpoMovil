@@ -178,8 +178,8 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
       print('Failed to load data');
     }
   }
-
-  Widget _buildDropDownMenu() {
+Widget _buildDropDownMenu() {
+  try {
     return DropdownButtonFormField<Person>(
       value: _selectedPerson,
       items: _searchResults.map((person) {
@@ -206,8 +206,7 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
             },
       decoration: InputDecoration(
         hintText: _isLoading ? 'Loading...' : 'Select a person',
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
@@ -217,8 +216,12 @@ class _ObservacionesSearchBarState extends State<ObservacionesSearchBar> {
         ),
       ),
     );
+  } catch (e) {
+    // Handle any errors that may occur here
+    print('Error in _buildDropDownMenu: $e');
+    return Text('Error: Unable to build dropdown');
   }
-
+}
   Future<void> _postData(String searchValue) async {
     if(_formKey.currentState!.validate()){
      _formKey.currentState!.save();

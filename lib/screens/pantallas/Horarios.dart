@@ -8,7 +8,7 @@ class HorariosScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-         child: Text('HorariosScreen'),
+         child: Text('Horarios todavia ahora si '),
       ),
     );
   }

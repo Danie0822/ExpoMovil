@@ -176,6 +176,7 @@ bool _isSaving = false;
   }
 // para cuando haye una repuesta se abre el combo box 
   Widget _buildDropDownMenu() {
+  try {
     return DropdownButtonFormField<Person>(
       value: _selectedPerson,
       items: _searchResults.map((person) {
@@ -202,8 +203,7 @@ bool _isSaving = false;
             },
       decoration: InputDecoration(
         hintText: _isLoading ? 'Loading...' : 'Select a person',
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
@@ -213,7 +213,12 @@ bool _isSaving = false;
         ),
       ),
     );
+  } catch (e) {
+    // Handle any errors that may occur here
+    print('Error in _buildDropDownMenu: $e');
+    return Text('Error: Unable to build dropdown');
   }
+}
 // para mandar los datos de inasitencias 
   Future<void> _postData(String searchValue) async {
     final personas = Provider.of<Personas>(context, listen: false);

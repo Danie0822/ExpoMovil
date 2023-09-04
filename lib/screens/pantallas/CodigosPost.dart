@@ -214,44 +214,51 @@ Future<List<String>> _fetchComboBoxData() async {
     }
   }
 // obtener el comobo box con personas 
-  Widget _buildDropDownMenu() {
-  return DropdownButtonFormField<Person>(
-    value: _selectedPerson, // Make sure _selectedPerson is one of the items' values
-    items: _searchResults.map((person) {
-      return DropdownMenuItem<Person>(
-        value: person,
-        child: Text(
-          '${person.nombrePersona} ${person.apellidoPersona}',
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+Widget _buildDropDownMenu() {
+  try {
+    return DropdownButtonFormField<Person>(
+      value: _selectedPerson,
+      items: _searchResults.map((person) {
+        return DropdownMenuItem<Person>(
+          value: person,
+          child: Text(
+            '${person.nombrePersona} ${person.apellidoPersona}',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        );
+      }).toList(),
+      onChanged: _searchResults.isEmpty || _isLoading
+          ? null
+          : (selectedPerson) {
+              setState(() {
+                _selectedPerson = selectedPerson;
+                _searchController.text =
+                    '${selectedPerson!.nombrePersona} ${selectedPerson.apellidoPersona}';
+                print('idPersona: ${_selectedPerson!.idPersona}');
+              });
+            },
+      decoration: InputDecoration(
+        hintText: _isLoading ? 'Loading...' : 'Select a person',
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: Colors.blue,
+            width: 2,
           ),
         ),
-      );
-    }).toList(),
-    onChanged: _searchResults.isEmpty || _isLoading
-        ? null
-        : (selectedPerson) {
-            setState(() {
-              _selectedPerson = selectedPerson;
-              _searchController.text =
-                  '${selectedPerson!.nombrePersona} ${selectedPerson.apellidoPersona}';
-              print('idPersona: ${_selectedPerson!.idPersona}');
-            });
-          },
-    decoration: InputDecoration(
-      hintText: _isLoading ? 'Loading...' : 'Select a person',
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(
-          color: Colors.blue,
-          width: 2,
-        ),
       ),
-    ),
-  );
+    );
+  } catch (e) {
+    // Handle any errors that may occur here
+    print('Error in _buildDropDownMenu: $e');
+    return Text('Error: Unable to build dropdown');
+  }
 }
+
 // metodo de guardar los datos en el buscador 
  Future<void> _postData(String searchValue, String comboBoxValue) async {
   final response1 = await http.get(
