@@ -8,7 +8,6 @@ import '../screens/pantallas/Asitencia.dart';
 import '../screens/pantallas/Codigos.dart';
 import '../screens/pantallas/CodigosPost.dart';
 import '../screens/pantallas/Comunicados.dart';
-import '../screens/pantallas/Horarios.dart';
 import '../screens/pantallas/Inasistencias.dart';
 import '../screens/pantallas/LlegadasTardesGet.dart';
 import '../screens/pantallas/LlegadasTardesPost.dart';

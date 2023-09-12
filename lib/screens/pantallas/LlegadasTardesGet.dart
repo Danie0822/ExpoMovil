@@ -4,10 +4,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import '../../ModelsDB/Inasistencias.dart';
 import '../../ModelsDB/LlegadasTarde.dart';
 import '../../ModelsDB/Providers/Personas.dart';
-import '../../models/InasistenciasCard.dart';
 import '../../models/LlegadasTardesCards.dart';
 //LLegadas Tardes de screen para mostrar 
 class LLegadasTardesGetScreen extends StatefulWidget {
