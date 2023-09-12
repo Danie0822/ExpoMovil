@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
-import 'package:SistemaExpo/utils/rive_utils.dart';
+import 'package:sistema_expo/utils/rive_utils.dart';
 
 import '../../../ModelsDB/Providers/Personas.dart';
 import '../../../components/Entrada.dart';

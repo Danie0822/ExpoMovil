@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-import 'package:SistemaExpo/screens/home/home_screen.dart';
+import 'package:sistema_expo/screens/home/home_screen.dart';
 
 import '../screens/home/components/InicioDocente.dart';
 import '../screens/home/dashboard.dart';

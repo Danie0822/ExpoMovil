@@ -1,9 +1,9 @@
 import 'dart:math';
-import 'package:SistemaExpo/screens/onboding/components/MenuDocente.dart';
+import 'package:sistema_expo/screens/onboding/components/MenuDocente.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-import 'package:SistemaExpo/constants.dart';
-import 'package:SistemaExpo/utils/rive_utils.dart';
+import 'package:sistema_expo/constants.dart';
+import 'package:sistema_expo/utils/rive_utils.dart';
 import 'components/menu.dart';
 import 'models/rive_asset.dart';
 // pantalla de dashboard de docente 

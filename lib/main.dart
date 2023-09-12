@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:SistemaExpo/screens/onboding/onboding_screen.dart';
-import 'package:SistemaExpo/ModelsDB/Providers/Personas.dart';
+import 'package:sistema_expo/screens/onboding/onboding_screen.dart';
+import 'package:sistema_expo/ModelsDB/Providers/Personas.dart';
 
 void main() {
   runMyApp();
