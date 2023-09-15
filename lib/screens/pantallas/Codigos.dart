@@ -230,8 +230,8 @@ class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProvider
                             opacity: refreshAnimationController,
                             // tarjeta de codigos screen 
                             child: CodigosScreen(
-                              JobTItle: observacion.docente,
-                              companyName: observacion.codigoConductual,
+                              JobTItle: utf8.decode(observacion.docente.codeUnits),
+                              companyName: utf8.decode(observacion.codigoConductual.codeUnits),
                               hour: fecha,
                               TIPo: observacion.tipoCodigoConductual,
                             ),

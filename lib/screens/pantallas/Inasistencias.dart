@@ -149,7 +149,7 @@ class _InasistenciasScreenState extends State<InasistenciasScreen> with SingleTi
                         return InasisitenciasCards(
                           key: ValueKey<int>(index),
                           estado: observacion.estado,
-                          docente: observacion.docente,
+                          docente: utf8.decode(observacion.docente.codeUnits),
                           fecha: fecha, 
                         );
                       },

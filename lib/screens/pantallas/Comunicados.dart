@@ -143,7 +143,7 @@ void dispose() {
                         final fecha = fechaCompleta.substring(0, 10);
 // llamada de la tarjeta 
                         return ComunicadoCard(
-                          detalle: observacion.detalle,
+                          detalle: utf8.decode(observacion.detalle.codeUnits),
                           docente: observacion.idComunicado.toString(),
                           Fecha: fecha, 
                           pdfBytes: base64.decode(observacion.archivo),

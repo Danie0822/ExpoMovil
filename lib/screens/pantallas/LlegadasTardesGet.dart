@@ -149,7 +149,7 @@ class _LLegadasTardesGetScreenState extends State<LLegadasTardesGetScreen> with 
                         return LlegadasTardeCards(
                           key: ValueKey<int>(index),
                           estado: observacion.idPeriodo,
-                          docente: observacion.docente,
+                          docente: utf8.decode(observacion.docente.codeUnits),
                           fecha: fecha, 
                         );
                       },

@@ -148,11 +148,13 @@ class _NotificacionesPantallaState extends State<NotificacionesPantalla> with Si
                         final observacion = observaciones[index];
                         final fechaCompleta = observacion.fecha.toString();
                         final fecha = fechaCompleta.substring(0, 10);
+
+
                         // se lllama las cards de Observaciones
                         return ObservacionesScreen(
                           key: ValueKey<int>(index),
-                          detalle: observacion.detalle,
-                          docente: observacion.docente,
+                          detalle: utf8.decode(observacion.detalle.codeUnits),
+                          docente: utf8.decode(observacion.docente.codeUnits),
                           Fecha: fecha, 
                         );
                       },

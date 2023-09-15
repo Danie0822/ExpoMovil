@@ -195,7 +195,7 @@ class _VisitaEnfermeriaState extends State<VisitaEnfermeria> {
                         final fecha = fechaCompleta.substring(0, 10);
 
                         return EnfermeriaCards(
-                          Detalle: observacion.detalleVisitia,
+                          Detalle: utf8.decode(observacion.detalleVisitia.codeUnits),
                           Fecha: fecha,
                         );
                       },
