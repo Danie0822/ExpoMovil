@@ -5,106 +5,87 @@ import 'package:flutter/material.dart';
 class EnfermeriaCards extends StatelessWidget {
   final String Detalle;
   final String Fecha;
-// obtener  los datos de las tarjetas  
+
   const EnfermeriaCards({
     Key? key,
     required this.Detalle,
     required this.Fecha,
   }) : super(key: key);
 
-Color generarColorAleatorio() {
-  Random random = Random();
-  int red = random.nextInt(60) + 120;
-  int green = random.nextInt(40) + 80;
-  int blue = random.nextInt(100) + 140;
-
-  return Color.fromARGB(255, red, green, blue);
-}
-
   @override
   Widget build(BuildContext context) {
-    // color de aletorio para la tarjeta 
-    Color colorAleatorio = generarColorAleatorio();
     return Container(
-      // diseño de tarjeta  
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: colorAleatorio,
-        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Colors.blueGrey[200]!,
+            Colors.blueGrey[100]!,
+          ],
+        ),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: colorAleatorio.withOpacity(0.6),
+            color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            blurRadius: 5,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
-      child: Stack(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Positioned.fill(
-            child: Opacity(
-              opacity: 0.4,
-              child: Image.asset(
-                'assets/icons/Positivos.png',
-                fit: BoxFit.cover,
+          Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Theme.of(context).primaryColor,
+            ),
+            child: const Center(
+              child: Icon(
+                Icons.local_hospital,
+                size: 36,
+                color: Colors.white,
               ),
             ),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.5),
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.local_hospital,
-                    size: 36,
-                    color: Colors.white,
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Visita de Enfermería',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                  const  Text(
-                      'Visita de Enfermería',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                   Text(
-                      Detalle,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      'Fecha: $Fecha',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
+                const SizedBox(height: 8),
+                Text(
+                  Detalle,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 8), // Ajuste del espaciado
+                Text(
+                  'Fecha: $Fecha',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color:
+                        Colors.blueGrey[900]!, // Color de la fecha más fuerte
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
