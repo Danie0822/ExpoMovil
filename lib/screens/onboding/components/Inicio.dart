@@ -216,7 +216,7 @@ class _ColumState extends State<Colum> with SingleTickerProviderStateMixin {
                                 padding: const EdgeInsets.all(0),
                                 color: Colors.grey[100],
                                 child: NotificacionScreen(
-                                  titulo: notificacion.detalle,
+                                  titulo: utf8.decode(notificacion.detalle.codeUnits),
                                   TipoNotificacion: 'ITR',
                                 ),
                               ),

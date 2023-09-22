@@ -60,7 +60,7 @@ class _NotificacionScreenState extends State<NotificacionScreen> {
                     const SizedBox(height: 4),
                     Text(
                       widget.titulo,
-                      style: TextStyle(color: Colors.grey[600], fontSize: 12.4),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 12),
                     ),
                   ],
                 ),
@@ -68,7 +68,7 @@ class _NotificacionScreenState extends State<NotificacionScreen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
-                    padding: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(4),
                     color: Colors.blue,
                     child: Text(
                       widget.TipoNotificacion,
