@@ -255,7 +255,7 @@ Widget _buildDropDownMenu() {
   } catch (e) {
     // Handle any errors that may occur here
     print('Error in _buildDropDownMenu: $e');
-    return Text('Error: Unable to build dropdown');
+    return Text('Realice su busqueda de nuevo, ocurrio un problema');
   }
 }
 

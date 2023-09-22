@@ -216,7 +216,7 @@ bool _isSaving = false;
   } catch (e) {
     // Handle any errors that may occur here
     print('Error in _buildDropDownMenu: $e');
-    return Text('Error: Unable to build dropdown');
+    return Text('Realice su busqueda de nuevo, ocurrio un probleman');
   }
 }
 // para mandar los datos de inasitencias 

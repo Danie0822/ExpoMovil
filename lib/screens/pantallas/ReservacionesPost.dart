@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
 import '../../ModelsDB/Providers/Personas.dart';
 
 class CodigosPersonas {
@@ -80,16 +80,17 @@ class RangoHoras {
         Finals: json['finals'] ?? '');
   }
 }
-//pantalla de reservaciones de salones 
+
+//pantalla de reservaciones de salones
 class ReservacioneScreen extends StatefulWidget {
   @override
   _ReservacioneScreenState createState() => _ReservacioneScreenState();
 }
 
 class _ReservacioneScreenState extends State<ReservacioneScreen> {
-  // contraladores de de buscadores como lista 
+  // contraladores de de buscadores como lista
   TextEditingController _searchController = TextEditingController();
-     TextEditingController _correoController = TextEditingController(); 
+  TextEditingController _correoController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String correo = "";
   bool _isLoading = false;
@@ -97,6 +98,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
   List<String> _comboBoxItems1 = [];
   String? _selectedComboBoxItem;
   String? _selectedComboBoxItem1;
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -109,7 +111,8 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
     _searchController.dispose();
     super.dispose();
   }
-// obtener datos para salones 
+
+// obtener datos para salones
   Future<List<String>> _fetchComboBoxData() async {
     final response = await http.get(
       Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/Salones/list'),
@@ -132,7 +135,8 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
       return [];
     }
   }
-// obtiene la lista de rango de horas 
+
+// obtiene la lista de rango de horas
   Future<List<String>> _fetchComboBoxData1() async {
     final response = await http.get(
       Uri.parse('https://expo2023-6f28ab340676.herokuapp.com/RangoHoras/list'),
@@ -156,7 +160,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
   }
 
   Future<void> _postData(String comboBoxValue, String comboBoxItems) async {
-      if (_isLoading) {
+    if (_isLoading) {
       return; // Return if a request is already in progress
     }
     setState(() {
@@ -173,7 +177,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
         Uri.parse(
             'https://expo2023-6f28ab340676.herokuapp.com/RangoHoras/Search/$comboBoxItems'),
       );
-     // url para tener el id de rengo de horas como tambien de salones 
+      // url para tener el id de rengo de horas como tambien de salones
       if (response1.statusCode == 200 && response12.statusCode == 200) {
         final List<dynamic> decodedJsonList = json.decode(response1.body);
         final List<dynamic> decodedJsonList2 = json.decode(response12.body);
@@ -190,6 +194,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
             'idReservante': id,
             'idSalon': idCodigo.idSalon,
             'motivoReserva': correo,
+            'Fecha': DateFormat('yyyy-MM-dd').format(_selectedDate),
           };
 
           setState(() {
@@ -202,15 +207,15 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
             body: json.encode(requestData),
             headers: {'Content-Type': 'application/json'},
           );
-         // status de post que hace para guardar reservaciones de salones 
+          // status de post que hace para guardar reservaciones de salones
           if (response.statusCode == 200) {
             _correoController.clear();
-                  setState(() {
-        _isLoading = false;
-      });
+            setState(() {
+              _isLoading = false;
+            });
             // ignore: use_build_context_synchronously
             showDialog(
-              // el mensaje de que todo estuvo bien 
+              // el mensaje de que todo estuvo bien
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
@@ -265,66 +270,65 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
             );
           } else {
             print('Failed to make POST request: ${response1.statusCode}');
-                  setState(() {
-        _isLoading = false;
-      });
+            setState(() {
+              _isLoading = false;
+            });
           }
 
           setState(() {
             _isLoading = false;
           });
         } else {
-                          setState(() {
-        _isLoading = false;
-      });
-        // ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              backgroundColor: Colors.grey[300],
-              title: const Text(
-                'Seleccionar la información',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+          setState(() {
+            _isLoading = false;
+          });
+          // ignore: use_build_context_synchronously
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-              ),
-              content: const Text(
-                'Selecionar salon y rango de hora antes de guardar.',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the alert
-                  },
-                  child: const Text(
-                    'Aceptar',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                backgroundColor: Colors.grey[300],
+                title: const Text(
+                  'Seleccionar la información',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
-            );
-          },
-        );
-
+                content: const Text(
+                  'Selecionar salon y rango de hora antes de guardar.',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the alert
+                    },
+                    child: const Text(
+                      'Aceptar',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
         }
       } else {
-                        setState(() {
-        _isLoading = false;
-      });
+        setState(() {
+          _isLoading = false;
+        });
         // ignore: use_build_context_synchronously
         showDialog(
           context: context,
@@ -369,7 +373,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
         );
       }
     } else {
-                      setState(() {
+      setState(() {
         _isLoading = false;
       });
       showDialog(
@@ -415,14 +419,30 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
       );
     }
   }
-// llamaa el metodo de save le pasa todos los valores 
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now()
+          .add(Duration(days: 30)), // Allow dates up to 30 days in the future
+    );
+    if (picked != null && picked != _selectedDate)
+      setState(() {
+        _selectedDate = picked;
+      });
+  }
+
+// llamaa el metodo de save le pasa todos los valores
   void _onSaveButtonPressed() {
     final comboBoxValue = _selectedComboBoxItem ?? '';
     final comboBoxValue2 = _selectedComboBoxItem1 ?? '';
     print(comboBoxValue2);
     _postData(comboBoxValue, comboBoxValue2);
   }
-// llena el combo box osea el primero 
+
+// llena el combo box osea el primero
   Widget _buildComboBox() {
     return FutureBuilder<List<String>>(
       future: _fetchComboBoxData(),
@@ -466,7 +486,8 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
       },
     );
   }
-// llena el combo box osea el segundo  
+
+// llena el combo box osea el segundo
   Widget _buildComboBox2() {
     return FutureBuilder<List<String>>(
       future: _fetchComboBoxData1(),
@@ -513,7 +534,6 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // diseño de pantalla y llama todos los elementos 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -535,56 +555,96 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
           _buildComboBox2(),
           Form(
             key: _formKey,
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 16),
-                child: Text(
-                  "Motivo de reservación",
-                  style: TextStyle(color: Colors.black54),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Text(
+                    "Motivo de reservación",
+                    style: TextStyle(color: Colors.black54),
+                  ),
                 ),
-              ),
-Padding(
-  padding: const EdgeInsets.only(left: 13, right: 13, top: 3),
-  child: TextFormField(
-    controller: _correoController,
-    maxLines: 1,
-    maxLength: 128, // Limit the input to 128 characters
-    validator: (value) {
-      if (value!.isEmpty) {
-        return "Este campo es requerido";
-      }
-      if (value.length > 128) {
-        return "No puede ingresar más de 128 caracteres";
-      }
-      return null;
-    },
-    onSaved: (email) {
-      correo = email!;
-    },
-    decoration: InputDecoration(
-      prefixIcon: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Container(
-          width: 10,
-          height: 10,
-          decoration: const BoxDecoration(
-            color: Colors.white30,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          child: Image.asset("assets/icons/Descripcion.png"),
-        ),
-      ),
-    ),
-  ),
-),
+                Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 13, top: 3),
+                  child: TextFormField(
+                    controller: _correoController,
+                    maxLines: 1,
+                    maxLength: 128,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Este campo es requerido";
+                      }
+                      if (value.length > 128) {
+                        return "No puede ingresar más de 128 caracteres";
+                      }
+                      return null;
+                    },
+                    onSaved: (email) {
+                      correo = email!;
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: const BoxDecoration(
+                            color: Colors.white30,
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          child: Image.asset("assets/icons/Descripcion.png"),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 13, top: 3),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _selectDate(context); // Muestra el selector de fecha
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue, // Color de fondo
 
-            ]),
+                      onPrimary: Colors.white, // Color del texto
+
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.calendar_today),
+                        SizedBox(width: 8),
+                        Text(
+                          "Fecha de reservacion",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 13, top: 3),
+                  child: Text(
+                    "Fecha Seleccionada: ${DateFormat('yyyy-MM-dd').format(_selectedDate)}",
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _onSaveButtonPressed,
+        onPressed: _selectedDate != null ? _onSaveButtonPressed : null,
         tooltip: 'Save',
         child: const Icon(Icons.save),
       ),

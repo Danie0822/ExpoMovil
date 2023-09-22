@@ -18,8 +18,7 @@ class _InicioEstudianteScreenState extends State<InicioEstudianteScreen> {
     // lista para las tarjetas de de arriba 
      ['ITR', 'Acerca del', 'assets/icons/ricaldone.png', 'Colegio', RecipeDetailScreen()], 
       ['Salud', 'Visitas Enfermeria', 'assets/icons/dedo.png', 'Salud', VisitaEnfermeria()], 
-          ['Orden', 'Horarios', 'assets/icons/horario.png', 'Academicos', HorariosScreen()], 
-       ['Noticias', 'Permisos', 'assets/icons/noti.png', 'Importantes', PermisosScreen()]
+          ['Orden', 'Horarios', 'assets/icons/horario.png', 'Academicos', HorariosScreen()]
   ]; 
 
     // ignore: non_constant_identifier_names
