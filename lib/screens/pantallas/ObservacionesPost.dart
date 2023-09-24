@@ -219,7 +219,10 @@ Widget _buildDropDownMenu() {
   } catch (e) {
     // Handle any errors that may occur here
     print('Error in _buildDropDownMenu: $e');
-    return Text('Realice su busqueda de nuevo, ocurrio un problema');
+    return const Padding(
+      padding:   EdgeInsets.only(left: 13, right: 13, top: 4),
+      child:  Text('Realice su búsqueda de nuevo, ocurrió un problema.', style: TextStyle(color: Colors.red, fontSize: 15)),
+    );
   }
 }
   Future<void> _postData(String searchValue) async {
@@ -291,7 +294,7 @@ Widget _buildDropDownMenu() {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'El Codigo se envió correctamente.',
+                    'El Observación se envió correctamente.',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
