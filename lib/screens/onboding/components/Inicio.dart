@@ -126,7 +126,7 @@ class _ColumState extends State<Colum> with SingleTickerProviderStateMixin {
           padding: EdgeInsets.only(left: 25.0),
           child: Text(
             'Instituto Técnico Ricaldone',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
           ),
         ),
         const SizedBox(height: 25),

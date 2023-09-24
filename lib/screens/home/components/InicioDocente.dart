@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../onboding/components/Inicio.dart';
 import '../../pantallas/AcercaDe.dart';
-import '../../pantallas/Horarios.dart';
 import '../../pantallas/ReservacionesPost.dart';
 // inicio de de docente 
 
@@ -18,7 +17,6 @@ class _InicioDocenteScreenState extends State<InicioDocenteScreen> {
   // llamadas de tarjetas de inicio 
   final List Cards = [
     ['ITR', 'Acerca del', 'assets/icons/ricaldone.png', 'Colegio', RecipeDetailScreen()],
-    ['Educación', 'Horarios', 'assets/icons/dedo.png', 'Clase', HorariosScreen()],
     ['Gestión', 'Reserva Salones', 'assets/icons/noti.png', 'Importantes', ReservacioneScreen()]
   ];
 // ya no se usa xd 
