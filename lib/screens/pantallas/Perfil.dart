@@ -11,6 +11,7 @@ import '../onboding/onboding_screen.dart';
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     // esto para obtener desde el provider todo de la persona que ingreso 
     final personas = Provider.of<Personas>(context, listen: false);
     String name = personas.person.nombrePersona;
@@ -19,6 +20,7 @@ class ProfileScreen extends StatelessWidget {
     String image = personas.person.foto;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       // esto es diseño 
       backgroundColor: Colors.white,
       body: SafeArea(

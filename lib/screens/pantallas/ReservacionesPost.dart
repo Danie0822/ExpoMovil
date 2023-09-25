@@ -194,7 +194,7 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
             'idReservante': id,
             'idSalon': idCodigo.idSalon,
             'motivoReserva': correo,
-            'Fecha': DateFormat('yyyy-MM-dd').format(_selectedDate),
+            'Fecha': DateFormat('yyyy-MM-dd').format(_selectedDate ?? DateTime.now()),
           };
 
           setState(() {
@@ -421,18 +421,19 @@ class _ReservacioneScreenState extends State<ReservacioneScreen> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now()
-          .add(Duration(days: 30)), // Allow dates up to 30 days in the future
-    );
-    if (picked != null && picked != _selectedDate)
-      setState(() {
-        _selectedDate = picked;
-      });
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: _selectedDate ?? DateTime.now(), // Utiliza la fecha actual si es nula
+    firstDate: DateTime.now(),
+    lastDate: DateTime.now().add(Duration(days: 30)),
+  );
+  if (picked != null) {
+    setState(() {
+      _selectedDate = picked;
+    });
   }
+}
+
 
 // llamaa el metodo de save le pasa todos los valores
   void _onSaveButtonPressed() {

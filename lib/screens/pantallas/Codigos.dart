@@ -96,14 +96,11 @@ class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProvider
       body: Stack(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.6,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+
               ),
               boxShadow: [
                 BoxShadow(
@@ -146,35 +143,7 @@ class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProvider
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 16),
-              Container(
-                width: 100,
-                height: 95,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black, width: 1),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: AspectRatio(
-                    aspectRatio: 1.8,
-                    child: Image.asset(
-                      'assets/icons/Positivos.png',
-                      width: 70,
-                      height: 70,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               const Text(
                 'Promoviendo la disciplina y el crecimiento',
                 style: TextStyle(

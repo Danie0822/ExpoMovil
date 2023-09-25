@@ -61,14 +61,10 @@ class _VisitaEnfermeriaState extends State<VisitaEnfermeria> {
       body: Stack(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.6,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
               ),
               boxShadow: [
                 BoxShadow(
@@ -119,43 +115,10 @@ class _VisitaEnfermeriaState extends State<VisitaEnfermeria> {
                       color: Colors.black,
                     ),
                   ),
+                  
                 ],
               ),
-              const SizedBox(height: 16),
-              Container(
-                width: 100,
-                height: 95,
-                decoration: const  BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        width:90,
-                        height: 90,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.blue,
-                        ),
-                      ),
-                      Positioned.fill(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'assets/icons/Enfer.png',
-                            width: 54,
-                            height: 54,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-              const Text(
+                          const Text(
                 '¡Tu salud, nuestra prioridad! Visita enfermería y vive al máximo',
                 style: TextStyle(
                   fontSize: 20,
@@ -171,8 +134,8 @@ class _VisitaEnfermeriaState extends State<VisitaEnfermeria> {
                   decoration: BoxDecoration(
                     color: Colors.grey[300],
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
                     ),
                     boxShadow: [
                       BoxShadow(

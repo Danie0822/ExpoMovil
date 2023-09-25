@@ -43,7 +43,7 @@ class MenuListScreen extends StatelessWidget {
                         onInit: riveonInit,
                         ),   
                       ),
-                      title:  Text(menu.title, style: const  TextStyle(color: Colors.white)),
+                      title:  Text(menu.title, style: const  TextStyle(color: Colors.white, )),
 
                     ),
                   ],
