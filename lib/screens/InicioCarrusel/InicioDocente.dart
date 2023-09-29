@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../onboding/components/Inicio.dart';
-import '../../pantallas/AcercaDe.dart';
-import '../../pantallas/ReservacionesPost.dart';
+import 'Inicio.dart';
+import '../pantallas/AcercaDe.dart';
+import '../Post/ReservacionesPost.dart';
 // inicio de de docente 
 
 

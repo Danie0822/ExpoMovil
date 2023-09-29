@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:sistema_expo/constants.dart';
-import 'package:sistema_expo/screens/onboding/components/menu.dart';
+import 'package:sistema_expo/screens/LoginDashMenu/Menus/menuAlumno.dart';
 import 'package:sistema_expo/utils/rive_utils.dart';
 import 'components/menu.dart';
 import 'models/rive_asset.dart';
@@ -22,7 +22,6 @@ class _EntryPointState extends State<EntryPoint> with SingleTickerProviderStateM
   late AnimationController _animationController;
   late Animation<double> animation;
   late Animation<double> ScaleAnimation;
-  RiveAsset selectedBottomNav = bottomNavs.first;
   late SMIBool isMenuOpen;
   bool IsSideMenuClose = true;
   bool cambioWidget = false;

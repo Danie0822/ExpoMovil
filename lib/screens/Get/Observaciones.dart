@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import '../../ModelsDB/Observaciones.dart';
 import '../../ModelsDB/Providers/Personas.dart';
-import '../../models/Observaciones.dart';
+import '../../models/ObservacionesCard.dart';
 // notificaciones screen 
 class NotificacionesPantalla extends StatefulWidget {
   @override

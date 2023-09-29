@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-import 'package:sistema_expo/screens/home/home_screen.dart';
 
-import '../screens/home/components/InicioDocente.dart';
-import '../screens/home/dashboard.dart';
-import '../screens/pantallas/Asitencia.dart';
-import '../screens/pantallas/Codigos.dart';
-import '../screens/pantallas/CodigosPost.dart';
-import '../screens/pantallas/Comunicados.dart';
-import '../screens/pantallas/Inasistencias.dart';
-import '../screens/pantallas/LlegadasTardesGet.dart';
-import '../screens/pantallas/LlegadasTardesPost.dart';
-import '../screens/pantallas/Notificaciones.dart';
-import '../screens/pantallas/ObservacionesPost.dart';
+import '../screens/InicioCarrusel/InicioDocente.dart';
+import '../screens/InicioCarrusel/InicioAlumno.dart';
+import '../screens/Post/Asitencia.dart';
+import '../screens/Get/Codigos.dart';
+import '../screens/Post/CodigosPost.dart';
+import '../screens/Get/Comunicados.dart';
+import '../screens/Get/Inasistencias.dart';
+import '../screens/Get/LlegadasTardesGet.dart';
+import '../screens/Post/LlegadasTardesPost.dart';
+import '../screens/Get/Observaciones.dart';
+import '../screens/Post/ObservacionesPost.dart';
 import '../screens/pantallas/Perfil.dart';
 // lista de del menu 
 class RiveAsset {
@@ -33,26 +32,7 @@ class RiveAsset {
   }
 }
 
-List<RiveAsset> bottomNavs = [
-  RiveAsset("assets/RiveAssets/icons.riv",
-      artboard: "CHAT", stateMachineName: "CHAT_Interactivity", title: "Chat", Pantlla: HomeScreen()),
-  RiveAsset("assets/RiveAssets/icons.riv",
-      artboard: "LIKE/STAR",
-      stateMachineName: "STAR_Interactivity",
-      title: "Estrella", Pantlla: HomeScreen()),
-  RiveAsset("assets/RiveAssets/icons.riv",
-      artboard: "TIMER",
-      stateMachineName: "TIMER_Interactivity",
-      title: "Chat", Pantlla: HomeScreen()),
-  RiveAsset("assets/RiveAssets/icons.riv",
-      artboard: "BELL",
-      stateMachineName: "BELL_Interactivity",
-      title: "Notifications", Pantlla: HomeScreen()),
-  RiveAsset("assets/RiveAssets/icons.riv",
-      artboard: "USER",
-      stateMachineName: "USER_Interactivity",
-      title: "Profile", Pantlla: HomeScreen()),
-];
+
 
 List<RiveAsset> sideMenus = [
   RiveAsset('assets/RiveAssets/icons.riv', artboard: 'HOME', stateMachineName: 'HOME_interactivity', title: 'Inicio', Pantlla: InicioEstudianteScreen()), 

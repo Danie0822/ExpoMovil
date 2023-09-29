@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'components/animated_btn.dart';
-import 'components/custom_sign_in_dialog.dart';
+import '../LoginDashMenu/Login/animated_btn.dart';
+import '../LoginDashMenu/Login/custom_sign_in_dialog.dart';
 
 // inicio de la aplicacion 
 class OnboardingScreen extends StatefulWidget {

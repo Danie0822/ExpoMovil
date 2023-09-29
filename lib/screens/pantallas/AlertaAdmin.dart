@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../onboding/onboding_screen.dart';
+import 'InicioAplicacion.dart';
 // pantalla donde lo manda cuando es admin 
 class AlertaAdmin extends StatefulWidget {
   const AlertaAdmin({super.key,});

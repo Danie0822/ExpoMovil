@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../onboding/components/Inicio.dart';
+import 'Inicio.dart';
 import '../pantallas/AcercaDe.dart';
-import '../pantallas/EnfermeriaView.dart';
+import '../Get/EnfermeriaView.dart';
 // inicio para el estudiante  
 class InicioEstudianteScreen extends StatefulWidget {
   const InicioEstudianteScreen({Key? key}) : super(key: key);

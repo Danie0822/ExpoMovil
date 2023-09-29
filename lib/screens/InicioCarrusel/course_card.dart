@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../models/course.dart';
+import '../../models/course.dart';
 // carusel para inicio osea pantalla de inicio 
 class CourseCard extends StatelessWidget {
   const CourseCard({

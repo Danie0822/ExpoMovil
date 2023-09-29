@@ -4,33 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import '../../ModelsDB/Codigos.dart';
 import '../../ModelsDB/Providers/Personas.dart';
-import '../../models/Codigos.dart';
-// obtener el codigos 
-class DisciplinaApp extends StatefulWidget {
+import '../../ModelsDB/VisitaEnfermeria.dart';
 
+import '../../models/EnfermiraCard.dart';
+// vista de enfermeria 
+class VisitaEnfermeria extends StatefulWidget {
   @override
-  State<DisciplinaApp> createState() => _DisciplinaAppState();
+  State<VisitaEnfermeria> createState() => _VisitaEnfermeriaState();
 }
 
-class _DisciplinaAppState extends State<DisciplinaApp> {
-  // contralodores de reflescar 
-       GlobalKey<RefreshIndicatorState> refreshKey =
+class _VisitaEnfermeriaState extends State<VisitaEnfermeria> {
+  GlobalKey<RefreshIndicatorState> refreshKey =
       GlobalKey<RefreshIndicatorState>();
-    @override
+
+  @override
   void initState() {
     super.initState();
     getCodigos();
   }
-  List<Codigos> observaciones = [];
-// obtener codigos del usuario 
+
+  List<VisitasEnfermeria> observaciones = [];
+// metodo para obtener las visitas enfermeria 
   Future<void> getCodigos() async {
     final personas = Provider.of<Personas>(context, listen: false);
     int id = personas.person.idPersona;
     try {
       var url = Uri.parse(
-          'https://expo2023-6f28ab340676.herokuapp.com/Funciones/CodigosConductuales/$id');
+          'https://expo2023-6f28ab340676.herokuapp.com/VisitasEnfermeria/String/$id');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -38,8 +39,8 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
         print('Observaciones Data: $observacionesData');
 
         setState(() {
-          observaciones = List<Codigos>.from(
-              observacionesData.map((item) => Codigos.fromJson(item)));
+          observaciones = List<VisitasEnfermeria>.from(observacionesData
+              .map((item) => VisitasEnfermeria.fromJson(item)));
         });
       } else {
         print('Error: ${response.statusCode}');
@@ -48,26 +49,22 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
       print('Error: $error');
     }
   }
-// metodo de reflesh de codigos 
+// metodo de refelsh 
   Future<void> _refreshObservaciones() async {
     await getCodigos();
   }
+
   @override
   Widget build(BuildContext context) {
-
+    // diseño de formulario 
     return Scaffold(
-      // diseño de codigos 
       body: Stack(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.6,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
               ),
               boxShadow: [
                 BoxShadow(
@@ -101,45 +98,28 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
           ),
           Column(
             children: [
-              const SizedBox(height: 55),
-              const Text(
-                'Disciplina App',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                width: 100,
-                height: 95,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black, width: 1),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Center(
-                    child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Image.asset(
-                    'assets/icons/Notifi1.png',
-                    width: 70,
-                    height: 70,
+              SizedBox(height: 55),
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
-                )),
+                  const Text(
+                    'Visita Enfermería',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  
+                ],
               ),
-              const SizedBox(height: 30),
-              const Text(
-                'Promoviendo la disciplina y el crecimiento',
+                          const Text(
+                '¡Tu salud, nuestra prioridad! Visita enfermería y vive al máximo',
                 style: TextStyle(
                   fontSize: 20,
                   fontStyle: FontStyle.italic,
@@ -152,14 +132,14 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
                 child: Container(
                   margin: const EdgeInsets.all(0),
                   decoration: BoxDecoration(
-                    color: Colors.grey[100],
+                    color: Colors.grey[300],
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(30),
-                      topRight: Radius.circular(20),
+                      topRight: Radius.circular(30),
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withOpacity(0.2),
                         spreadRadius: 2,
                         blurRadius: 5,
                         offset: Offset(0, 3),
@@ -167,25 +147,23 @@ class _DisciplinaAppState extends State<DisciplinaApp> {
                     ],
                   ),
                   child: RefreshIndicator(
-              key: refreshKey,
-              onRefresh: _refreshObservaciones,
-              child: ListView.builder(
-                // obtener codigos osea las cards 
-                itemCount: observaciones.length,
-                itemBuilder: (context, index) {
-                  final observacion = observaciones[index];
-                  final fechaCompleta = observacion.fecha.toString();
-                  final fecha = fechaCompleta.substring(0, 10);
+                    key: refreshKey,
+                    onRefresh: _refreshObservaciones,
+                    child: ListView.builder(
+                      // llamada de cards de Visitas de enfermeria 
+                      itemCount: observaciones.length,
+                      itemBuilder: (context, index) {
+                        final observacion = observaciones[index];
+                        final fechaCompleta = observacion.fecha.toString();
+                        final fecha = fechaCompleta.substring(0, 10);
 
-                  return CodigosScreen(
-                    JobTItle: observacion.docente,
-                    companyName: observacion.codigoConductual,
-                    hour: fecha,
-                    TIPo: observacion.tipoCodigoConductual,
-                  );
-                },
-              ),
-            ),
+                        return EnfermeriaCards(
+                          Detalle: utf8.decode(observacion.detalleVisitia.codeUnits),
+                          Fecha: fecha,
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
             ],

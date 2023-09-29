@@ -4,7 +4,7 @@ import 'package:rive/rive.dart';
 import 'package:sistema_expo/utils/rive_utils.dart';
 
 import '../../../ModelsDB/Providers/Personas.dart';
-import '../../../components/Entrada.dart';
+import '../../../components/EntradaMenu.dart';
 import '../../../components/listaMenu.dart';
 import '../../../models/menu.dart';
 import '../../../models/rive_asset.dart';
@@ -50,7 +50,7 @@ class _MenuScreenState extends State<MenuScreen> {
             children: [
               Entrada(Name: Name, Rol: texto, Foto: Foto),
               Padding(
-                padding: const EdgeInsets.only(left: 24, top: 0, bottom: 10),
+                padding:  const EdgeInsets.only(left: 24, top: 20, bottom: 10),
                 child: Text(
                   'Menu'.toUpperCase(),
                   

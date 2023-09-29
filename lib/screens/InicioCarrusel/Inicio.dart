@@ -4,10 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 import 'package:provider/provider.dart';
-import '../../../ModelsDB/Notificaciones.dart';
-import '../../../ModelsDB/Providers/Personas.dart';
-import '../../../models/Cardview.dart';
-import '../../../models/NotificacionCard.dart';
+import '../../ModelsDB/Notificaciones.dart';
+import '../../ModelsDB/Providers/Personas.dart';
+import '../../models/Cardview.dart';
+import '../../models/NotificacionCard.dart';
 // inicio de estudiante 
 class Colum extends StatefulWidget {
   const Colum({Key? key, required this.Cards, required this.CardList})

@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../ModelsDB/Providers/Personas.dart';
-import '../onboding/onboding_screen.dart';
+import 'InicioAplicacion.dart';
 // pantalla de perfil 
 class ProfileScreen extends StatelessWidget {
   @override
