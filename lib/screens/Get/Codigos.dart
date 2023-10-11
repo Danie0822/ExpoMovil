@@ -198,11 +198,14 @@ class _DisciplinaAppState extends State<DisciplinaApp> with SingleTickerProvider
                           return FadeTransition(
                             opacity: refreshAnimationController,
                             // tarjeta de codigos screen 
-                            child: CodigosScreen(
-                              jobTitle: utf8.decode(observacion.docente.codeUnits),
-                              companyName: utf8.decode(observacion.codigoConductual.codeUnits),
-                              hour: fecha,
-                              type: observacion.tipoCodigoConductual,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: CodigosScreen(
+                                jobTitle: utf8.decode(observacion.docente.codeUnits),
+                                companyName: utf8.decode(observacion.codigoConductual.codeUnits),
+                                hour: fecha,
+                                type: observacion.tipoCodigoConductual,
+                              ),
                             ),
                           );
                         },

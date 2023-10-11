@@ -34,7 +34,7 @@ class _CodigosScreenState extends State<CodigosScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
+      padding: const EdgeInsets.only(bottom: 12.0),
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 100),
         opacity: isVisible ? 1.0 : 0.0,
@@ -59,8 +59,8 @@ class _CodigosScreenState extends State<CodigosScreen> {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: Colors.blue[300],
-                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.blue[500],
+                  borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.blue.withOpacity(0.3),
@@ -126,7 +126,7 @@ class _CodigosScreenState extends State<CodigosScreen> {
                       'Profesor: ${widget.jobTitle}',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 13,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -142,7 +142,7 @@ class _CodigosScreenState extends State<CodigosScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color:Colors.blue[400],
+                  color:Colors.blue[500 ],
                   borderRadius: BorderRadius.circular(9),
                 ),
                 child: Text(
