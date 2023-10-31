@@ -1,18 +1,25 @@
 # Expo
 
-A new Flutter project.
+# Sistema de Gestión Estudiantil - Aplicación Flutter
 
+La Aplicación Flutter del Sistema de Gestión Estudiantil es una interfaz de usuario amigable que se conecta a la API Spring Boot para brindar a las instituciones educativas una herramienta versátil para gestionar estudiantes, disciplina, asistencia, comunicados y más. Esta aplicación es altamente responsive, lo que significa que puede adaptarse a diferentes tamaños de pantalla.
 
-## Getting Started
+## Características
 
-Sistema de Gestión Estudiantil
-El Sistema de Gestión Estudiantil es una aplicación diseñada para facilitar la administración y el seguimiento de información relacionada con estudiantes, 
-cursos, calificaciones y otros aspectos académicos. Esta herramienta proporciona una interfaz intuitiva y eficiente para que las instituciones educativas
-puedan llevar un control preciso de sus datos y procesos académicos.
+- **Gestión de Estudiantes:** Registre y administre la información de los estudiantes, incluyendo datos personales, inscripciones, cursos y calificaciones.
 
-## Tecnologías Utilizadas
-- **Flutter:** El frontend de la aplicación está construido utilizando el framework Flutter, que permite el desarrollo de aplicaciones móviles multiplataforma de alta calidad.
+- **Disciplina y Sanciones:** Lleve un seguimiento de los incidentes disciplinarios, aplique sanciones y realice un seguimiento de la disciplina de los estudiantes.
 
-- **Spring Boot:** La API backend está desarrollada en Spring Boot, un framework de Java que facilita la creación de aplicaciones web y servicios REST.
+- **Control de Asistencia:** Registre la asistencia de los estudiantes a clases, eventos y actividades.
 
-- **SQL Server:** La base de datos SQL Server se utiliza para almacenar y gestionar la información de estudiantes y docentes, . Se emplean procedimientos almacenados y vistas para mejorar el rendimiento y la eficiencia de las operaciones de base de datos.
+- **Comunicados:** Envíe y administre comunicados a estudiantes y padres de familia.
+
+- **Responsiveness:** La aplicación está diseñada para funcionar de manera óptima en diferentes tamaños de pantalla, lo que la hace usable tanto en la web como en dispositivos Android.
+
+## Gestión de Datos con Providers
+
+Esta aplicación utiliza el paquete `Provider` de Flutter para gestionar los datos de manera eficiente y proporcionar un estado centralizado que puede ser compartido entre diferentes componentes de la aplicación. Esto garantiza un flujo de datos consistente y una gestión efectiva de la información de cada individuo.
+
+## Despliegue
+
+La aplicación se ha desplegado en la web. Además, se ha desarrollado una versión específica para dispositivos Mobiles.
